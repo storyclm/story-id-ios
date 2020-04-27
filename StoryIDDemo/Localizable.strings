@@ -1,0 +1,116 @@
+/* 
+  Localizable.strings
+  StoryIDDemo
+
+  Created by Sergey Ryazanov on 27.04.2020.
+  Copyright © 2020 breffi. All rights reserved.
+*/
+
+// MARK: - Global
+
+"global_ok" = "OK";
+"global_yes" = "Да";
+"global_no" = "Нет";
+"global_cancel" = "Отмена";
+"global_save" = "Сохранить";
+"global_close" = "Закрыть";
+"global_delete" = "Удалить";
+"global_camera" = "Камера";
+"global_gallery" = "Галерея";
+
+// MARK: - Login
+
+// MARK: * Phone
+
+"login_phone_title" = "Номер телефона";
+"login_phone_placeholder" = "+7 (XXX) XXX-XX-XX";
+"login_phone_getCode_button" = "Получить код";
+
+// MARK: * SMS
+
+"login_sms_title" = "Код из смс";
+"login_sms_resent_button" = "Повторить СМС";
+"login_sms_placeholder" = "СМС-код";
+"login_sms_pincode_alert_title" = "ПИН-код";
+"login_sms_pincode_alert_subtitle" = "Установить пин-код?";
+
+// MARK: * Pin code
+
+"login_pincode_enter_code" = "Введите код";
+"login_pincode_repeat_code" = "Повторите код";
+"login_pincode_touchID_alert_title" = "Разрешить вход через Touch ID?";
+"login_pincode_faceID_alert_title" = "Разрешить вход через Face ID?";
+"login_pincode_delete_button" = "Удалить";
+"login_pincode_forgot_button" = "Забыли код?";
+"login_pincode_error_empty" = "Пароль не задан";
+"login_pincode_error_wrong" = "Неверный ПИН-код!";
+
+// MARK: - Profile
+
+"profile_data_info_hint" = "Для изменения значения, тапните на строку";
+"profile_image_add" = "Прикрепить";
+"profile_image_change" = "Изменить";
+
+// MARK: * Main
+"profile_main_title" = "Профиль";
+"profile_main_photo_load_title" = "Загрузить фото";
+"profile_main_personalData_section" = "Данные";
+"profile_main_personalData_demographics" = "Персональные данные";
+"profile_main_personalData_itn" = "ИНН";
+"profile_main_personalData_snils" = "СНИЛС";
+"profile_main_personalData_pasport" = "Паспорт";
+"profile_main_bankAccount_section" = "Банковские данныe";
+"profile_main_bankAccount_row" = "Список счетов";
+"profile_main_logout" = "Выйти";
+
+// MARK: * Demographics
+
+"profile_demographics_title" = "Персональные данные";
+"profile_demographics_section" = "Персональные данные";
+"profile_demographics_surname" = "Фамилия";
+"profile_demographics_name" = "Имя";
+"profile_demographics_patronymic" = "Отчество";
+"profile_demographics_phone_number" = "Номер телефона";
+"profile_demographics_email" = "E-Mail";
+
+// MARK: * ITN
+
+"profile_itn_title" = "ИНН";
+"profile_itn_section" = "ИНН";
+"profile_itn_number" = "Номер";
+"profile_itn_image" = "Фото ИНН";
+
+// MARK: * SNILS
+
+"profile_snils_title" = "СНИЛС";
+"profile_snils_section" = "СНИЛС";
+"profile_snils_number" = "Номер";
+"profile_snils_image" = "Фото СНИЛС";
+
+// MARK: * Pasport
+
+"profile_pasport_title" = "Паспорт";
+"profile_pasport_section" = "Паспорт";
+"profile_pasport_number" = "Номер и серия";
+"profile_pasport_first_image" = "Фото паспорта (1 стр)";
+"profile_pasport_second_image" = "Фото паспорта (3-4 стр)";
+
+// MARK: - Bank Accounts
+
+"bank_accounts_list_title" = "Список счетов";
+"bank_accounts_list_section" = "Список аккаунтов";
+"bank_accounts_list_section_empty" = "Список пуст";
+"bank_accounts_list_add_account_section" = "Новый аккаунт";
+"bank_accounts_list_add_account_text" = "Добавить аккаунт";
+
+// MARK: - Bank accound edit
+
+"bank_account_edit_new_title" = "Новый аккаунт";
+"bank_account_edit_edit_title" = "Изменение аккаунта";
+"bank_account_edit_account_name" = "Название аккаунта";
+"bank_account_edit_bik" = "БИК";
+"bank_account_edit_bank_name" = "Наименование банка";
+"bank_account_edit_correspondent" = "Корреспондентский счет";
+"bank_account_edit_settlement" = "Расчетный счет";
+"bank_account_edit_alert_title" = "Внимание";
+"bank_account_edit_alert_text" = "Поле \"Название аккаунта\" не должно быть пустым";
