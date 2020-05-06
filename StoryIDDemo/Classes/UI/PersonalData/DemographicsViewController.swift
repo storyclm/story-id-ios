@@ -7,10 +7,11 @@
 //
 
 import Former
+import StoryID
 
 final class DemographicsViewController: BaseViewController {
 
-    private let viewModel = DataStorage.instance.demographics ?? DemographicsModel()
+    private let viewModel = DataStorage.instance.demographics ?? DemographicsModel(with: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoryID
 
 final class DataStorage {
 
@@ -16,62 +17,63 @@ final class DataStorage {
 
     // MARK: - Personal Data
 
-    private let demographicsName = "demographics.json"
     var demographics: DemographicsModel? {
-        get {
-            guard Storage.fileExists(demographicsName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(demographicsName, from: Storage.Directory.documents, as: DemographicsModel.self)
-        }
+        get { DemographicsModel(with: SIDPersonalDataService.instance.profileDemographics.demographics()) }
         set {
             if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: demographicsName)
+                SIDPersonalDataService.instance.profileDemographics.setDemographics(name: newValue.name, surname: newValue.surname, patronymic: newValue.patronymic, gender: false, birthday: nil)
             } else {
-                Storage.remove(demographicsName, from: Storage.Directory.documents)
+                SIDPersonalDataService.instance.profileDemographics.deleteDemographics()
             }
         }
     }
 
-    private let itnName = "itn.json"
     var itn: ItnModel? {
         get {
-            guard Storage.fileExists(itnName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(itnName, from: Storage.Directory.documents, as: ItnModel.self)
+            let result = ItnModel(with: SIDPersonalDataService.instance.profileItn.itn())
+            result.itnImage = SIDPersonalDataService.instance.profileItn.itnImage()
+            return result
         }
         set {
             if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: itnName)
+                SIDPersonalDataService.instance.profileItn.setItn(itn: newValue.itn)
+                SIDPersonalDataService.instance.profileItn.setItnImage(newValue.itnImage)
             } else {
-                Storage.remove(itnName, from: Storage.Directory.documents)
+                SIDPersonalDataService.instance.profileItn.deleteItn()
             }
         }
     }
 
-    private let snilsName = "snils.json"
     var snils: SnilsModel? {
         get {
-            guard Storage.fileExists(snilsName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(snilsName, from: Storage.Directory.documents, as: SnilsModel.self)
+            let result = SnilsModel(with: SIDPersonalDataService.instance.profileSnils.snils())
+            result.snilsImage = SIDPersonalDataService.instance.profileSnils.snilsImage()
+            return result
         }
         set {
             if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: snilsName)
+                SIDPersonalDataService.instance.profileSnils.setSnils(newValue.snils)
+                SIDPersonalDataService.instance.profileSnils.setSnilsImage(newValue.snilsImage)
             } else {
-                Storage.remove(snilsName, from: Storage.Directory.documents)
+                SIDPersonalDataService.instance.profileSnils.deleteSnils()
             }
         }
     }
 
-    private let pasportName = "pasport.json"
     var pasport: PasportModel? {
         get {
-            guard Storage.fileExists(pasportName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(pasportName, from: Storage.Directory.documents, as: PasportModel.self)
+            let result = PasportModel(with: SIDPersonalDataService.instance.profilePasport.passport())
+            result.firstImage = SIDPersonalDataService.instance.profilePasport.pasportImage(page: 1)
+            result.secondImage = SIDPersonalDataService.instance.profilePasport.pasportImage(page: 2)
+            return result
         }
         set {
             if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: pasportName)
+                SIDPersonalDataService.instance.profilePasport.setPasport(code: nil, sn: newValue.sn, issuedBy: nil, issuedAt: nil)
+                SIDPersonalDataService.instance.profilePasport.setPasportImage(newValue.firstImage, page: 1)
+                SIDPersonalDataService.instance.profilePasport.setPasportImage(newValue.secondImage, page: 2)
             } else {
-                Storage.remove(pasportName, from: Storage.Directory.documents)
+                SIDPersonalDataService.instance.profilePasport.deletePasport()
             }
         }
     }

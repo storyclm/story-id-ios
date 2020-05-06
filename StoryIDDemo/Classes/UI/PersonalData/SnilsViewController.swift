@@ -10,7 +10,7 @@ import Former
 
 final class SnilsViewController: BaseViewController {
 
-    private let viewModel = DataStorage.instance.snils ?? SnilsModel()
+    private let viewModel = DataStorage.instance.snils ?? SnilsModel(with: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()

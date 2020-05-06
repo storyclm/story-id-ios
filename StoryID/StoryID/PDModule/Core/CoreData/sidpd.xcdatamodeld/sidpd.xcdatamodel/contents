@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="IDContentBankAccount" representedClassName="IDContentBankAccount" syncable="YES" codeGenerationType="class">
+        <attribute name="accountDescription" optional="YES" attributeType="String"/>
+        <attribute name="bank" optional="YES" attributeType="String"/>
+        <attribute name="bic" optional="YES" attributeType="String"/>
+        <attribute name="correspondentAccount" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="profileId" optional="YES" attributeType="String"/>
+        <attribute name="settlementAccount" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiedBy" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="IDContentDemographics" representedClassName="IDContentDemographics" syncable="YES" codeGenerationType="class">
+        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="gender" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="patronymic" optional="YES" attributeType="String"/>
+        <attribute name="profileId" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiedBy" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="IDContentITN" representedClassName="IDContentITN" syncable="YES" codeGenerationType="class">
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="itn" optional="YES" attributeType="String"/>
+        <attribute name="mimeType" optional="YES" attributeType="String"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="profileId" optional="YES" attributeType="String"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiedBy" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="IDContentPasport" representedClassName="IDContentPasport" syncable="YES" codeGenerationType="class">
+        <attribute name="code" optional="YES" attributeType="String"/>
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="issuedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="issuedBy" optional="YES" attributeType="String"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="profileId" optional="YES" attributeType="String"/>
+        <attribute name="sn" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiedBy" optional="YES" attributeType="String"/>
+        <relationship name="pages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IDContentPasportPage" inverseName="pasport" inverseEntity="IDContentPasportPage"/>
+    </entity>
+    <entity name="IDContentPasportPage" representedClassName="IDContentPasportPage" syncable="YES" codeGenerationType="class">
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="mimeType" optional="YES" attributeType="String"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="page" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="pasport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="IDContentPasport" inverseName="pages" inverseEntity="IDContentPasport"/>
+    </entity>
+    <entity name="IDContentProfile" representedClassName="IDContentProfile" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdBy" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="emailVerified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="phoneVerified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="IDContentSNILS" representedClassName="IDContentSNILS" syncable="YES" codeGenerationType="class">
+        <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="mimeType" optional="YES" attributeType="String"/>
+        <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" optional="YES" attributeType="String"/>
+        <attribute name="profileId" optional="YES" attributeType="String"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="snils" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiedBy" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="IDContentBankAccount" positionX="-18" positionY="27" width="128" height="268"/>
+        <element name="IDContentDemographics" positionX="0" positionY="45" width="128" height="238"/>
+        <element name="IDContentITN" positionX="-63" positionY="-18" width="128" height="208"/>
+        <element name="IDContentPasport" positionX="-54" positionY="-9" width="128" height="238"/>
+        <element name="IDContentPasportPage" positionX="36" positionY="81" width="128" height="148"/>
+        <element name="IDContentProfile" positionX="18" positionY="63" width="128" height="223"/>
+        <element name="IDContentSNILS" positionX="-36" positionY="9" width="128" height="208"/>
+    </elements>
+</model>

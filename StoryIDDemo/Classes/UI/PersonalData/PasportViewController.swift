@@ -10,7 +10,7 @@ import Former
 
 final class PasportViewController: BaseViewController {
 
-    private let viewModel = DataStorage.instance.pasport ?? PasportModel()
+    private let viewModel = DataStorage.instance.pasport ?? PasportModel(with: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()

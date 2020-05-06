@@ -10,7 +10,7 @@ import Former
 
 final class ItnViewController: BaseViewController {
 
-    private let viewModel = DataStorage.instance.itn ?? ItnModel()
+    private let viewModel = DataStorage.instance.itn ?? ItnModel(with: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()

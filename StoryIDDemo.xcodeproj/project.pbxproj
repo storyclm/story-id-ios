@@ -57,7 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1BAC26FD2452FDBD00D0A432 /* StoryID.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoryID.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BAC26FD2452FDBD00D0A432 /* StoryID Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StoryID Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAC27002452FDBD00D0A432 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BAC27092452FDC100D0A432 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BAC270E2452FDC100D0A432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 		1BAC26FE2452FDBD00D0A432 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1BAC26FD2452FDBD00D0A432 /* StoryID.app */,
+				1BAC26FD2452FDBD00D0A432 /* StoryID Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,7 +376,7 @@
 			);
 			name = StoryIDDemo;
 			productName = IDContentDemo;
-			productReference = 1BAC26FD2452FDBD00D0A432 /* StoryID.app */;
+			productReference = 1BAC26FD2452FDBD00D0A432 /* StoryID Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -678,7 +678,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.breffi.StoryIDDemo;
-				PRODUCT_NAME = StoryID;
+				PRODUCT_NAME = "StoryID Demo";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -697,7 +697,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.breffi.StoryIDDemo;
-				PRODUCT_NAME = StoryID;
+				PRODUCT_NAME = "StoryID Demo";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

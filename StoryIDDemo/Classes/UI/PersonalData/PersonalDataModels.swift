@@ -7,59 +7,54 @@
 //
 
 import UIKit
+import StoryID
 
-final class DemographicsModel: Codable {
+final class DemographicsModel {
     var surname: String?
     var name: String?
     var patronymic: String?
     var phoneNumber: String?
     var email: String?
+
+    init(with dbModel: IDContentDemographics?) {
+        if let dbModel = dbModel {
+            self.surname = dbModel.surname
+            self.name = dbModel.name
+            self.patronymic = dbModel.patronymic
+        }
+    }
 }
 
-final class ItnModel: Codable {
+final class ItnModel {
     var itn: String?
-    var itnImageData: Data?
+    var itnImage: UIImage?
 
-    var itnImage: UIImage? {
-        set { self.itnImageData = newValue?.pngData() }
-        get {
-            guard let data = self.itnImageData else { return nil }
-            return UIImage(data: data)
+    init(with dbModel: IDContentITN?) {
+        if let dbModel = dbModel {
+            self.itn = dbModel.itn
         }
     }
 }
 
-final class SnilsModel: Codable {
+final class SnilsModel {
     var snils: String?
-    var snilsImageData: Data?
+    var snilsImage: UIImage?
 
-    var snilsImage: UIImage? {
-        set { self.snilsImageData = newValue?.pngData() }
-        get {
-            guard let data = self.snilsImageData else { return nil }
-            return UIImage(data: data)
+    init(with dbModel: IDContentSNILS?) {
+        if let dbModel = dbModel {
+            self.snils = dbModel.snils
         }
     }
 }
 
-final class PasportModel: Codable {
+final class PasportModel {
     var sn: String?
-    var firstImageData: Data?
-    var secondImageData: Data?
+    var firstImage: UIImage?
+    var secondImage: UIImage?
 
-    var firstImage: UIImage? {
-        set { self.firstImageData = newValue?.pngData() }
-        get {
-            guard let data = self.firstImageData else { return nil }
-            return UIImage(data: data)
-        }
-    }
-
-    var secondImage: UIImage? {
-        set { self.secondImageData = newValue?.pngData() }
-        get {
-            guard let data = self.secondImageData else { return nil }
-            return UIImage(data: data)
+    init(with dbModel: IDContentPasport?) {
+        if let dbModel = dbModel {
+            self.sn = dbModel.sn
         }
     }
 }
