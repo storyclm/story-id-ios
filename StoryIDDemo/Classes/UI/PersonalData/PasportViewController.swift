@@ -8,7 +8,7 @@
 
 import Former
 
-final class PasportViewController: BaseViewController {
+final class PasportViewController: BaseFormViewController {
 
     private let viewModel = DataStorage.instance.pasport ?? PasportModel(with: nil)
 

@@ -8,7 +8,7 @@
 
 import Former
 
-final class ProfileMainViewController: BaseViewController {
+final class ProfileMainViewController: BaseFormViewController {
 
     override var isSaveButtonVisible: Bool { false }
     override var isCancelButtonVisible: Bool { false }

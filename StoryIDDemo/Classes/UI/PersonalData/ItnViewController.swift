@@ -8,7 +8,7 @@
 
 import Former
 
-final class ItnViewController: BaseViewController {
+final class ItnViewController: BaseFormViewController {
 
     private let viewModel = DataStorage.instance.itn ?? ItnModel(with: nil)
 

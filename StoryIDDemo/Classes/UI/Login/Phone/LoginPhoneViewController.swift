@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import StoryID
 
-final class LoginPhoneViewController: UIViewController {
+final class LoginPhoneViewController: BaseViewController {
 
     private let loginPhoneView = LoginPhoneView()
 
@@ -25,8 +26,20 @@ final class LoginPhoneViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func sendCodeAction() {
-        // TODO: call api and show sms view
-        self.showLoginSmsController()
+        guard var phone = self.loginPhoneView.textField.value else { return }
+        phone = "7\(phone)"
+
+        self.showLoader()
+
+        AuthManager.instance.verifyCode(phone: phone) { (sign, error) in
+            self.hideLoader()
+            
+            if let error = error {
+                self.showErrorAlert(error)
+            } else if let sign = sign {
+                self.showLoginSmsController(with: sign, phone: phone)
+            }
+        }
     }
 
     @objc private func tapGestureAction() {
@@ -35,8 +48,10 @@ final class LoginPhoneViewController: UIViewController {
 
     // MARK: - Controller
 
-    private func showLoginSmsController() {
+    private func showLoginSmsController(with signature: SIDPasswordlessSignature, phone: String) {
         let loginSMSViewController = LoginSMSViewController()
+        loginSMSViewController.signature = signature
+        loginSMSViewController.phone = phone
         self.navigationController?.pushViewController(loginSMSViewController, animated: true)
         
     }

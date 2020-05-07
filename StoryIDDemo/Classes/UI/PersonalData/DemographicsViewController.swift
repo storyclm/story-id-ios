@@ -7,9 +7,7 @@
 //
 
 import Former
-import StoryID
-
-final class DemographicsViewController: BaseViewController {
+final class DemographicsViewController: BaseFormViewController {
 
     private let viewModel = DataStorage.instance.demographics ?? DemographicsModel(with: nil)
 

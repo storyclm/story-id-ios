@@ -8,7 +8,7 @@
 
 import Former
 
-final class BankAccountListViewController: BaseViewController {
+final class BankAccountListViewController: BaseFormViewController {
 
     private var viewModel = DataStorage.instance.bankAccounts ?? [BankAccountModel]()
 

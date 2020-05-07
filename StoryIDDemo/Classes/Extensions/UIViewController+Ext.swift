@@ -61,4 +61,26 @@ extension UIViewController {
             }
         }
     }
+
+    class func topVC(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+
+        if let nav = base as? UINavigationController {
+            return topVC(base: nav.visibleViewController)
+
+        } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return topVC(base: selected)
+
+        } else if let presented = base?.presentedViewController {
+            return topVC(base: presented)
+        }
+        return base
+    }
+
+    // MARK: - Error
+
+    func showErrorAlert(_ error: Error) {
+        let alert = UIAlertController(title: "global_error".loco, message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true)
+    }
 }

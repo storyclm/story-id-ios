@@ -19,7 +19,7 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
 }
 
 public class AlamofireRetrier {
-    static var retrier: SIDRetryHandler?
+    public static var retrier: SIDRetryHandler?
 }
 
 // Store manager to retain its reference

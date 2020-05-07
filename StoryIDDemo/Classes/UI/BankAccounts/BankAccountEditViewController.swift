@@ -8,7 +8,7 @@
 
 import Former
 
-final class BankAccountEditViewController: BaseViewController {
+final class BankAccountEditViewController: BaseFormViewController {
 
     private let isNewAccount: Bool
     private let viewModel: BankAccountModel

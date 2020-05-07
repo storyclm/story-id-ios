@@ -8,7 +8,7 @@
 
 public final class SIDSettings {
 
-    static let instance = SIDSettings()
+    public static let instance = SIDSettings()
 
     private init() {}
 

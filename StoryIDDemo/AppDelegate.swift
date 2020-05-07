@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoryID
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 13.0, *) {
             window?.overrideUserInterfaceStyle = UIUserInterfaceStyle.light
         }
+
+        self.setupStoryId()
         
         return true
+    }
+
+    func setupStoryId() {
+        let properties = AppPropertiesManager.instance
+
+        SIDSettings.instance.cryptoPassword = properties.cryptoPassword
+        SIDSettings.instance.cryptoSalt = properties.cryptoSalt
+        SIDSettings.instance.isRemoveImageAtSync = false
     }
 }

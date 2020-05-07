@@ -8,7 +8,7 @@
 
 import Former
 
-final class SnilsViewController: BaseViewController {
+final class SnilsViewController: BaseFormViewController {
 
     private let viewModel = DataStorage.instance.snils ?? SnilsModel(with: nil)
 

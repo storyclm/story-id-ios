@@ -26,7 +26,7 @@ public final class SIDAdapterManager {
     }
 
     private(set) var configURL: URL
-    private(set) var config: SIDConfigModel?
+    public private(set) var config: SIDConfigModel?
 
     public init(configURL: URL) {
         self.configURL = configURL

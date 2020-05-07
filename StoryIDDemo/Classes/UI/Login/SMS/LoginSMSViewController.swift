@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import StoryID
 
-final class LoginSMSViewController: UIViewController {
+final class LoginSMSViewController: BaseViewController {
 
     private let loginSMSView = LoginSMSView()
+
+    var signature: SIDPasswordlessSignature?
+    var phone: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +30,18 @@ final class LoginSMSViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func resendCodeAction() {
+        self.loginSMSView.textField.resignFirstResponder()
 
+        guard let phone = self.phone else { return }
+
+        AuthManager.instance.verifyCode(phone: phone) { (sign, error) in
+            if let error = error {
+                self.showErrorAlert(error)
+            } else if let sign = sign {
+                self.signature = sign
+                self.loginSMSView.textField.becomeFirstResponder()
+            }
+        }
     }
 
     @objc private func tapGestureAction() {
@@ -68,10 +83,22 @@ final class LoginSMSViewController: UIViewController {
 extension LoginSMSViewController: LoginSMSViewDelegate {
 
     func loginSmsView(_ view: LoginSMSView, didEnterCode code: String?) {
-//        guard let code = code?.notEmptyValue else { return }
+        guard let code = code?.notEmptyValue else { return }
+        guard let phone = self.phone, let sign = self.signature else { return }
 
-        view.textField.resignFirstResponder()
-        // TODO: Call api!
-        self.showPincodeAlert()
+        self.loginSMSView.textField.resignFirstResponder()
+        self.showLoader()
+
+        AuthManager.instance.login(signature: sign, phone: phone, code: code) { error in
+            self.hideLoader()
+
+            if let error = error {
+                self.showErrorAlert(error)
+                self.loginSMSView.textField.text = nil
+                self.loginSMSView.textField.becomeFirstResponder()
+            } else {
+                self.showPincodeAlert()
+            }
+        }
     }
 }

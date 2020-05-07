@@ -17,6 +17,7 @@
 "global_delete" = "Удалить";
 "global_camera" = "Камера";
 "global_gallery" = "Галерея";
+"global_error" = "Ошибка";
 
 // MARK: - Login
 

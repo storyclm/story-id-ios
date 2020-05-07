@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1BA3224F246421DC0009AE36 /* AppProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BA3224E246421DC0009AE36 /* AppProperties.plist */; };
+		1BA32251246422020009AE36 /* AppPropertiesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA32250246422020009AE36 /* AppPropertiesManager.swift */; };
+		1BA32253246425010009AE36 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA32252246425010009AE36 /* AuthManager.swift */; };
+		1BA3225524643F0B0009AE36 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3225424643F0B0009AE36 /* BaseViewController.swift */; };
 		1BAC27012452FDBD00D0A432 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27002452FDBD00D0A432 /* AppDelegate.swift */; };
 		1BAC270A2452FDC100D0A432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAC27092452FDC100D0A432 /* Assets.xcassets */; };
 		1BAC270D2452FDC100D0A432 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BAC270B2452FDC100D0A432 /* LaunchScreen.storyboard */; };
@@ -48,7 +52,7 @@
 		1BAC27862456C05D00D0A432 /* PersonalDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27852456C05C00D0A432 /* PersonalDataModels.swift */; };
 		1BAC27882456C0A400D0A432 /* BankAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27872456C0A400D0A432 /* BankAccountModel.swift */; };
 		1BAC278A2456C35100D0A432 /* BankAccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27892456C35100D0A432 /* BankAccountListViewController.swift */; };
-		1BAC278B2456C53000D0A432 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27592455A50400D0A432 /* BaseViewController.swift */; };
+		1BAC278B2456C53000D0A432 /* BaseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27592455A50400D0A432 /* BaseFormViewController.swift */; };
 		1BC6C1452456D6E400D84956 /* BankAccountEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6C1442456D6E400D84956 /* BankAccountEditViewController.swift */; };
 		1BC6C1482456FA9600D84956 /* AvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6C1472456FA9600D84956 /* AvatarCell.swift */; };
 		1BC6C14A24572D5D00D84956 /* PincodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6C14924572D5D00D84956 /* PincodeService.swift */; };
@@ -57,6 +61,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1BA3224E246421DC0009AE36 /* AppProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppProperties.plist; sourceTree = "<group>"; };
+		1BA32250246422020009AE36 /* AppPropertiesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPropertiesManager.swift; sourceTree = "<group>"; };
+		1BA32252246425010009AE36 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		1BA3225424643F0B0009AE36 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1BAC26FD2452FDBD00D0A432 /* StoryID Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StoryID Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAC27002452FDBD00D0A432 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BAC27092452FDC100D0A432 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,7 +90,7 @@
 		1BAC274B24558D1800D0A432 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		1BAC274D24558FF500D0A432 /* ProfileMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainViewController.swift; sourceTree = "<group>"; };
 		1BAC27572455A40F00D0A432 /* DemographicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemographicsViewController.swift; sourceTree = "<group>"; };
-		1BAC27592455A50400D0A432 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		1BAC27592455A50400D0A432 /* BaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormViewController.swift; sourceTree = "<group>"; };
 		1BAC275D2455A5F000D0A432 /* TitleFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleFieldCell.swift; sourceTree = "<group>"; };
 		1BAC275F2455A6CA00D0A432 /* TitleFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleFieldCell.xib; sourceTree = "<group>"; };
 		1BAC27612455AF3F00D0A432 /* ItnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItnViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +163,7 @@
 				1BAC27002452FDBD00D0A432 /* AppDelegate.swift */,
 				1BAC27092452FDC100D0A432 /* Assets.xcassets */,
 				1BAC270B2452FDC100D0A432 /* LaunchScreen.storyboard */,
+				1BA3224E246421DC0009AE36 /* AppProperties.plist */,
 				1BAC270E2452FDC100D0A432 /* Info.plist */,
 				1BAC27192453016000D0A432 /* Localizable.strings */,
 			);
@@ -278,9 +287,10 @@
 		1BAC27322454C8DE00D0A432 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				1BAC27332454C8E800D0A432 /* BaseView.swift */,
+				1BAC27592455A50400D0A432 /* BaseFormViewController.swift */,
 				1BAC274B24558D1800D0A432 /* BaseNavigationController.swift */,
-				1BAC27592455A50400D0A432 /* BaseViewController.swift */,
+				1BAC27332454C8E800D0A432 /* BaseView.swift */,
+				1BA3225424643F0B0009AE36 /* BaseViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -328,10 +338,12 @@
 		1BAC276D2455EC2D00D0A432 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1BA32250246422020009AE36 /* AppPropertiesManager.swift */,
+				1BC6C14B2457417900D84956 /* AppRouter.swift */,
+				1BA32252246425010009AE36 /* AuthManager.swift */,
 				1BAC27812456207000D0A432 /* DataStorage.swift */,
 				1BC6C14924572D5D00D84956 /* PincodeService.swift */,
 				1BAC276E2455EC4500D0A432 /* Storage.swift */,
-				1BC6C14B2457417900D84956 /* AppRouter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -419,6 +431,7 @@
 				1BAC27602455A6CA00D0A432 /* TitleFieldCell.xib in Resources */,
 				1BAC270D2452FDC100D0A432 /* LaunchScreen.storyboard in Resources */,
 				1BAC271A2453016000D0A432 /* Localizable.strings in Resources */,
+				1BA3224F246421DC0009AE36 /* AppProperties.plist in Resources */,
 				1BAC270A2452FDC100D0A432 /* Assets.xcassets in Resources */,
 				1BAC27372454D2E400D0A432 /* SplashScreen.storyboard in Resources */,
 			);
@@ -504,6 +517,7 @@
 				1BAC27392454D2F300D0A432 /* SplashScreenViewController.swift in Sources */,
 				1BAC27412454DA4900D0A432 /* TextField.swift in Sources */,
 				1BAC27822456207000D0A432 /* DataStorage.swift in Sources */,
+				1BA3225524643F0B0009AE36 /* BaseViewController.swift in Sources */,
 				1BAC275E2455A5F000D0A432 /* TitleFieldCell.swift in Sources */,
 				1BAC274E24558FF500D0A432 /* ProfileMainViewController.swift in Sources */,
 				1BAC27422454DA4900D0A432 /* PaddedTextField.swift in Sources */,
@@ -512,10 +526,11 @@
 				1BAC27862456C05D00D0A432 /* PersonalDataModels.swift in Sources */,
 				1BAC272D245349BA00D0A432 /* UIViewController+Ext.swift in Sources */,
 				1BAC276F2455EC4500D0A432 /* Storage.swift in Sources */,
+				1BA32253246425010009AE36 /* AuthManager.swift in Sources */,
 				1BAC274A2455865000D0A432 /* SMSTextField.swift in Sources */,
 				1BAC27462455841C00D0A432 /* LoginSMSView.swift in Sources */,
 				1BAC277C2456014100D0A432 /* PinCodeDotView.swift in Sources */,
-				1BAC278B2456C53000D0A432 /* BaseViewController.swift in Sources */,
+				1BAC278B2456C53000D0A432 /* BaseFormViewController.swift in Sources */,
 				1BAC27582455A40F00D0A432 /* DemographicsViewController.swift in Sources */,
 				1BAC27442454E09C00D0A432 /* UIImage+Ext.swift in Sources */,
 				1BAC27312454C89A00D0A432 /* LoginPhoneView.swift in Sources */,
@@ -529,6 +544,7 @@
 				1BAC273C2454D92F00D0A432 /* PhoneTextField.swift in Sources */,
 				1BAC27342454C8E800D0A432 /* BaseView.swift in Sources */,
 				1BAC27882456C0A400D0A432 /* BankAccountModel.swift in Sources */,
+				1BA32251246422020009AE36 /* AppPropertiesManager.swift in Sources */,
 				1BC6C14A24572D5D00D84956 /* PincodeService.swift in Sources */,
 				1BAC27642455B00B00D0A432 /* SnilsViewController.swift in Sources */,
 				1BAC277E245610A400D0A432 /* PinCodeEnterView.swift in Sources */,
