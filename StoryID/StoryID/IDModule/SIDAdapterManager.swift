@@ -37,11 +37,13 @@ public final class SIDAdapterManager {
     public func requestConfig(completion: ((Result<SIDConfigModel>) -> Void)?) {
 
         let task = URLSession.shared.dataTask(with: configURL) { [weak self] data, _, error in
+            guard let self = self else { return }
+            
             if let error = error {
                 completion?(Result.failure(ConfigError.requestError(error)))
             } else if let data = data {
                 if let config = try? JSONDecoder().decode(SIDConfigModel.self, from: data) {
-                    self?.config = config
+                    self.config = config
                     completion?(Result.success(config))
                 } else {
                     completion?(Result.failure(ConfigError.incorrectConfigModel))

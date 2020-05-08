@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoryID
 
 final class AppRouter {
 
@@ -33,8 +34,10 @@ final class AppRouter {
         UIViewController.show(from: from, isModalFade: true, navigationController: navigationController, animated: true)
     }
 
-    func showEnterSms(from: UIViewController, signature: String?, phone: String) {
+    func showEnterSms(from: UIViewController, signature: SIDPasswordlessSignature?, phone: String) {
         let loginSMSViewController = LoginSMSViewController()
+        loginSMSViewController.signature = signature
+        loginSMSViewController.phone = phone
         UIViewController.show(from: from, navigationType: NavigationType.push, vc: loginSMSViewController, animated: true)
     }
 

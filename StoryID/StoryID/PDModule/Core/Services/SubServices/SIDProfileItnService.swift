@@ -30,22 +30,34 @@ public class SIDProfileItnService: SIDServiceProtocol {
                     return
                 }
 
-                if let localItn = localItn, let lModifiedAt = localItn.modifiedAt, let sModifiedAt = serverItn.modifiedAt, lModifiedAt > sModifiedAt {
-                    localItn.itn = serverItn.itn
-
-                    localItn.isEntityDeleted = false
-                    localItn.profileId = serverItn.profileId
-                    localItn.modifiedAt = serverItn.modifiedAt
-                    localItn.modifiedBy = serverItn.modifiedBy
-                    localItn.verified = serverItn.verified ?? false
-                    localItn.verifiedAt = serverItn.verifiedAt
-                    localItn.verifiedBy = serverItn.verifiedBy
-
-                    SIDCoreDataManager.instance.saveContext()
+                if let localItn = localItn {
+                    if let lModifiedAt = localItn.modifiedAt, let sModifiedAt = serverItn.modifiedAt, lModifiedAt > sModifiedAt {
+                        self.updateLocalModel(localItn, with: serverItn)
+                    }
+                } else {
+                    let newModel: IDContentITN = IDContentITN.create()
+                    self.updateLocalModel(newModel, with: serverItn)
                 }
+
+                complete(error: nil)
+            } else {
                 complete(error: nil)
             }
         }
+    }
+
+    private func updateLocalModel(_ localModel: IDContentITN, with serverModel: StoryITN) {
+        localModel.itn = serverModel.itn
+
+        localModel.isEntityDeleted = false
+        localModel.profileId = serverModel.profileId
+        localModel.modifiedAt = serverModel.modifiedAt
+        localModel.modifiedBy = serverModel.modifiedBy
+        localModel.verified = serverModel.verified ?? false
+        localModel.verifiedAt = serverModel.verifiedAt
+        localModel.verifiedBy = serverModel.verifiedBy
+
+        SIDCoreDataManager.instance.saveContext()
     }
 
     private func clearDeleted() {

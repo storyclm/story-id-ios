@@ -28,27 +28,37 @@ public class SIDProfileService: SIDServiceProtocol {
                     complete(error: nil)
                     return
                 }
-
-                if let localProfile = localProfile, let lModifiedAt = localProfile.modifiedAt, let sModifiedAt = serverProfile.modifiedAt, lModifiedAt > sModifiedAt {
-
-                    localProfile.id = serverProfile._id
-                    localProfile.username = serverProfile.username
-                    localProfile.email = serverProfile.email
-                    localProfile.emailVerified = serverProfile.emailVerified ?? false
-                    localProfile.phone = serverProfile.phone
-                    localProfile.phoneVerified = serverProfile.phoneVerified ?? false
-                    localProfile.createdAt = serverProfile.createdAt
-                    localProfile.createdBy = serverProfile.createdBy
-
-                    localProfile.isEntityDeleted = false
-                    localProfile.modifiedAt = serverProfile.modifiedAt
-                    localProfile.modifiedBy = serverProfile.modifiedBy
-
-                    SIDCoreDataManager.instance.saveContext()
+                if let localProfile = localProfile {
+                    if let lModifiedAt = localProfile.modifiedAt, let sModifiedAt = serverProfile.modifiedAt, lModifiedAt > sModifiedAt {
+                        self.updateLocalModel(localProfile, with: serverProfile)
+                    }
+                } else {
+                    let newModel: IDContentProfile = IDContentProfile.create()
+                    self.updateLocalModel(newModel, with: serverProfile)
                 }
+
+                complete(error: nil)
+            } else {
                 complete(error: nil)
             }
         }
+    }
+
+    private func updateLocalModel(_ localModel: IDContentProfile, with serverModel: StoryProfile) {
+        localModel.id = serverModel._id
+        localModel.username = serverModel.username
+        localModel.email = serverModel.email
+        localModel.emailVerified = serverModel.emailVerified ?? false
+        localModel.phone = serverModel.phone
+        localModel.phoneVerified = serverModel.phoneVerified ?? false
+        localModel.createdAt = serverModel.createdAt
+        localModel.createdBy = serverModel.createdBy
+
+        localModel.isEntityDeleted = false
+        localModel.modifiedAt = serverModel.modifiedAt
+        localModel.modifiedBy = serverModel.modifiedBy
+
+        SIDCoreDataManager.instance.saveContext()
     }
 
     private func clearDeleted() {

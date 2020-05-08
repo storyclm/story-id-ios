@@ -10,7 +10,7 @@ import Foundation
 
 final class AppPropertiesManager {
 
-    private var plistData: [String: AnyObject]?
+    private var plistData: [String: Any]?
 
     static let instance = AppPropertiesManager()
 
@@ -31,13 +31,13 @@ final class AppPropertiesManager {
 
     // MARK: - Load property
 
-    private func readPropertyList() -> [String: AnyObject]? {
+    private func readPropertyList() -> [String: Any]? {
         guard let plistPath: String = Bundle.main.path(forResource: "AppProperties", ofType: "plist") else { return nil }
         guard let plistXML = FileManager.default.contents(atPath: plistPath) else { return nil }
 
         var propertyListFormat = PropertyListSerialization.PropertyListFormat.xml
         do {
-            return try PropertyListSerialization.propertyList(from: plistXML, options: .mutableContainersAndLeaves, format: &propertyListFormat) as? [String: AnyObject]
+            return try PropertyListSerialization.propertyList(from: plistXML, options: .mutableContainersAndLeaves, format: &propertyListFormat) as? [String: Any]
         } catch {
             print("Error reading plist: \(error), format: \(propertyListFormat)")
             return nil

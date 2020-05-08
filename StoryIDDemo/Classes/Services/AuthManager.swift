@@ -14,12 +14,7 @@ final class AuthManager {
 
     static let instance = AuthManager()
 
-    private var adapterManager: SIDAdapterManager {
-        let urlString = AppPropertiesManager.instance.apiConfigUrl
-        precondition(urlString != nil, "Config url is missing in AppPropertiesManager")
-
-        return SIDAdapterManager(configURL: URL(string: urlString!)!)
-    }
+    private var adapterManager: SIDAdapterManager
 
     private(set) var retrier: SIDRetryHandler?
 
@@ -32,7 +27,10 @@ final class AuthManager {
     // MARK: -
 
     private init() {
+        let urlString = AppPropertiesManager.instance.apiConfigUrl
+        precondition(urlString != nil, "Config url is missing in AppPropertiesManager")
 
+        self.adapterManager =  SIDAdapterManager(configURL: URL(string: urlString!)!)
     }
 
     // MARK: - APIs

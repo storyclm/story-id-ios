@@ -30,27 +30,38 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
                     return
                 }
 
-                if let localDemographics = localDemographics, let lModifiedAt = localDemographics.modifiedAt, let sModifiedAt = serverDemographics.modifiedAt, lModifiedAt > sModifiedAt {
-
-                    localDemographics.name = serverDemographics.name
-                    localDemographics.surname = serverDemographics.surname
-                    localDemographics.patronymic = serverDemographics.patronymic
-                    localDemographics.birthday = serverDemographics.birthday
-                    localDemographics.gender = serverDemographics.gender ?? false
-
-                    localDemographics.isEntityDeleted = false
-                    localDemographics.profileId = serverDemographics.profileId
-                    localDemographics.modifiedAt = serverDemographics.modifiedAt
-                    localDemographics.modifiedBy = serverDemographics.modifiedBy
-                    localDemographics.verified = serverDemographics.verified ?? false
-                    localDemographics.verifiedAt = serverDemographics.verifiedAt
-                    localDemographics.verifiedBy = serverDemographics.verifiedBy
-
-                    SIDCoreDataManager.instance.saveContext()
+                if let localDemographics = localDemographics {
+                    if let lModifiedAt = localDemographics.modifiedAt, let sModifiedAt = serverDemographics.modifiedAt, lModifiedAt > sModifiedAt {
+                        self.updateLocalModel(localDemographics, with: serverDemographics)
+                    }
+                } else {
+                    let newModel: IDContentDemographics = IDContentDemographics.create()
+                    self.updateLocalModel(newModel, with: serverDemographics)
                 }
+
+                complete(error: nil)
+            } else {
                 complete(error: nil)
             }
         }
+    }
+
+    private func updateLocalModel(_ localModel: IDContentDemographics, with serverModel: StoryDemographics) {
+        localModel.name = serverModel.name
+        localModel.surname = serverModel.surname
+        localModel.patronymic = serverModel.patronymic
+        localModel.birthday = serverModel.birthday
+        localModel.gender = serverModel.gender ?? false
+
+        localModel.isEntityDeleted = false
+        localModel.profileId = serverModel.profileId
+        localModel.modifiedAt = serverModel.modifiedAt
+        localModel.modifiedBy = serverModel.modifiedBy
+        localModel.verified = serverModel.verified ?? false
+        localModel.verifiedAt = serverModel.verifiedAt
+        localModel.verifiedBy = serverModel.verifiedBy
+
+        SIDCoreDataManager.instance.saveContext()
     }
 
     private func clearDeleted() {

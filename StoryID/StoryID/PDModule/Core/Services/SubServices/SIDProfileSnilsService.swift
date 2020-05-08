@@ -29,23 +29,34 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
                     return
                 }
 
-                if let localSnils = localSnils, let lModifiedAt = localSnils.modifiedAt, let sModifiedAt = serverSnils.modifiedAt, lModifiedAt > sModifiedAt {
-
-                    localSnils.snils = serverSnils.snils
-
-                    localSnils.isEntityDeleted = false
-                    localSnils.profileId = serverSnils.profileId
-                    localSnils.modifiedAt = serverSnils.modifiedAt
-                    localSnils.modifiedBy = serverSnils.modifiedBy
-                    localSnils.verified = serverSnils.verified ?? false
-                    localSnils.verifiedAt = serverSnils.verifiedAt
-                    localSnils.verifiedBy = serverSnils.verifiedBy
-
-                    SIDCoreDataManager.instance.saveContext()
+                if let localSnils = localSnils {
+                    if let lModifiedAt = localSnils.modifiedAt, let sModifiedAt = serverSnils.modifiedAt, lModifiedAt > sModifiedAt {
+                        self.updateLocalModel(localSnils, with: serverSnils)
+                    }
+                } else {
+                    let newModel: IDContentSNILS = IDContentSNILS.create()
+                    self.updateLocalModel(newModel, with: serverSnils)
                 }
+
+                complete(error: nil)
+            } else {
                 complete(error: nil)
             }
         }
+    }
+
+    private func updateLocalModel(_ localModel: IDContentSNILS, with serverModel: StorySNILS) {
+        localModel.snils = serverModel.snils
+
+        localModel.isEntityDeleted = false
+        localModel.profileId = serverModel.profileId
+        localModel.modifiedAt = serverModel.modifiedAt
+        localModel.modifiedBy = serverModel.modifiedBy
+        localModel.verified = serverModel.verified ?? false
+        localModel.verifiedAt = serverModel.verifiedAt
+        localModel.verifiedBy = serverModel.verifiedBy
+
+        SIDCoreDataManager.instance.saveContext()
     }
 
     private func clearDeleted() {

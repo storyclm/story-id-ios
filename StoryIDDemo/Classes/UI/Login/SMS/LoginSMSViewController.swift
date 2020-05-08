@@ -51,6 +51,8 @@ final class LoginSMSViewController: BaseViewController {
     // MARK: - Pincode
 
     private func showPincodeAlert() {
+        SIDPersonalDataService.instance.synchronize()
+        
         let pincodeAlert = UIAlertController(title: "login_sms_pincode_alert_title".loco, message: "login_sms_pincode_alert_subtitle".loco, preferredStyle: UIAlertController.Style.alert)
         pincodeAlert.addAction(UIAlertAction(title: "global_no".loco, style: UIAlertAction.Style.cancel, handler: { [unowned self] _ in
             self.showProfileController()

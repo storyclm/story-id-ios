@@ -49,11 +49,8 @@ final class LoginPhoneViewController: BaseViewController {
     // MARK: - Controller
 
     private func showLoginSmsController(with signature: SIDPasswordlessSignature, phone: String) {
-        let loginSMSViewController = LoginSMSViewController()
-        loginSMSViewController.signature = signature
-        loginSMSViewController.phone = phone
-        self.navigationController?.pushViewController(loginSMSViewController, animated: true)
-        
+        AppRouter.instance.showEnterSms(from: self, signature: signature, phone: phone)
+
     }
     
 }

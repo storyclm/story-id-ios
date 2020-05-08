@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoryID
 
 final class SplashScreenViewController: UIViewController {
 
@@ -24,6 +25,7 @@ final class SplashScreenViewController: UIViewController {
 
     func showAuthorization() {
         AppRouter.instance.showAuthorization(from: self) { vc, _ in
+            SIDPersonalDataService.instance.synchronize()
             AppRouter.instance.showProfile(from: vc)
         }
     }
