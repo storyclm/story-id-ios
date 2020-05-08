@@ -10,6 +10,6 @@ target 'StoryIDDemo' do
   pod 'SKPhotoBrowser'
   pod 'BiometricAuthentication'
   pod 'Valet'
-  pod 'StoryID', :path => './StoryID/StoryID'
+  pod 'StoryID', :path => './StoryID'
 
 end
