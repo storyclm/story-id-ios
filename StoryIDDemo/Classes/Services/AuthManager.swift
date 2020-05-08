@@ -140,6 +140,7 @@ final class AuthManager {
         self.retrier = SIDRetryHandler(oauth2: adapter) {
             guard let viewController = UIViewController.topVC() else {
                 assert(false, "Can't find topmost view controller")
+                return
             }
             AppRouter.instance.showEnterPhone(from: viewController)
         }
