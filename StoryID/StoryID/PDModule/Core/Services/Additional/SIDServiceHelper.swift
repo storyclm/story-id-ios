@@ -19,6 +19,11 @@ public final class SIDServiceHelper {
         case nothingToUpdate
         case nsError(NSError)
     }
+
+    static func isDataUpdate(localDate: Date?, serverDate: Date?) -> Bool {
+        guard let localDate = localDate, let serverDate = serverDate else { return false }
+        return localDate == serverDate
+    }
 }
 
 public extension Error {

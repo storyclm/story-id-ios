@@ -13,7 +13,87 @@ public class SIDProfilePasportService: SIDServiceProtocol {
     public var isSynchronizable: Bool = true
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
-        completion(nil)
+        func complete(error: SIDServiceHelper.ServiceError?) {
+            completion(error)
+            self.clearDeleted()
+        }
+
+        ProfilePasportAPI.getPasport { serverPasport, error in
+            if let error = error {
+                complete(error: error.asServiceError)
+            } else if let serverPasport = serverPasport {
+                let localPasport = self.passport()
+
+                guard SIDServiceHelper.isDataUpdate(localDate: localPasport?.modifiedAt, serverDate: serverPasport.modifiedAt) == false else {
+                    complete(error: nil)
+                    return
+                }
+
+                if let localPasport = localPasport, let lModifiedAt = localPasport.modifiedAt, let sModifiedAt = serverPasport.modifiedAt, lModifiedAt > sModifiedAt {
+
+                    localPasport.sn = serverPasport.sn
+                    localPasport.code = serverPasport.code
+                    localPasport.issuedAt = serverPasport.issuedAt
+                    localPasport.issuedBy = serverPasport.issuedBy
+                    self.updatePages(for: localPasport, pages: serverPasport.pages)
+
+                    localPasport.isEntityDeleted = false
+                    localPasport.profileId = serverPasport.profileId
+                    localPasport.modifiedAt = serverPasport.modifiedAt
+                    localPasport.modifiedBy = serverPasport.modifiedBy
+                    localPasport.verified = serverPasport.verified ?? false
+                    localPasport.verifiedAt = serverPasport.verifiedAt
+                    localPasport.verifiedBy = serverPasport.verifiedBy
+
+                    SIDCoreDataManager.instance.saveContext()
+                }
+                complete(error: nil)
+            }
+        }
+    }
+
+    func updatePages(for content: IDContentPasport, pages: [StoryPasportPageViewModel]?) {
+        guard let pages = pages else {
+            return
+        }
+
+        (content.pages as? Set<IDContentPasportPage>)?.forEach { content.removeFromPages($0) }
+
+        for page in pages {
+            let localPage: IDContentPasportPage = IDContentPasportPage.create()
+            localPage.size = page.size ?? 0
+            localPage.mimeType = page.mimeType
+            localPage.page = Int32(page.page)
+            localPage.modifiedAt = page.modifiedAt
+            localPage.modifiedBy = page.modifiedBy
+
+            content.addToPages(localPage)
+        }
+    }
+
+    private func clearDeleted() {
+        guard let modelsForDeletion: [IDContentPasport] = IDContentPasport.models(userID: nil, deleteConduct: SIDDeleteConduct.only) else { return }
+
+        let serverGroup = DispatchGroup()
+
+        var deletedModels: [IDContentPasport] = []
+        for model in modelsForDeletion {
+            serverGroup.enter()
+
+            let emptyModel = StoryProfileDTO(email: nil, emailVerified: nil, phone: nil, phoneVerified: nil, username: nil)
+            ProfileAPI.updateProfile(body: emptyModel) { _, error in
+                if error == nil {
+                    deletedModels.append(model)
+                }
+                serverGroup.leave()
+            }
+        }
+
+        serverGroup.notify(queue: DispatchQueue.main) {
+            deletedModels.forEach { $0.deleteModel() }
+        }
+
+        SIDCoreDataManager.instance.saveContext()
     }
 
     // MARK: - Public
@@ -59,18 +139,4 @@ public class SIDProfilePasportService: SIDServiceProtocol {
     public func deletePasportImage(page: Int) {
         SIDImageManager.deleteImage(name: pasportImageName, page: page)
     }
-
-    @NSManaged public var isEntityDeleted: Bool
-    @NSManaged public var code: String?
-    @NSManaged public var issuedAt: Date?
-    @NSManaged public var issuedBy: String?
-    @NSManaged public var modifiedAt: Date?
-    @NSManaged public var modifiedBy: String?
-    @NSManaged public var profileId: String?
-    @NSManaged public var sn: String?
-    @NSManaged public var userId: String?
-    @NSManaged public var verified: Bool
-    @NSManaged public var verifiedAt: Date?
-    @NSManaged public var verifiedBy: String?
-    @NSManaged public var pages: NSSet?
 }
