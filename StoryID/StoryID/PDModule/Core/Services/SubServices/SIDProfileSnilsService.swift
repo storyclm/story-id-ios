@@ -24,39 +24,51 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
             } else if let serverSnils = serverSnils {
                 let localSnils = self.snils()
 
-                guard SIDServiceHelper.isDataUpdate(localDate: localSnils?.modifiedAt, serverDate: serverSnils.modifiedAt) == false else {
+                let updateBehaviour = SIDServiceHelper.updateBehaviour(localModel: localSnils, serverDate: serverSnils.modifiedAt)
+
+                switch updateBehaviour {
+                case .update:
+                    self.updateLocalModel(localSnils, with: serverSnils)
                     complete(error: nil)
-                    return
-                }
-
-                if let localSnils = localSnils {
-                    if let lModifiedAt = localSnils.modifiedAt, let sModifiedAt = serverSnils.modifiedAt, lModifiedAt > sModifiedAt {
-                        self.updateLocalModel(localSnils, with: serverSnils)
+                case .send:
+                    if let snils = localSnils {
+                        self.sendSnils(snils: snils.snils) { _, error in
+                            complete(error: error?.asServiceError)
+                        }
                     }
-                } else {
-                    let newModel: IDContentSNILS = IDContentSNILS.create()
-                    self.updateLocalModel(newModel, with: serverSnils)
+                case .skip:
+                    complete(error: nil)
                 }
-
-                complete(error: nil)
             } else {
                 complete(error: nil)
             }
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentSNILS, with serverModel: StorySNILS) {
-        localModel.snils = serverModel.snils
+    private func updateLocalModel(_ localModel: IDContentSNILS?, with serverModel: StorySNILS, isCreateIfNeeded: Bool = true) {
+        var localModel = localModel
+        if isCreateIfNeeded, localModel == nil {
+            localModel = IDContentSNILS.create()
+        }
 
-        localModel.isEntityDeleted = false
-        localModel.profileId = serverModel.profileId
-        localModel.modifiedAt = serverModel.modifiedAt
-        localModel.modifiedBy = serverModel.modifiedBy
-        localModel.verified = serverModel.verified ?? false
-        localModel.verifiedAt = serverModel.verifiedAt
-        localModel.verifiedBy = serverModel.verifiedBy
+        guard let lModel = localModel else { return }
+
+        lModel.snils = serverModel.snils
+
+        lModel.isEntityDeleted = false
+        lModel.profileId = serverModel.profileId
+        lModel.modifiedAt = serverModel.modifiedAt
+        lModel.modifiedBy = serverModel.modifiedBy
+        lModel.verified = serverModel.verified ?? false
+        lModel.verifiedAt = serverModel.verifiedAt
+        lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    private func sendSnils(snils: String?, completion: @escaping (StorySNILS?, Error?) -> Void) {
+        let body = StorySNILSDTO(snils: snils)
+        ProfileSNILSAPI.setSnils(body: body, completion: completion)
     }
 
     private func clearDeleted() {
@@ -67,7 +79,7 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
         var deletedModels: [IDContentSNILS] = []
         for model in modelsForDeletion {
             serverGroup.enter()
-            ProfileSNILSAPI.setSnils(body: StorySNILSDTO(snils: nil)) { _, error in
+            self.sendSnils(snils: nil) { _, error in
                 if error == nil {
                     deletedModels.append(model)
                 }
@@ -98,7 +110,7 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
     }
 
     public func deleteSnils() {
-        self.snils()?.deleteModel()
+        self.snils()?.isEntityDeleted = true
         self.deleteSnilsImage()
         SIDCoreDataManager.instance.saveContext()
     }
@@ -112,7 +124,7 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
     public func setSnilsImage(_ image: UIImage?) {
         if let image = image {
             SIDImageManager.saveImage(image, name: snilsImageName)
-            self.snils()?.updateModifyBy()
+            try? self.snils()?.updateModifyAt()
         } else {
             self.deleteSnilsImage()
         }
@@ -120,6 +132,6 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
 
     public func deleteSnilsImage() {
         SIDImageManager.deleteImage(name: snilsImageName)
-        self.snils()?.updateModifyBy()
+        try? self.snils()?.updateModifyAt()
     }
 }

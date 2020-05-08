@@ -8,10 +8,6 @@
 
 public final class SIDServiceHelper {
 
-    class var userId: String? { AlamofireRetrier.retrier?.loader.oauth2.userSub() }
-
-    public typealias SynchronizeBlock = (ServiceError?) -> Void
-
     public enum ServiceError: Error {
         case serverIdIsMissed
         case syncDisabled
@@ -20,9 +16,28 @@ public final class SIDServiceHelper {
         case nsError(NSError)
     }
 
-    static func isDataUpdate(localDate: Date?, serverDate: Date?) -> Bool {
-        guard let localDate = localDate, let serverDate = serverDate else { return false }
-        return localDate == serverDate
+    enum ServiceUpdateBehaviour {
+        case update
+        case send
+        case skip
+    }
+
+    public typealias SynchronizeBlock = (ServiceError?) -> Void
+
+    class var userId: String? { AlamofireRetrier.retrier?.loader.oauth2.userSub() }
+
+    static func updateBehaviour(localModel: SIDCoreDataModelUpdatable?, serverDate: Date?) -> ServiceUpdateBehaviour {
+        guard localModel?.profileId != nil else { return ServiceUpdateBehaviour.update }
+        guard let localDate = localModel?.modifiedAt else { return ServiceUpdateBehaviour.update }
+        guard let serverDate = serverDate else { return ServiceUpdateBehaviour.send }
+
+        if localDate == serverDate {
+            return ServiceUpdateBehaviour.skip
+        } else if localDate < serverDate {
+            return ServiceUpdateBehaviour.update
+        } else {
+            return ServiceUpdateBehaviour.send
+        }
     }
 }
 

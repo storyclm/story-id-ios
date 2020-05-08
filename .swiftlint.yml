@@ -19,8 +19,10 @@ disabled_rules:
 - empty_enum_arguments
 - for_where
 - trailing_comma
+- unused_closure_parameter
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Carthage
   - Pods
-  - ContentComponent/Zip
+  - StoryID/StoryID/PDModule/Swagger
+  - StoryID/Pods

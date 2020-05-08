@@ -24,63 +24,69 @@ public class SIDProfilePasportService: SIDServiceProtocol {
             } else if let serverPasport = serverPasport {
                 let localPasport = self.passport()
 
-                guard SIDServiceHelper.isDataUpdate(localDate: localPasport?.modifiedAt, serverDate: serverPasport.modifiedAt) == false else {
+                let updateBehaviour = SIDServiceHelper.updateBehaviour(localModel: localPasport, serverDate: serverPasport.modifiedAt)
+
+                switch updateBehaviour {
+                case .update:
+                    self.updateLocalModel(localPasport, with: serverPasport)
                     complete(error: nil)
-                    return
-                }
-
-                if let localPasport = localPasport {
-                    if let lModifiedAt = localPasport.modifiedAt, let sModifiedAt = serverPasport.modifiedAt, lModifiedAt > sModifiedAt {
-                        self.updateLocalModel(localPasport, with: serverPasport)
+                case .send:
+                    if let localPasport = localPasport {
+                        self.sendPasport(sn: localPasport.sn,
+                                         issuedBy: localPasport.issuedBy,
+                                         issuedAt: localPasport.issuedAt,
+                                         code: localPasport.code,
+                                         pages: self.convertLocalPagesToServer(localPasport.pages)) { _, error in
+                                            complete(error: error?.asServiceError)
+                        }
                     }
-                } else {
-                    let newModel: IDContentPasport = IDContentPasport.create()
-                    self.updateLocalModel(newModel, with: serverPasport)
+                case .skip:
+                    complete(error: nil)
                 }
-
-                complete(error: nil)
             } else {
                 complete(error: nil)
             }
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentPasport, with serverModel: StoryPasport) {
+    private func updateLocalModel(_ localModel: IDContentPasport?, with serverModel: StoryPasport, isCreateIfNeeded: Bool = true) {
 
-        localModel.sn = serverModel.sn
-        localModel.code = serverModel.code
-        localModel.issuedAt = serverModel.issuedAt
-        localModel.issuedBy = serverModel.issuedBy
-        self.updatePages(for: localModel, pages: serverModel.pages)
+        var localModel = localModel
+        if isCreateIfNeeded, localModel == nil {
+            localModel = IDContentPasport.create()
+        }
 
-        localModel.isEntityDeleted = false
-        localModel.profileId = serverModel.profileId
-        localModel.modifiedAt = serverModel.modifiedAt
-        localModel.modifiedBy = serverModel.modifiedBy
-        localModel.verified = serverModel.verified ?? false
-        localModel.verifiedAt = serverModel.verifiedAt
-        localModel.verifiedBy = serverModel.verifiedBy
+        guard let lModel = localModel else { return }
+
+        lModel.sn = serverModel.sn
+        lModel.code = serverModel.code
+        lModel.issuedAt = serverModel.issuedAt
+        lModel.issuedBy = serverModel.issuedBy
+
+        (lModel.pages as? Set<IDContentPasportPage>)?.forEach { lModel.removeFromPages($0) }
+        if let pages = self.convertServerPagesToLocal(serverModel.pages) {
+            lModel.addToPages(pages)
+        }
+
+        lModel.isEntityDeleted = false
+        lModel.profileId = serverModel.profileId
+        lModel.modifiedAt = serverModel.modifiedAt
+        lModel.modifiedBy = serverModel.modifiedBy
+        lModel.verified = serverModel.verified ?? false
+        lModel.verifiedAt = serverModel.verifiedAt
+        lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
     }
 
-    func updatePages(for content: IDContentPasport, pages: [StoryPasportPageViewModel]?) {
-        guard let pages = pages else {
-            return
-        }
-
-        (content.pages as? Set<IDContentPasportPage>)?.forEach { content.removeFromPages($0) }
-
-        for page in pages {
-            let localPage: IDContentPasportPage = IDContentPasportPage.create(userID: nil)
-            localPage.size = page.size ?? 0
-            localPage.mimeType = page.mimeType
-            localPage.page = Int32(page.page)
-            localPage.modifiedAt = page.modifiedAt
-            localPage.modifiedBy = page.modifiedBy
-
-            content.addToPages(localPage)
-        }
+    private func sendPasport(sn: String?,
+                             issuedBy: String?,
+                             issuedAt: Date?,
+                             code: String?,
+                             pages: [StoryPasportPageViewModel]?,
+                             completion: @escaping (StoryPasport?, Error?) -> Void) {
+        let body = StoryPasportDTO(sn: sn, issuedBy: issuedBy, issuedAt: issuedAt, code: code, pages: pages)
+        ProfilePasportAPI.setPasport(body: body, completion: completion)
     }
 
     private func clearDeleted() {
@@ -92,8 +98,7 @@ public class SIDProfilePasportService: SIDServiceProtocol {
         for model in modelsForDeletion {
             serverGroup.enter()
 
-            let emptyModel = StoryProfileDTO(email: nil, emailVerified: nil, phone: nil, phoneVerified: nil, username: nil)
-            ProfileAPI.updateProfile(body: emptyModel) { _, error in
+            self.sendPasport(sn: nil, issuedBy: nil, issuedAt: nil, code: nil, pages: nil) { _, error in
                 if error == nil {
                     deletedModels.append(model)
                 }
@@ -106,6 +111,50 @@ public class SIDProfilePasportService: SIDServiceProtocol {
         }
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    // MARK: - Pages
+
+    func convertLocalPagesToServer(_ pages: NSSet?) -> [StoryPasportPageViewModel]? {
+        guard let pages = pages as? Set<IDContentPasportPage> else { return nil }
+
+        return pages.map { StoryPasportPageViewModel(modifiedAt: $0.modifiedAt, modifiedBy: $0.modifiedBy, size: $0.size, mimeType: $0.mimeType, page: Int($0.page)) }
+    }
+
+    func convertServerPagesToLocal(_ pages: [StoryPasportPageViewModel]?) -> NSSet? {
+        guard let pages = pages else { return nil }
+
+        let result = pages.map {
+            let localPage: IDContentPasportPage = IDContentPasportPage.create()
+            localPage.size = $0.size ?? 0
+            localPage.mimeType = $0.mimeType
+            localPage.page = Int32($0.page)
+            localPage.modifiedAt = $0.modifiedAt
+            localPage.modifiedBy = $0.modifiedBy
+            return localPage
+        }
+        .reduce(into: Set<IDContentPasportPage>()) { $0.insert($1) }
+
+        return result as NSSet
+    }
+
+    func updatePages(for content: IDContentPasport, pages: [StoryPasportPageViewModel]?) {
+        guard let pages = pages else {
+            return
+        }
+
+        (content.pages as? Set<IDContentPasportPage>)?.forEach { content.removeFromPages($0) }
+
+        for page in pages {
+            let localPage: IDContentPasportPage = IDContentPasportPage.create()
+            localPage.size = page.size ?? 0
+            localPage.mimeType = page.mimeType
+            localPage.page = Int32(page.page)
+            localPage.modifiedAt = page.modifiedAt
+            localPage.modifiedBy = page.modifiedBy
+
+            content.addToPages(localPage)
+        }
     }
 
     // MARK: - Public
@@ -127,7 +176,7 @@ public class SIDProfilePasportService: SIDServiceProtocol {
     }
 
     public func deletePasport() {
-        self.passport()?.deleteModel()
+        self.passport()?.isEntityDeleted = true
         self.deletePasportImage(page: 0)
         self.deletePasportImage(page: 1)
         self.deletePasportImage(page: 2)
@@ -143,6 +192,7 @@ public class SIDProfilePasportService: SIDServiceProtocol {
     public func setPasportImage(_ image: UIImage?, page: Int) {
         if let image = image {
             SIDImageManager.saveImage(image, name: pasportImageName, page: page)
+            try? self.passport()?.updateModifyAt()
         } else {
             self.deletePasportImage(page: page)
         }
@@ -150,5 +200,6 @@ public class SIDProfilePasportService: SIDServiceProtocol {
 
     public func deletePasportImage(page: Int) {
         SIDImageManager.deleteImage(name: pasportImageName, page: page)
+        try? self.passport()?.updateModifyAt()
     }
 }

@@ -24,41 +24,63 @@ public class SIDProfileService: SIDServiceProtocol {
             } else if let serverProfile = serverProfile {
                 let localProfile = self.profile()
 
-                guard SIDServiceHelper.isDataUpdate(localDate: localProfile?.modifiedAt, serverDate: serverProfile.modifiedAt) == false else {
-                    complete(error: nil)
-                    return
-                }
-                if let localProfile = localProfile {
-                    if let lModifiedAt = localProfile.modifiedAt, let sModifiedAt = serverProfile.modifiedAt, lModifiedAt > sModifiedAt {
-                        self.updateLocalModel(localProfile, with: serverProfile)
-                    }
-                } else {
-                    let newModel: IDContentProfile = IDContentProfile.create()
-                    self.updateLocalModel(newModel, with: serverProfile)
-                }
+                let updateBehaviour = SIDServiceHelper.updateBehaviour(localModel: localProfile, serverDate: serverProfile.modifiedAt)
 
-                complete(error: nil)
+                switch updateBehaviour {
+                case .update:
+                    self.updateLocalModel(localProfile, with: serverProfile)
+                    complete(error: nil)
+                case .send:
+                    if let profile = localProfile {
+                        self.sendProfile(email: profile.email,
+                                         emailVerified: profile.emailVerified,
+                                         phone: profile.phone,
+                                         phoneVerified: profile.phoneVerified,
+                                         userName: profile.username) { _, error in
+                                            complete(error: error?.asServiceError)
+                        }
+                    }
+                case .skip:
+                    complete(error: nil)
+                }
             } else {
                 complete(error: nil)
             }
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentProfile, with serverModel: StoryProfile) {
-        localModel.id = serverModel._id
-        localModel.username = serverModel.username
-        localModel.email = serverModel.email
-        localModel.emailVerified = serverModel.emailVerified ?? false
-        localModel.phone = serverModel.phone
-        localModel.phoneVerified = serverModel.phoneVerified ?? false
-        localModel.createdAt = serverModel.createdAt
-        localModel.createdBy = serverModel.createdBy
+    private func updateLocalModel(_ localModel: IDContentProfile?, with serverModel: StoryProfile, isCreateIfNeeded: Bool = true) {
+        var localModel = localModel
+        if isCreateIfNeeded, localModel == nil {
+            localModel = IDContentSNILS.create()
+        }
 
-        localModel.isEntityDeleted = false
-        localModel.modifiedAt = serverModel.modifiedAt
-        localModel.modifiedBy = serverModel.modifiedBy
+        guard let lModel = localModel else { return }
+
+        lModel.username = serverModel.username
+        lModel.email = serverModel.email
+        lModel.emailVerified = serverModel.emailVerified ?? false
+        lModel.phone = serverModel.phone
+        lModel.phoneVerified = serverModel.phoneVerified ?? false
+
+        lModel.isEntityDeleted = false
+        lModel.id = serverModel._id
+        lModel.modifiedAt = serverModel.modifiedAt
+        lModel.modifiedBy = serverModel.modifiedBy
+        lModel.createdAt = serverModel.createdAt
+        lModel.createdBy = serverModel.createdBy
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    private func sendProfile(email: String?,
+                             emailVerified: Bool?,
+                             phone: String?,
+                             phoneVerified: Bool?,
+                             userName: String?,
+                             completion: @escaping (StoryProfile?, Error?) -> Void) {
+        let body = StoryProfileDTO(email: email, emailVerified: emailVerified, phone: phone, phoneVerified: phoneVerified, username: userName)
+        ProfileAPI.updateProfile(body: body, completion: completion)
     }
 
     private func clearDeleted() {
@@ -70,9 +92,7 @@ public class SIDProfileService: SIDServiceProtocol {
         for model in modelsForDeletion {
             serverGroup.enter()
 
-            let emptyModel = StoryProfileDTO(email: nil, emailVerified: nil, phone: nil, phoneVerified: nil, username: nil)
-
-            ProfileAPI.updateProfile(body: emptyModel) { _, error in
+            self.sendProfile(email: nil, emailVerified: nil, phone: nil, phoneVerified: nil, userName: nil) { _, error in
                 if error == nil {
                     deletedModels.append(model)
                 }
@@ -93,7 +113,7 @@ public class SIDProfileService: SIDServiceProtocol {
         return IDContentProfile.firstModel()
     }
 
-    public func setProfile(email: String?, emailVerified: Bool = false, phone: String?, phoneVerified: Bool = false, username: String?) {
+    public func setProfile(email: String?, emailVerified: Bool, phone: String?, phoneVerified: Bool, username: String?) {
         let profileModel = self.profile() ?? IDContentProfile.create()
         profileModel.email = email
         profileModel.emailVerified = emailVerified
@@ -106,7 +126,7 @@ public class SIDProfileService: SIDServiceProtocol {
     }
 
     public func deleteProfile() {
-        self.profile()?.deleteModel()
+        self.profile()?.isEntityDeleted = true
         SIDCoreDataManager.instance.saveContext()
     }
 }

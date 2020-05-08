@@ -13,6 +13,14 @@
 		1BA32249246368E20009AE36 /* SIDProfileSnilsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA32248246368E20009AE36 /* SIDProfileSnilsService.swift */; };
 		1BA3224B246369D50009AE36 /* SIDProfileDemographicsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3224A246369D50009AE36 /* SIDProfileDemographicsService.swift */; };
 		1BA3224D24636AB70009AE36 /* SIDProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3224C24636AB70009AE36 /* SIDProfileService.swift */; };
+		1BA322642465E2F30009AE36 /* IDContentPasportPage+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3225D2465E2F20009AE36 /* IDContentPasportPage+CoreDataClass.swift */; };
+		1BA322652465E2F30009AE36 /* IDContentProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3225E2465E2F30009AE36 /* IDContentProfile+CoreDataClass.swift */; };
+		1BA322662465E2F30009AE36 /* IDContentITN+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3225F2465E2F30009AE36 /* IDContentITN+CoreDataClass.swift */; };
+		1BA322672465E2F30009AE36 /* IDContentPasport+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA322602465E2F30009AE36 /* IDContentPasport+CoreDataClass.swift */; };
+		1BA322682465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA322612465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift */; };
+		1BA322692465E2F30009AE36 /* IDContentSNILS+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA322622465E2F30009AE36 /* IDContentSNILS+CoreDataClass.swift */; };
+		1BA3226A2465E2F30009AE36 /* IDContentDemographics+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA322632465E2F30009AE36 /* IDContentDemographics+CoreDataClass.swift */; };
+		1BA3226C2465E3070009AE36 /* SIDCoreDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3226B2465E3070009AE36 /* SIDCoreDataProtocol.swift */; };
 		1BDF0E672461DF4000C222D7 /* StoryID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDF0E652461DF4000C222D7 /* StoryID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDF0E702461DFA100C222D7 /* SIDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E6F2461DFA100C222D7 /* SIDSettings.swift */; };
 		1BDF0E742461E19300C222D7 /* SIDConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E732461E19300C222D7 /* SIDConfigModel.swift */; };
@@ -107,6 +115,14 @@
 		1BA32248246368E20009AE36 /* SIDProfileSnilsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileSnilsService.swift; sourceTree = "<group>"; };
 		1BA3224A246369D50009AE36 /* SIDProfileDemographicsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileDemographicsService.swift; sourceTree = "<group>"; };
 		1BA3224C24636AB70009AE36 /* SIDProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileService.swift; sourceTree = "<group>"; };
+		1BA3225D2465E2F20009AE36 /* IDContentPasportPage+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentPasportPage+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA3225E2465E2F30009AE36 /* IDContentProfile+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentProfile+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA3225F2465E2F30009AE36 /* IDContentITN+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentITN+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA322602465E2F30009AE36 /* IDContentPasport+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentPasport+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA322612465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentBankAccount+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA322622465E2F30009AE36 /* IDContentSNILS+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentSNILS+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA322632465E2F30009AE36 /* IDContentDemographics+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentDemographics+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1BA3226B2465E3070009AE36 /* SIDCoreDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDCoreDataProtocol.swift; sourceTree = "<group>"; };
 		1BDF0E622461DF4000C222D7 /* StoryID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StoryID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BDF0E652461DF4000C222D7 /* StoryID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryID.h; sourceTree = "<group>"; };
 		1BDF0E662461DF4000C222D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -218,6 +234,21 @@
 				1BDF0F212461ECC500C222D7 /* SIDImageManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		1BA3225C2465E28A0009AE36 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1BA3226B2465E3070009AE36 /* SIDCoreDataProtocol.swift */,
+				1BA322612465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift */,
+				1BA322632465E2F30009AE36 /* IDContentDemographics+CoreDataClass.swift */,
+				1BA3225F2465E2F30009AE36 /* IDContentITN+CoreDataClass.swift */,
+				1BA322602465E2F30009AE36 /* IDContentPasport+CoreDataClass.swift */,
+				1BA3225D2465E2F20009AE36 /* IDContentPasportPage+CoreDataClass.swift */,
+				1BA3225E2465E2F30009AE36 /* IDContentProfile+CoreDataClass.swift */,
+				1BA322622465E2F30009AE36 /* IDContentSNILS+CoreDataClass.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		1BDF0E582461DF4000C222D7 = {
@@ -360,6 +391,7 @@
 		1BDF0E902461E4A500C222D7 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				1BA3225C2465E28A0009AE36 /* Models */,
 				1BDF0E972461E61400C222D7 /* sidpd.xcdatamodeld */,
 				1BA3224424635C090009AE36 /* NSManagedObject+SIDExt.swift */,
 			);
@@ -602,6 +634,7 @@
 				1BDF0EFF2461E99D00C222D7 /* Body1.swift in Sources */,
 				1BDF0E872461E2CA00C222D7 /* SIDRetryHandler.swift in Sources */,
 				1BDF0EEC2461E99C00C222D7 /* FileViewModel.swift in Sources */,
+				1BA322662465E2F30009AE36 /* IDContentITN+CoreDataClass.swift in Sources */,
 				1BDF0F072461E99D00C222D7 /* Body5.swift in Sources */,
 				1BDF0F092461E99D00C222D7 /* ProfileDemographicsAPI.swift in Sources */,
 				1BDF0EE42461E99C00C222D7 /* StoryDemographicsDTO.swift in Sources */,
@@ -609,8 +642,10 @@
 				1BDF0F062461E99D00C222D7 /* Body.swift in Sources */,
 				1BDF0EEB2461E99C00C222D7 /* VerifyPhoneResultViewModel.swift in Sources */,
 				1BDF0F242461ED8400C222D7 /* SIDPersonalDataService.swift in Sources */,
+				1BA322642465E2F30009AE36 /* IDContentPasportPage+CoreDataClass.swift in Sources */,
 				1BDF0E812461E26D00C222D7 /* OAuth2PasswordlessGrant.swift in Sources */,
 				1BA32247246366880009AE36 /* SIDProfilePasportService.swift in Sources */,
+				1BA322692465E2F30009AE36 /* IDContentSNILS+CoreDataClass.swift in Sources */,
 				1BDF0EDC2461E99C00C222D7 /* APIHelper.swift in Sources */,
 				1BDF0E762461E1AE00C222D7 /* SIDPasswordlessSignature.swift in Sources */,
 				1BDF0EF82461E99D00C222D7 /* StoryProfileDTO.swift in Sources */,
@@ -627,6 +662,7 @@
 				1BDF0E7B2461E1E300C222D7 /* SIDPasswordFlowModel.swift in Sources */,
 				1BDF0EE72461E99C00C222D7 /* ServiceViewModel.swift in Sources */,
 				1BDF0EEA2461E99C00C222D7 /* StorySNILS.swift in Sources */,
+				1BA322652465E2F30009AE36 /* IDContentProfile+CoreDataClass.swift in Sources */,
 				1BDF0F012461E99D00C222D7 /* CodeVerifyViewModel.swift in Sources */,
 				1BDF0EFE2461E99D00C222D7 /* ProblemDetails.swift in Sources */,
 				1BDF0EF32461E99C00C222D7 /* CreateApplicationViewModel.swift in Sources */,
@@ -646,6 +682,7 @@
 				1BDF0F042461E99D00C222D7 /* AppUserDTO.swift in Sources */,
 				1BDF0EF02461E99C00C222D7 /* StoryPasport.swift in Sources */,
 				1BDF0EFC2461E99D00C222D7 /* StorySNILSDTO.swift in Sources */,
+				1BA322672465E2F30009AE36 /* IDContentPasport+CoreDataClass.swift in Sources */,
 				1BDF0EED2461E99C00C222D7 /* StoryAppType.swift in Sources */,
 				1BDF0EE32461E99C00C222D7 /* Models.swift in Sources */,
 				1BDF0F082461E99D00C222D7 /* UserExistsRequestViewModel.swift in Sources */,
@@ -659,6 +696,7 @@
 				1BDF0F1E2461EC7E00C222D7 /* SIDServiceProtocol.swift in Sources */,
 				1BDF0F0C2461E99D00C222D7 /* ITNAPI.swift in Sources */,
 				1BDF0EE82461E99C00C222D7 /* StoryDemographics.swift in Sources */,
+				1BA3226A2465E2F30009AE36 /* IDContentDemographics+CoreDataClass.swift in Sources */,
 				1BDF0EE12461E99C00C222D7 /* AlamofireImplementations.swift in Sources */,
 				1BDF0F022461E99D00C222D7 /* Body3.swift in Sources */,
 				1BDF0EEE2461E99C00C222D7 /* StoryProfile.swift in Sources */,
@@ -674,10 +712,12 @@
 				1BDF0EFD2461E99D00C222D7 /* Body6.swift in Sources */,
 				1BDF0F0D2461E99D00C222D7 /* VerifyAPI.swift in Sources */,
 				1BDF0EE62461E99C00C222D7 /* StoryITNDTO.swift in Sources */,
+				1BA3226C2465E3070009AE36 /* SIDCoreDataProtocol.swift in Sources */,
 				1BDF0EE02461E99C00C222D7 /* JSONEncodingHelper.swift in Sources */,
 				1BDF0F1A2461E99D00C222D7 /* APIs.swift in Sources */,
 				1BDF0F122461E99D00C222D7 /* ProfileSNILSAPI.swift in Sources */,
 				1BDF0F1B2461E99D00C222D7 /* Extensions.swift in Sources */,
+				1BA322682465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift in Sources */,
 				1BDF0E8A2461E2F700C222D7 /* OAuth2+Token.swift in Sources */,
 				1BDF0E702461DFA100C222D7 /* SIDSettings.swift in Sources */,
 				1BDF0F002461E99D00C222D7 /* StoryITN.swift in Sources */,

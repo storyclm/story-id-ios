@@ -18,8 +18,8 @@ extension NSManagedObject {
 
     class func create<R: NSManagedObject>(userID: String? = NSManagedObject.userId) -> R {
         let result = R(context: self.context)
-        if let userId = userID {
-            result.setValue(userId, forKey: "userId")
+        if var userIdContainable = result as? SIDCoreDataUserIdContainable, let userId = userID {
+            userIdContainable.userId = userId
         }
         return result
     }
@@ -48,7 +48,7 @@ extension NSManagedObject {
         request.predicate = predicate
 
         do {
-            return try SIDCoreDataManager.instance.context.fetch(request)
+            return try self.context.fetch(request)
         } catch {
             print("Failed to fetch \(R.self)")
             return nil
@@ -62,10 +62,6 @@ extension NSManagedObject {
 
     func deleteModel() {
         NSManagedObject.context.delete(self)
-    }
-
-    func updateModifyBy() {
-        self.setValue(Date(), forKey: "modifiedAt")
     }
 
     // MARK: - Private

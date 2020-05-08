@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="IDContentBankAccount" representedClassName="IDContentBankAccount" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentBankAccount" representedClassName="IDContentBankAccount" syncable="YES" codeGenerationType="category">
         <attribute name="accountDescription" optional="YES" attributeType="String"/>
         <attribute name="bank" optional="YES" attributeType="String"/>
         <attribute name="bic" optional="YES" attributeType="String"/>
@@ -17,7 +17,7 @@
         <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="verifiedBy" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="IDContentDemographics" representedClassName="IDContentDemographics" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentDemographics" representedClassName="IDContentDemographics" syncable="YES" codeGenerationType="category">
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="gender" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -32,7 +32,7 @@
         <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="verifiedBy" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="IDContentITN" representedClassName="IDContentITN" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentITN" representedClassName="IDContentITN" syncable="YES" codeGenerationType="category">
         <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="itn" optional="YES" attributeType="String"/>
         <attribute name="mimeType" optional="YES" attributeType="String"/>
@@ -45,7 +45,7 @@
         <attribute name="verifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="verifiedBy" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="IDContentPasport" representedClassName="IDContentPasport" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentPasport" representedClassName="IDContentPasport" syncable="YES" codeGenerationType="category">
         <attribute name="code" optional="YES" attributeType="String"/>
         <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="issuedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -60,7 +60,7 @@
         <attribute name="verifiedBy" optional="YES" attributeType="String"/>
         <relationship name="pages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IDContentPasportPage" inverseName="pasport" inverseEntity="IDContentPasportPage"/>
     </entity>
-    <entity name="IDContentPasportPage" representedClassName="IDContentPasportPage" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentPasportPage" representedClassName="IDContentPasportPage" syncable="YES" codeGenerationType="category">
         <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="mimeType" optional="YES" attributeType="String"/>
         <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -69,7 +69,7 @@
         <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="pasport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="IDContentPasport" inverseName="pages" inverseEntity="IDContentPasport"/>
     </entity>
-    <entity name="IDContentProfile" representedClassName="IDContentProfile" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentProfile" representedClassName="IDContentProfile" syncable="YES" codeGenerationType="category">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="createdBy" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -83,7 +83,7 @@
         <attribute name="userId" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="IDContentSNILS" representedClassName="IDContentSNILS" syncable="YES" codeGenerationType="class">
+    <entity name="IDContentSNILS" representedClassName="IDContentSNILS" syncable="YES" codeGenerationType="category">
         <attribute name="isEntityDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="mimeType" optional="YES" attributeType="String"/>
         <attribute name="modifiedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

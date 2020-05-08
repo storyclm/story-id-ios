@@ -25,39 +25,50 @@ public class SIDProfileItnService: SIDServiceProtocol {
             } else if let serverItn = serverItn {
                 let localItn = self.itn()
 
-                guard SIDServiceHelper.isDataUpdate(localDate: localItn?.modifiedAt, serverDate: serverItn.modifiedAt) == false else {
+                let updateBehaviour = SIDServiceHelper.updateBehaviour(localModel: localItn, serverDate: serverItn.modifiedAt)
+                switch updateBehaviour {
+                case .update:
+                    self.updateLocalModel(localItn, with: serverItn)
                     complete(error: nil)
-                    return
-                }
-
-                if let localItn = localItn {
-                    if let lModifiedAt = localItn.modifiedAt, let sModifiedAt = serverItn.modifiedAt, lModifiedAt > sModifiedAt {
-                        self.updateLocalModel(localItn, with: serverItn)
+                case .send:
+                    if let itn = localItn?.itn {
+                        self.sendItn(itn) { _, error in
+                            completion(error?.asServiceError)
+                        }
                     }
-                } else {
-                    let newModel: IDContentITN = IDContentITN.create()
-                    self.updateLocalModel(newModel, with: serverItn)
+                case .skip:
+                    complete(error: nil)
                 }
-
-                complete(error: nil)
             } else {
                 complete(error: nil)
             }
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentITN, with serverModel: StoryITN) {
-        localModel.itn = serverModel.itn
+    private func updateLocalModel(_ localModel: IDContentITN?, with serverModel: StoryITN, isCreateIfNeeded: Bool = true) {
+        var localModel = localModel
+        if isCreateIfNeeded, localModel == nil {
+            localModel = IDContentITN.create()
+        }
 
-        localModel.isEntityDeleted = false
-        localModel.profileId = serverModel.profileId
-        localModel.modifiedAt = serverModel.modifiedAt
-        localModel.modifiedBy = serverModel.modifiedBy
-        localModel.verified = serverModel.verified ?? false
-        localModel.verifiedAt = serverModel.verifiedAt
-        localModel.verifiedBy = serverModel.verifiedBy
+        guard let lModel = localModel else { return }
+
+        lModel.itn = serverModel.itn
+
+        lModel.isEntityDeleted = false
+        lModel.profileId = serverModel.profileId
+        lModel.modifiedAt = serverModel.modifiedAt
+        lModel.modifiedBy = serverModel.modifiedBy
+        lModel.verified = serverModel.verified ?? false
+        lModel.verifiedAt = serverModel.verifiedAt
+        lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    private func sendItn(_ itn: String?, completion: @escaping (StoryITN?, Error?) -> Void) {
+        let body = StoryITNDTO(itn: itn)
+        ProfileITNAPI.setItn(body: body, completion: completion)
     }
 
     private func clearDeleted() {
@@ -68,7 +79,7 @@ public class SIDProfileItnService: SIDServiceProtocol {
         var deletedModels: [IDContentITN] = []
         for model in modelsForDeletion {
             serverGroup.enter()
-            ProfileITNAPI.setItn(body: StoryITNDTO(itn: nil)) { _, error in
+            self.sendItn(nil) { _, error in
                 if error == nil {
                     deletedModels.append(model)
                 }
@@ -99,7 +110,7 @@ public class SIDProfileItnService: SIDServiceProtocol {
     }
 
     public func deleteItn() {
-        self.itn()?.deleteModel()
+        self.itn()?.isEntityDeleted = true
         self.deleteItnImage()
         SIDCoreDataManager.instance.saveContext()
     }
@@ -113,7 +124,7 @@ public class SIDProfileItnService: SIDServiceProtocol {
     public func setItnImage(_ image: UIImage?) {
         if let image = image {
             SIDImageManager.saveImage(image, name: itnImageName)
-            self.itn()?.updateModifyBy()
+            try? self.itn()?.updateModifyAt()
         } else {
             self.deleteItnImage()
         }
@@ -121,6 +132,6 @@ public class SIDProfileItnService: SIDServiceProtocol {
 
     public func deleteItnImage() {
         SIDImageManager.deleteImage(name: itnImageName)
-        self.itn()?.updateModifyBy()
+        try? self.itn()?.updateModifyAt()
     }
 }
