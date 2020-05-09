@@ -34,8 +34,8 @@
 		1BAC274C24558D1800D0A432 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC274B24558D1800D0A432 /* BaseNavigationController.swift */; };
 		1BAC274E24558FF500D0A432 /* ProfileMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC274D24558FF500D0A432 /* ProfileMainViewController.swift */; };
 		1BAC27582455A40F00D0A432 /* DemographicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27572455A40F00D0A432 /* DemographicsViewController.swift */; };
-		1BAC275E2455A5F000D0A432 /* TitleFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC275D2455A5F000D0A432 /* TitleFieldCell.swift */; };
-		1BAC27602455A6CA00D0A432 /* TitleFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BAC275F2455A6CA00D0A432 /* TitleFieldCell.xib */; };
+		1BAC275E2455A5F000D0A432 /* MaskedTitleFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC275D2455A5F000D0A432 /* MaskedTitleFieldCell.swift */; };
+		1BAC27602455A6CA00D0A432 /* MaskedTitleFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BAC275F2455A6CA00D0A432 /* MaskedTitleFieldCell.xib */; };
 		1BAC27622455AF3F00D0A432 /* ItnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27612455AF3F00D0A432 /* ItnViewController.swift */; };
 		1BAC27642455B00B00D0A432 /* SnilsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27632455B00B00D0A432 /* SnilsViewController.swift */; };
 		1BAC27662455BB6300D0A432 /* PasportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27652455BB6300D0A432 /* PasportViewController.swift */; };
@@ -91,8 +91,8 @@
 		1BAC274D24558FF500D0A432 /* ProfileMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainViewController.swift; sourceTree = "<group>"; };
 		1BAC27572455A40F00D0A432 /* DemographicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemographicsViewController.swift; sourceTree = "<group>"; };
 		1BAC27592455A50400D0A432 /* BaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormViewController.swift; sourceTree = "<group>"; };
-		1BAC275D2455A5F000D0A432 /* TitleFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleFieldCell.swift; sourceTree = "<group>"; };
-		1BAC275F2455A6CA00D0A432 /* TitleFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleFieldCell.xib; sourceTree = "<group>"; };
+		1BAC275D2455A5F000D0A432 /* MaskedTitleFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedTitleFieldCell.swift; sourceTree = "<group>"; };
+		1BAC275F2455A6CA00D0A432 /* MaskedTitleFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MaskedTitleFieldCell.xib; sourceTree = "<group>"; };
 		1BAC27612455AF3F00D0A432 /* ItnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItnViewController.swift; sourceTree = "<group>"; };
 		1BAC27632455B00B00D0A432 /* SnilsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnilsViewController.swift; sourceTree = "<group>"; };
 		1BAC27652455BB6300D0A432 /* PasportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasportViewController.swift; sourceTree = "<group>"; };
@@ -316,11 +316,11 @@
 		1BAC2751245593BA00D0A432 /* TextFields */ = {
 			isa = PBXGroup;
 			children = (
-				1BAC273D2454DA4900D0A432 /* MaskTextField.swift */,
 				1BAC273F2454DA4900D0A432 /* PaddedTextField.swift */,
+				1BAC273E2454DA4900D0A432 /* TextField.swift */,
+				1BAC273D2454DA4900D0A432 /* MaskTextField.swift */,
 				1BAC273B2454D92F00D0A432 /* PhoneTextField.swift */,
 				1BAC27492455865000D0A432 /* SMSTextField.swift */,
-				1BAC273E2454DA4900D0A432 /* TextField.swift */,
 			);
 			path = TextFields;
 			sourceTree = "<group>";
@@ -328,8 +328,8 @@
 		1BAC275C2455A5DC00D0A432 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1BAC275F2455A6CA00D0A432 /* TitleFieldCell.xib */,
-				1BAC275D2455A5F000D0A432 /* TitleFieldCell.swift */,
+				1BAC275F2455A6CA00D0A432 /* MaskedTitleFieldCell.xib */,
+				1BAC275D2455A5F000D0A432 /* MaskedTitleFieldCell.swift */,
 				1BC6C1472456FA9600D84956 /* AvatarCell.swift */,
 			);
 			path = Cells;
@@ -428,7 +428,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BAC27602455A6CA00D0A432 /* TitleFieldCell.xib in Resources */,
+				1BAC27602455A6CA00D0A432 /* MaskedTitleFieldCell.xib in Resources */,
 				1BAC270D2452FDC100D0A432 /* LaunchScreen.storyboard in Resources */,
 				1BAC271A2453016000D0A432 /* Localizable.strings in Resources */,
 				1BA3224F246421DC0009AE36 /* AppProperties.plist in Resources */,
@@ -518,7 +518,7 @@
 				1BAC27412454DA4900D0A432 /* TextField.swift in Sources */,
 				1BAC27822456207000D0A432 /* DataStorage.swift in Sources */,
 				1BA3225524643F0B0009AE36 /* BaseViewController.swift in Sources */,
-				1BAC275E2455A5F000D0A432 /* TitleFieldCell.swift in Sources */,
+				1BAC275E2455A5F000D0A432 /* MaskedTitleFieldCell.swift in Sources */,
 				1BAC274E24558FF500D0A432 /* ProfileMainViewController.swift in Sources */,
 				1BAC27422454DA4900D0A432 /* PaddedTextField.swift in Sources */,
 				1BAC27402454DA4900D0A432 /* MaskTextField.swift in Sources */,

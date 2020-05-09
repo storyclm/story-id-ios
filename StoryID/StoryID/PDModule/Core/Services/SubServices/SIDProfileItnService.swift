@@ -54,6 +54,8 @@ public class SIDProfileItnService: SIDServiceProtocol {
         guard let lModel = localModel else { return }
 
         lModel.itn = serverModel.itn
+        lModel.size = serverModel.size ?? 0
+        lModel.mimeType = serverModel.mimeType
 
         lModel.isEntityDeleted = false
         lModel.profileId = serverModel.profileId

@@ -19,15 +19,24 @@ final class SnilsViewController: BaseFormViewController {
 
     override func setupTableView() {
         super.setupTableView()
+        
+        let snilsRow = self.createMaskedTitleFieldRow(title: "profile_snils_number".loco,
+                                                      primaryMaskFormat: "[000]-[000]-[000] [00]",
+                                                      onValidate: {
+                                                        $0?.count ?? 0 == 11
 
-        let snilsRow = self.createTitleFieldRow(title: "profile_snils_number".loco, configure: { [unowned self] row in
-            row.text = self.viewModel.snils
-        }, onTextChanged: { [unowned self] snils in
-            self.viewModel.snils = snils
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.snils
+            row.cell.textField.keyboardType = UIKeyboardType.numberPad
+            row.cell.textField.placeholder = "profile_snils_number_placeholder".loco
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.snils = value
         })
-
-        let snilsImageRow = self.createTitleImageRow(title: "profile_snils_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in
-            self.viewModel.snilsImage
+        
+        let snilsImageRow = self.createTitleImageRow(title: "profile_snils_image".loco,
+                                                     configure: nil,
+                                                     onImageRequest: { [unowned self] () -> UIImage? in
+                                                        self.viewModel.snilsImage
         }, onImageSelected: { [unowned self] image in
             self.viewModel.snilsImage = image
         })

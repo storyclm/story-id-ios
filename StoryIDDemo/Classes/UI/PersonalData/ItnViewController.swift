@@ -20,13 +20,20 @@ final class ItnViewController: BaseFormViewController {
     override func setupTableView() {
         super.setupTableView()
 
-        let itnRow = self.createTitleFieldRow(title: "profile_itn_number".loco, configure: { [unowned self] row in
-            row.text = self.viewModel.itn
-        }) { [unowned self] itn in
-            self.viewModel.itn = itn
+        let itnRow = self.createMaskedTitleFieldRow(title: "profile_itn_number".loco,
+                                                    primaryMaskFormat: "[000000000099]",
+                                                    onValidate: { value in
+                                                        let count = value?.count ?? 0
+                                                        return count == 10 || count == 12
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.itn
+            row.cell.textField.keyboardType = UIKeyboardType.numberPad
+            row.cell.textField.placeholder = "profile_itn_number_placeholder".loco
+        }) { [unowned self] text, value in
+            self.viewModel.itn = value
         }
 
-        let itnImageRow = self.createTitleImageRow(title: "profile_itn_image".loco, configure: nil, onImageRequest: {[unowned self] () -> UIImage? in
+        let itnImageRow = self.createTitleImageRow(title: "profile_itn_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in
             self.viewModel.itnImage
         }, onImageSelected: { [unowned self] image in
             self.viewModel.itnImage = image

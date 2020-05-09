@@ -21,7 +21,8 @@ protocol ValidatedField {
 }
 
 extension ValidatedField {
-    
+
+    @discardableResult
     func checkValidation() -> Bool {
         let check = validateObject?(validatedObject) ?? true
         if let updateValidState = updateValidState, isWrongInput {
@@ -52,12 +53,8 @@ class TextField: PaddedTextField, ValidatedField {
     var shouldReturn: (() -> Void)?
     
     var value: String? {
-        get {
-            return text?.notEmptyValue
-        }
-        set {
-            text = newValue
-        }
+        get { return text?.notEmptyValue }
+        set { text = newValue }
     }
     
     var isWrongInput: Bool = false
@@ -79,7 +76,7 @@ class TextField: PaddedTextField, ValidatedField {
             return obj?.notEmptyValue != nil
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -88,7 +85,7 @@ class TextField: PaddedTextField, ValidatedField {
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        _ = checkValidation()
+        checkValidation()
     }
 }
 

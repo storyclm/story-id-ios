@@ -59,13 +59,13 @@ final class AvatarCell: FormCell {
     }
 }
 
-class AvatarlRowFormer<T: AvatarCell>: BaseRowFormer<T>, Formable {
+class AvatarlRowFormer: BaseRowFormer<AvatarCell>, Formable {
 
     // MARK: Public
 
     open var avatarImage: UIImage?
 
-    public required init(instantiateType: Former.InstantiateType = .Class, cellSetup: ((T) -> Void)? = nil) {
+    public required init(instantiateType: Former.InstantiateType = .Class, cellSetup: ((AvatarCell) -> Void)? = nil) {
         super.init(instantiateType: instantiateType, cellSetup: cellSetup)
     }
 

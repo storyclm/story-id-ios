@@ -20,10 +20,15 @@ final class PasportViewController: BaseFormViewController {
     override func setupTableView() {
         super.setupTableView()
 
-        let pasportRow = self.createTitleFieldRow(title: "profile_pasport_number".loco, configure: { [unowned self] row in
-            row.text = self.viewModel.sn
-        }, onTextChanged: { [unowned self] sn in
-            self.viewModel.sn = sn
+        let pasportRow = self.createMaskedTitleFieldRow(title: "profile_pasport_number".loco,
+                                                        primaryMaskFormat: "[00] [00] [000000]",
+                                                        onValidate: { $0?.count ?? 0 == 10 },
+                                                        configure: { [unowned self] row in
+                                                            row.value = self.viewModel.sn
+                                                            row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                            row.cell.textField.placeholder = "profile_pasport_number_placeholder".loco
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.sn = value
         })
 
         let pasportFirstImageRow = self.createTitleImageRow(title: "profile_pasport_first_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in

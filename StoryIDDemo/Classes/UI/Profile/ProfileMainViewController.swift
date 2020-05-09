@@ -40,7 +40,7 @@ final class ProfileMainViewController: BaseFormViewController {
             }
         }
 
-        let avatar = AvatarlRowFormer<AvatarCell>(cellSetup: { _ in
+        let avatar = AvatarlRowFormer(cellSetup: { _ in
 
         }).configure {
             $0.cell.avatarView.isUserInteractionEnabled = false

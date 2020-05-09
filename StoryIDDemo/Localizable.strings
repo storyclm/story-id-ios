@@ -69,16 +69,22 @@
 "profile_demographics_title" = "Персональные данные";
 "profile_demographics_section" = "Персональные данные";
 "profile_demographics_surname" = "Фамилия";
+"profile_demographics_surname_placeholder" = "Иванов";
 "profile_demographics_name" = "Имя";
+"profile_demographics_name_placeholder" = "Иван";
 "profile_demographics_patronymic" = "Отчество";
+"profile_demographics_patronymic_placeholder" = "Иванович";
 "profile_demographics_phone_number" = "Номер телефона";
+"profile_demographics_phone_number_placeholder" = "+7 (XXX) XXX-XX-XX";
 "profile_demographics_email" = "E-Mail";
+"profile_demographics_email_placeholder" = "user@company.com";
 
 // MARK: * ITN
 
 "profile_itn_title" = "ИНН";
 "profile_itn_section" = "ИНН";
 "profile_itn_number" = "Номер";
+"profile_itn_number_placeholder" = "1234567890";
 "profile_itn_image" = "Фото ИНН";
 
 // MARK: * SNILS
@@ -86,6 +92,7 @@
 "profile_snils_title" = "СНИЛС";
 "profile_snils_section" = "СНИЛС";
 "profile_snils_number" = "Номер";
+"profile_snils_number_placeholder" = "123-456-789 01";
 "profile_snils_image" = "Фото СНИЛС";
 
 // MARK: * Pasport
@@ -93,6 +100,7 @@
 "profile_pasport_title" = "Паспорт";
 "profile_pasport_section" = "Паспорт";
 "profile_pasport_number" = "Номер и серия";
+"profile_pasport_number_placeholder" = "12 34 567890";
 "profile_pasport_first_image" = "Фото паспорта (1 стр)";
 "profile_pasport_second_image" = "Фото паспорта (3-4 стр)";
 
@@ -110,8 +118,11 @@
 "bank_account_edit_edit_title" = "Изменение аккаунта";
 "bank_account_edit_account_name" = "Название аккаунта";
 "bank_account_edit_bik" = "БИК";
+"bank_account_edit_bik_placeholder" = "12-34-56-789";
 "bank_account_edit_bank_name" = "Наименование банка";
 "bank_account_edit_correspondent" = "Корреспондентский счет";
+"bank_account_edit_correspondent_placeholder" = "123-45-678-9-01234567-890";
 "bank_account_edit_settlement" = "Расчетный счет";
+"bank_account_edit_settlement_placeholder" = "123-45-678-8-901234567890";
 "bank_account_edit_alert_title" = "Внимание";
 "bank_account_edit_alert_text" = "Поле \"Название аккаунта\" не должно быть пустым";

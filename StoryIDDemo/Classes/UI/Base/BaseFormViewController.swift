@@ -74,20 +74,37 @@ class BaseFormViewController: FormViewController {
 
     // MARK: - Rows
 
-    func createTitleFieldRow(title: String?,
-                             configure: ((TextFieldRowFormer<TitleFieldCell>) -> Void)?,
-                             onTextChanged: ((String) -> Void)?) -> TextFieldRowFormer<TitleFieldCell> {
-        TextFieldRowFormer<TitleFieldCell>(instantiateType: Former.InstantiateType.Nib(nibName: "TitleFieldCell")) { cell in
+    func createMaskedTitleFieldRow(title: String?,
+                                   primaryMaskFormat: String? = nil,
+                                   affineFormats: [String]? = nil,
+                                   onValidate: ((String?) -> Bool)? = nil,
+                                   configure: ((MaskedTitleFieldRowFormer) -> Void)?,
+                                   onTextChanged: ((String, String?) -> Void)?) -> MaskedTitleFieldRowFormer {
+
+        MaskedTitleFieldRowFormer { cell in
             cell.backgroundColor = UIColor.idWhite95.withAlphaComponent(0.92)
             cell.contentView.backgroundColor = cell.backgroundColor
 
             cell.titleLabel.text = title
             cell.titleLabel.textColor = UIColor.idBlack.withAlphaComponent(0.4)
             cell.titleLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.regular)
+
+            cell.textField.validateObject = { value in
+                return (onValidate?(value) ?? true)
+            }
+
+            if let primaryMaskFormat = primaryMaskFormat {
+                cell.textField.maskedDelegate.primaryMaskFormat = primaryMaskFormat
+            }
+            if let affineFormats = affineFormats {
+                cell.textField.maskedDelegate.affineFormats = affineFormats
+            }
         }.configure {
             configure?($0)
-        }.onTextChanged {
-            onTextChanged?($0)
+            $0.cell.textField.isWrongInput = true
+            $0.cell.textField.checkValidation()
+        }.onTextChanged { text, value in
+            onTextChanged?(text, value)
         }
     }
 

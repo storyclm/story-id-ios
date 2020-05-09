@@ -38,42 +38,62 @@ final class BankAccountEditViewController: BaseFormViewController {
     override func setupTableView() {
         super.setupTableView()
 
-        let nameRow = self.createTitleFieldRow(title: nil, configure: {[unowned self] row in
+        let nameRow = self.createMaskedTitleFieldRow(title: nil, configure: { [unowned self] row in
             row.text = self.viewModel.accountName
-        }, onTextChanged: {[unowned self] newName in
-            self.viewModel.accountName = newName
+        }, onTextChanged: { [unowned self] text, value in
+                self.viewModel.accountName = value
         })
 
         let nameSection = SectionFormer(rowFormer: nameRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_account_name".loco))
 
-        let bicRow = self.createTitleFieldRow(title: nil, configure: {[unowned self] row in
-            row.text = self.viewModel.bic
-        }, onTextChanged: {[unowned self] newBic in
-            self.viewModel.bic = newBic
+        let bicRow = self.createMaskedTitleFieldRow(title: nil,
+                                                    primaryMaskFormat: "[00]-[00]-[00]-[000]",
+                                                    onValidate: { $0?.count ?? 0 == 9 },
+                                                    configure: { [unowned self] row in
+                                                        row.value = self.viewModel.bic
+                                                        row.cell.textField.placeholder = "bank_account_edit_bik_placeholder".loco
+                                                        row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                        row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.sentences
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.bic = value
         })
 
         let bicSection = SectionFormer(rowFormer: bicRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_bik".loco))
 
-        let bankNameRow = self.createTitleFieldRow(title: nil, configure: {[unowned self] row in
-            row.text = self.viewModel.bankName
-        }, onTextChanged: {[unowned self] newBankName in
-            self.viewModel.bankName = newBankName
+        let bankNameRow = self.createMaskedTitleFieldRow(title: nil,
+                                                         configure: { [unowned self] row in
+                                                            row.value = self.viewModel.bankName
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.bankName = value
         })
 
         let bankSection = SectionFormer(rowFormer: bankNameRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_bank_name".loco))
 
-        let correspondentRow = self.createTitleFieldRow(title: nil, configure: {[unowned self] row in
-            row.text = self.viewModel.correspondentAccount
-        }, onTextChanged: {[unowned self] newCorrespondent in
-            self.viewModel.correspondentAccount = newCorrespondent
+        let correspondentRow = self.createMaskedTitleFieldRow(title: nil,
+                                                              primaryMaskFormat: "[000]-[00]-[000]-[0]-[0000]-[0000000]",
+                                                              onValidate: { $0?.count ?? 0 == 20 },
+                                                              configure: { [unowned self] row in
+                                                                row.value = self.viewModel.correspondentAccount
+                                                                row.cell.textField.placeholder = "bank_account_edit_correspondent_placeholder".loco
+                                                                row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                                row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.sentences
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.correspondentAccount = value
         })
 
         let correspondentSection = SectionFormer(rowFormer: correspondentRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_correspondent".loco))
 
-        let settlementRow = self.createTitleFieldRow(title: nil, configure: {[unowned self] row in
-            row.text = self.viewModel.settlementAccount
-        }, onTextChanged: {[unowned self] newSettlement in
-            self.viewModel.settlementAccount = newSettlement
+        let settlementRow = self.createMaskedTitleFieldRow(title: nil,
+                                                           primaryMaskFormat: "[000]-[00]-[000]-[0]-[0000]-[0000000]",
+                                                           onValidate: { $0?.count ?? 0 == 20 },
+                                                           configure: { [unowned self] row in
+                                                            row.value = self.viewModel.settlementAccount
+
+                                                            row.cell.textField.placeholder = "bank_account_edit_settlement_placeholder".loco
+                                                            row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.sentences
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.settlementAccount = value
         })
 
         let settlementSection = SectionFormer(rowFormer: settlementRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_settlement".loco))

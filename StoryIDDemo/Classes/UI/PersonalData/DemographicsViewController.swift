@@ -20,34 +20,67 @@ final class DemographicsViewController: BaseFormViewController {
     override func setupTableView() {
         super.setupTableView()
 
-        let surnameRow = self.createTitleFieldRow(title: "profile_demographics_surname".loco, configure: {[unowned self] cell in
-            cell.text = self.viewModel.surname
-        }, onTextChanged: {[unowned self] surname in
-            self.viewModel.surname = surname
+        let surnameRow = self.createMaskedTitleFieldRow(title: "profile_demographics_surname".loco,
+                                                        primaryMaskFormat: "[AA…]",
+                                                        onValidate: {
+                                                            $0?.count ?? 0 >= 2
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.surname
+            row.cell.textField.placeholder = "profile_demographics_surname_placeholder".loco
+            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.surname = value
         })
 
-        let nameRow = self.createTitleFieldRow(title: "profile_demographics_name".loco, configure: {[unowned self] cell in
-            cell.text = self.viewModel.name
-        }, onTextChanged: {[unowned self] name in
-            self.viewModel.name = name
+        let nameRow = self.createMaskedTitleFieldRow(title: "profile_demographics_name".loco,
+                                                     primaryMaskFormat: "[AA…]",
+                                                     onValidate: {
+                                                        $0?.count ?? 0 >= 2
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.name
+            row.cell.textField.placeholder = "profile_demographics_name_placeholder".loco
+            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.name = value
         })
 
-        let patronymicRow = self.createTitleFieldRow(title: "profile_demographics_patronymic".loco, configure: {[unowned self] cell in
-            cell.text = self.viewModel.patronymic
-        }, onTextChanged: {[unowned self] patronymic in
-            self.viewModel.patronymic = patronymic
+        let patronymicRow = self.createMaskedTitleFieldRow(title: "profile_demographics_patronymic".loco,
+                                                           primaryMaskFormat: "[AA…]",
+                                                           onValidate: {
+                                                            $0?.count ?? 0 >= 2
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.patronymic
+            row.cell.textField.placeholder = "profile_demographics_patronymic_placeholder".loco
+            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.patronymic = value
+        })
+        
+        let phoneNumberRow = self.createMaskedTitleFieldRow(title: "profile_demographics_phone_number".loco,
+                                                            primaryMaskFormat: "+7 ([000]) [000]-[00]-[00]",
+                                                            affineFormats: ["8 ([000]) [000]-[00]-[00]"],
+                                                            onValidate: {
+                                                                $0?.count ?? 0 == 10
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.phoneNumber
+            row.cell.textField.placeholder = "profile_demographics_phone_number_placeholder".loco
+            row.cell.textField.keyboardType = UIKeyboardType.phonePad
+            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.none
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.phoneNumber = value
         })
 
-        let phoneNumberRow = self.createTitleFieldRow(title: "profile_demographics_phone_number".loco, configure: {[unowned self] cell in
-            cell.text = self.viewModel.phoneNumber
-        }, onTextChanged: {[unowned self] phone in
-            self.viewModel.phoneNumber = phone
-        })
-
-        let emailRow = self.createTitleFieldRow(title: "profile_demographics_email".loco, configure: {[unowned self] cell in
-            cell.text = self.viewModel.email
-        }, onTextChanged: {[unowned self] email in
-            self.viewModel.email = email
+        let emailRow = self.createMaskedTitleFieldRow(title: "profile_demographics_email".loco,
+                                                      primaryMaskFormat: "[_…]@[_…].[_…]",
+                                                      onValidate: { value in
+                                                        value?.count ?? 0 >= 5
+        }, configure: { [unowned self] row in
+            row.value = self.viewModel.email
+            row.cell.textField.placeholder = "profile_demographics_email_placeholder".loco
+            row.cell.textField.keyboardType = UIKeyboardType.emailAddress
+            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.none
+        }, onTextChanged: { [unowned self] text, value in
+            self.viewModel.email = value
         })
 
         let demographicsSection = SectionFormer(rowFormer: surnameRow, nameRow, patronymicRow, phoneNumberRow, emailRow)

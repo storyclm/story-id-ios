@@ -10,7 +10,7 @@ import UIKit
 import InputMask
 
 class MaskTextField: TextField {
-    
+
     override var validatedObject: String? {
         return _value
     }
@@ -19,9 +19,7 @@ class MaskTextField: TextField {
     
     private var _value: String?
     override var value: String? {
-        get {
-            return _value?.notEmptyValue
-        }
+        get { return _value?.notEmptyValue }
         set {
             _value = nil
             if let newValue = newValue {
@@ -52,6 +50,6 @@ extension MaskTextField: MaskedTextFieldDelegateListener {
             sendActions(for: .editingChanged)
         }
         
-        _ = checkValidation()
+        checkValidation()
     }
 }
