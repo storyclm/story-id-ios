@@ -121,7 +121,7 @@ final class AuthManager {
         }
     }
 
-    var isLogin: Bool {
+    var isLogined: Bool {
            self.adapter?.clientConfig.accessToken != nil
        }
 

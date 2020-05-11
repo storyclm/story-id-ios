@@ -28,8 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupStoryId() {
         let properties = AppPropertiesManager.instance
 
-        SIDSettings.instance.cryptoPassword = properties.cryptoPassword
-        SIDSettings.instance.cryptoSalt = properties.cryptoSalt
         SIDSettings.instance.isRemoveImageAtSync = false
+        
+        SIDSettings.instance.cryptSettings.password = properties.cryptoPassword
+        SIDSettings.instance.cryptSettings.salt = properties.cryptoSalt
+        SIDSettings.instance.cryptSettings.isCryptImages = false
+        SIDSettings.instance.cryptSettings.isCryptDBValues = false
     }
 }

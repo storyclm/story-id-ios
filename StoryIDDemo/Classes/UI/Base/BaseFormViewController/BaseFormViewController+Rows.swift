@@ -1,81 +1,18 @@
 //
-//  BaseFormViewController.swift
+//  BaseFormViewController+Rows.swift
 //  StoryIDDemo
 //
-//  Created by Sergey Ryazanov on 27.04.2020.
+//  Created by Sergey Ryazanov on 11.05.2020.
 //  Copyright © 2020 breffi. All rights reserved.
 //
 
+import Foundation
 import Former
 
-class BaseFormViewController: FormViewController {
-
-    private var titleLabel: UILabel?
-
-    private let imagePicker = ImagePickerController()
-    private let imagePreview = ImagePreviewController()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.createTitleLabel()
-
-        self.view.backgroundColor = UIColor.idWhite
-
-        if isCancelButtonVisible {
-            let cancelButton = UIBarButtonItem(title: "global_cancel".loco, style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelButtonAction(_:)))
-            cancelButton.tintColor = UIColor.idWhite
-            self.navigationItem.leftBarButtonItem = cancelButton
-        }
-
-        if isSaveButtonVisible {
-            let saveButton = UIBarButtonItem(title: "global_save".loco, style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveButtonAction(_:)))
-            saveButton.tintColor = UIColor.idWhite
-            self.navigationItem.rightBarButtonItem = saveButton
-        }
-
-        self.setupTableView()
-    }
-
-    func setupTableView() {}
-    func onSave() {}
-
-    var isSaveButtonVisible: Bool { true }
-    var isCancelButtonVisible: Bool { true }
-
-    // MARK: - Title label
-
-    private func createTitleLabel() {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.numberOfLines = 2
-        label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        label.textAlignment = NSTextAlignment.center
-        label.textColor = UIColor.idWhite
-
-        self.navigationItem.titleView = label
-        self.titleLabel = label
-    }
-
-    override var title: String? {
-        set { self.titleLabel?.text = newValue }
-        get { self.titleLabel?.text }
-    }
-
-    // MARK: - Action
-
-    @objc private func saveButtonAction(_ sender: UIBarButtonItem) {
-        self.onSave()
-    }
-
-    @objc func cancelButtonAction(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
-    }
-
-    // MARK: - Rows
+extension BaseFormViewController {
 
     func createMaskedTitleFieldRow(title: String?,
-                                   primaryMaskFormat: String? = nil,
+                                   primaryMaskFormat: String,
                                    affineFormats: [String]? = nil,
                                    onValidate: ((String?) -> Bool)? = nil,
                                    configure: ((MaskedTitleFieldRowFormer) -> Void)?,
@@ -93,9 +30,7 @@ class BaseFormViewController: FormViewController {
                 return (onValidate?(value) ?? true)
             }
 
-            if let primaryMaskFormat = primaryMaskFormat {
-                cell.textField.maskedDelegate.primaryMaskFormat = primaryMaskFormat
-            }
+            cell.textField.maskedDelegate.primaryMaskFormat = primaryMaskFormat
             if let affineFormats = affineFormats {
                 cell.textField.maskedDelegate.affineFormats = affineFormats
             }
@@ -105,6 +40,24 @@ class BaseFormViewController: FormViewController {
             $0.cell.textField.checkValidation()
         }.onTextChanged { text, value in
             onTextChanged?(text, value)
+        }
+    }
+
+    func createSimpleTitleFieldRow(title: String?,
+                                   configure: ((SimpleTitleFieldRowFormer) -> Void)?,
+                                   onTextChanged: ((String) -> Void)?) -> SimpleTitleFieldRowFormer {
+
+        SimpleTitleFieldRowFormer { cell in
+            cell.backgroundColor = UIColor.idWhite95.withAlphaComponent(0.92)
+            cell.contentView.backgroundColor = cell.backgroundColor
+
+            cell.titleLabel.text = title
+            cell.titleLabel.textColor = UIColor.idBlack.withAlphaComponent(0.4)
+            cell.titleLabel.font = UIFont.systemFont(ofSize: 17.0, weight: UIFont.Weight.regular)
+        }.configure {
+            configure?($0)
+        }.onTextChanged {
+            onTextChanged?($0)
         }
     }
 
@@ -234,4 +187,5 @@ class BaseFormViewController: FormViewController {
             onDelete()
         })
     }
+    
 }

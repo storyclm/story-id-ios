@@ -19,7 +19,7 @@ final class BankAccountEditViewController: BaseFormViewController {
             self.viewModel = viewModel
             self.isNewAccount = false
         } else {
-            self.viewModel = BankAccountModel()
+            self.viewModel = BankAccountModel(with: nil)
             self.isNewAccount = true
         }
         self.completion = completion
@@ -38,10 +38,10 @@ final class BankAccountEditViewController: BaseFormViewController {
     override func setupTableView() {
         super.setupTableView()
 
-        let nameRow = self.createMaskedTitleFieldRow(title: nil, configure: { [unowned self] row in
+        let nameRow = self.createSimpleTitleFieldRow(title: nil, configure: { [unowned self] row in
             row.text = self.viewModel.accountName
-        }, onTextChanged: { [unowned self] text, value in
-                self.viewModel.accountName = value
+        }, onTextChanged: { [unowned self] text in
+            self.viewModel.accountName = text
         })
 
         let nameSection = SectionFormer(rowFormer: nameRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_account_name".loco))
@@ -60,11 +60,11 @@ final class BankAccountEditViewController: BaseFormViewController {
 
         let bicSection = SectionFormer(rowFormer: bicRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_bik".loco))
 
-        let bankNameRow = self.createMaskedTitleFieldRow(title: nil,
+        let bankNameRow = self.createSimpleTitleFieldRow(title: nil,
                                                          configure: { [unowned self] row in
-                                                            row.value = self.viewModel.bankName
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.bankName = value
+                                                            row.text = self.viewModel.bankName
+        }, onTextChanged: { [unowned self] text in
+            self.viewModel.bankName = text
         })
 
         let bankSection = SectionFormer(rowFormer: bankNameRow).set(headerViewFormer: self.createHeader(text: "bank_account_edit_bank_name".loco))
@@ -108,9 +108,9 @@ final class BankAccountEditViewController: BaseFormViewController {
         super.cancelButtonAction(sender)
     }
 
-    override func onSave() {
+    override func onSave(success: Bool) {
         if self.isAccountNameFilled() {
-            super.onSave()
+            super.onSave(success: success)
             completion(viewModel)
             self.navigationController?.popViewController(animated: true)
         } else {

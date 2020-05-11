@@ -16,8 +16,8 @@ final class PincodeService {
 
     static let instance = PincodeService()
 
-    private init?() {
-        guard let id = Identifier(nonEmpty: "StoryID") else { return nil }
+    private init() {
+        let id = Identifier(nonEmpty: "StoryID")!
         self.valet = Valet.valet(with: id, accessibility: Accessibility.whenUnlockedThisDeviceOnly)
     }
 

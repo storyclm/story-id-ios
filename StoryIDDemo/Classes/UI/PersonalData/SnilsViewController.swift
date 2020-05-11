@@ -10,11 +10,18 @@ import Former
 
 final class SnilsViewController: BaseFormViewController {
 
-    private let viewModel = DataStorage.instance.snils ?? SnilsModel(with: nil)
+    private var viewModel: SnilsModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "profile_snils_title".loco
+    }
+
+    override func loadViewModel() {
+        DataStorage.instance.snils {[weak self] snilsModel in
+            self?.viewModel = snilsModel
+            self?.completeLoadViewModel()
+        }
     }
 
     override func setupTableView() {
@@ -26,19 +33,19 @@ final class SnilsViewController: BaseFormViewController {
                                                         $0?.count ?? 0 == 11
 
         }, configure: { [unowned self] row in
-            row.value = self.viewModel.snils
+            row.value = self.viewModel?.snils
             row.cell.textField.keyboardType = UIKeyboardType.numberPad
             row.cell.textField.placeholder = "profile_snils_number_placeholder".loco
         }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.snils = value
+            self.viewModel?.snils = value
         })
         
         let snilsImageRow = self.createTitleImageRow(title: "profile_snils_image".loco,
                                                      configure: nil,
                                                      onImageRequest: { [unowned self] () -> UIImage? in
-                                                        self.viewModel.snilsImage
+                                                        return self.viewModel?.snilsImage
         }, onImageSelected: { [unowned self] image in
-            self.viewModel.snilsImage = image
+            self.viewModel?.snilsImage = image
         })
 
         let snilsSection = SectionFormer(rowFormer: snilsRow, snilsImageRow)
@@ -46,15 +53,18 @@ final class SnilsViewController: BaseFormViewController {
             .set(footerViewFormer: self.createFooter(text: "profile_data_info_hint".loco))
 
         former.append(sectionFormer: snilsSection)
+        former.reload()
     }
 
     // MARK: - Save
 
-    override func onSave() {
-        super.onSave()
+    override func onSave(success: Bool) {
+        super.onSave(success: success)
 
-        let personalData = self.viewModel
-        DataStorage.instance.snils = personalData
+        if success {
+            let snilsModel = self.viewModel
+            DataStorage.instance.setSnils(snilsModel)
+        }
 
         self.navigationController?.popViewController(animated: true)
     }

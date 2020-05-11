@@ -11,9 +11,18 @@ import UIKit
 final class SIDImageManager {
 
     enum ImageManagerSaveError {
+        case imageIsMissing
         case dataConversionError
         case documentPathError
         case writeError
+    }
+
+    enum ImageManagerGetError {
+        case documentIsPathWrong
+        case imageNotExist
+        case dataConversionError
+        case decryptionError
+        case dataReadError
     }
 
     // MARK: - URLs
@@ -23,7 +32,7 @@ final class SIDImageManager {
     }
 
     static var imageDirectory: URL? {
-        guard let dir = documentsDirectory?.appendingPathComponent("idContentImages") else { return nil}
+        guard let dir = documentsDirectory?.appendingPathComponent("idContentImages") else { return nil }
 
         if isDirectoryExist(dir) == false {
             do {
@@ -54,56 +63,121 @@ final class SIDImageManager {
 
     // MARK: -
 
-    @discardableResult
-    class func saveImage(_ image: UIImage, name: String, page: Int = 1, userId: String? = SIDServiceHelper.userId) -> ImageManagerSaveError? {
-        guard let imageData = image.pngData() else {
-            return ImageManagerSaveError.dataConversionError
+    class func saveImage(_ image: UIImage?,
+                         name: String,
+                         page: Int = 1,
+                         userId: String? = SIDServiceHelper.userId,
+                         queue: DispatchQueue = DispatchQueue.global(qos: .default),
+                         completion: ((ImageManagerSaveError?) -> Void)?) {
+
+        func complete(_ error: ImageManagerSaveError?) {
+            DispatchQueue.main.async {
+                completion?(error)
+            }
         }
 
-        guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else {
-            return ImageManagerSaveError.documentPathError
-        }
+        queue.async {
+            guard let image = image else {
+                complete(ImageManagerSaveError.imageIsMissing)
+                return
+            }
 
-        self.deleteImage(name: name, page: page)
+            guard let imageData = image.pngData() else {
+                complete(ImageManagerSaveError.dataConversionError)
+                return
+            }
 
-        var writeData = imageData
-        if SIDSettings.instance.isCryptoEnabled {
-            writeData = SIDCryptoManager.instance.encrypt(imageData)
-        }
+            guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else {
+                complete(ImageManagerSaveError.documentPathError)
+                return
+            }
 
-        do {
-            try writeData.write(to: imageURL)
-            return nil
-        } catch {
-            return ImageManagerSaveError.writeError
-        }
-    }
+            self.deleteImage(name: name, page: page, userId: userId, queue: queue)
 
-    class func getImage(name: String, page: Int = 1, userId: String? = SIDServiceHelper.userId) -> UIImage? {
-        guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else { return nil }
-        guard fileExists(imageURL) else { return nil }
+            var writeData = imageData
+            if SIDSettings.instance.cryptSettings.isImageCryptEnabled {
+                writeData = SIDCryptoManager.instance.encrypt(imageData)
+            }
 
-        guard let imageData = FileManager.default.contents(atPath: imageURL.path) else { return nil }
-
-        var readData = imageData
-        if SIDSettings.instance.isCryptoEnabled {
-            guard let encryptedData: Data = SIDCryptoManager.instance.decrypt(data: imageData) else { return nil }
-            readData = encryptedData
-        }
-
-        return UIImage(data: readData)
-    }
-
-    @discardableResult
-    class func deleteImage(name: String, page: Int = 1, userId: String? = SIDServiceHelper.userId) -> Bool {
-        guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else { return false }
-
-        do {
-            try FileManager.default.removeItem(at: imageURL)
-            return true
-        } catch {
-            return false
+            do {
+                try writeData.write(to: imageURL)
+                complete(nil)
+            } catch {
+                complete(ImageManagerSaveError.writeError)
+            }
         }
     }
 
+    class func getImage(name: String,
+                        page: Int = 1,
+                        userId: String? = SIDServiceHelper.userId,
+                        queue: DispatchQueue = DispatchQueue.global(qos: .default),
+                        completion: @escaping (UIImage?, ImageManagerGetError?) -> Void) {
+
+        func complete(image: UIImage?, error: ImageManagerGetError?) {
+            DispatchQueue.main.async {
+                completion(image, error)
+            }
+        }
+
+        queue.async {
+            guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else {
+                complete(image: nil, error: ImageManagerGetError.documentIsPathWrong)
+                return
+            }
+            
+            guard fileExists(imageURL) else {
+                complete(image: nil, error: ImageManagerGetError.imageNotExist)
+                return
+            }
+            
+            guard let imageData = FileManager.default.contents(atPath: imageURL.path) else {
+                complete(image: nil, error: ImageManagerGetError.dataConversionError)
+                return
+            }
+            
+            var readData = imageData
+            if SIDSettings.instance.cryptSettings.isImageCryptEnabled {
+                guard let encryptedData: Data = SIDCryptoManager.instance.decrypt(data: imageData) else {
+                    complete(image: nil, error: ImageManagerGetError.decryptionError)
+                    return
+                }
+                
+                readData = encryptedData
+            }
+            
+            if let image = UIImage(data: readData) {
+                complete(image: image, error: nil)
+            } else {
+                complete(image: nil, error: ImageManagerGetError.dataReadError)
+            }
+        }
+    }
+
+    class func deleteImage(name: String,
+                           page: Int = 1,
+                           userId: String? = SIDServiceHelper.userId,
+                           queue: DispatchQueue = DispatchQueue.global(qos: .default),
+                           completion: ((Bool) -> Void)? = nil) {
+
+        func complete(result: Bool) {
+            DispatchQueue.main.async {
+                completion?(result)
+            }
+        }
+
+        queue.async {
+            guard let imageURL = self.imageURL(name: name, page: page, userId: userId) else {
+                complete(result: false)
+                return
+            }
+
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+                complete(result: true)
+            } catch {
+                complete(result: false)
+            }
+        }
+    }
 }

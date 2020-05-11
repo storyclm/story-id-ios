@@ -48,7 +48,7 @@ class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
     }
 
     public final func onTextChanged(handler: @escaping ((String, String?) -> Void)) -> Self {
-        self.onText1Changed = handler
+        self.onTextChanged = handler
         return self
     }
 
@@ -63,7 +63,7 @@ class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
     override func cellInitialized(_ cell: MaskedTitleFieldCell) {
         super.cellInitialized(cell)
 
-        cell.textField.addTarget(self, action: #selector(onTextChanged(textField:)), for: UIControl.Event.editingChanged)
+        cell.textField.addTarget(self, action: #selector(onTextFieldChanged(textField:)), for: UIControl.Event.editingChanged)
     }
 
     override func update() {
@@ -79,19 +79,19 @@ class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
 
     // MARK: - Action
 
-    @objc private func onTextChanged(textField: MaskTextField) {
+    @objc private func onTextFieldChanged(textField: MaskTextField) {
         if enabled {
             let value = textField.value
             let text = value ?? ""
 
             self.text = text
             self.value = value
-            onText1Changed?(text, value)
+            onTextChanged?(text, value)
         }
     }
 
     // MARK: - Private
 
-    private final var onText1Changed: ((String, String?) -> Void)?
+    private final var onTextChanged: ((String, String?) -> Void)?
 
 }

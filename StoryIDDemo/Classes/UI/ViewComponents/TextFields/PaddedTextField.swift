@@ -13,7 +13,7 @@ class PaddedTextField: UITextField {
     var padding: UIEdgeInsets {
         return UIEdgeInsets(
             top: 0,
-            left: 15,
+            left: 0,
             bottom: 0,
             right: clearButtonMode == .whileEditing || clearButtonMode == .always ? 20 : 15)
     }

@@ -18,12 +18,27 @@ public final class SIDSettings {
 
     public var isRemoveImageAtSync: Bool = false
 
-    public var cryptoPassword: String?
-    public var cryptoSalt: String?
+    public let cryptSettings = SIDCryptSettings()
+}
+
+public final class SIDCryptSettings {
+
+    public var password: String?
+    public var salt: String?
+
+    public var isCryptImages: Bool = false
+    public var isCryptDBValues: Bool = false
 
     // MARK: - Private
+    internal var isCryptAvailable: Bool {
+        return self.password?.isEmpty == false && self.salt?.isEmpty == false
+    }
 
-    var isCryptoEnabled: Bool {
-        return self.cryptoPassword?.isEmpty == false && self.cryptoSalt?.isEmpty == false
+    internal var isImageCryptEnabled: Bool {
+        return isCryptAvailable && isCryptImages
+    }
+
+    internal var isDBValuesCryptEnabled: Bool {
+        return isCryptAvailable && isCryptDBValues
     }
 }

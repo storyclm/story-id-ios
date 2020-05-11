@@ -55,48 +55,24 @@ final class DemographicsViewController: BaseFormViewController {
         }, onTextChanged: { [unowned self] text, value in
             self.viewModel.patronymic = value
         })
-        
-        let phoneNumberRow = self.createMaskedTitleFieldRow(title: "profile_demographics_phone_number".loco,
-                                                            primaryMaskFormat: "+7 ([000]) [000]-[00]-[00]",
-                                                            affineFormats: ["8 ([000]) [000]-[00]-[00]"],
-                                                            onValidate: {
-                                                                $0?.count ?? 0 == 10
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel.phoneNumber
-            row.cell.textField.placeholder = "profile_demographics_phone_number_placeholder".loco
-            row.cell.textField.keyboardType = UIKeyboardType.phonePad
-            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.none
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.phoneNumber = value
-        })
 
-        let emailRow = self.createMaskedTitleFieldRow(title: "profile_demographics_email".loco,
-                                                      primaryMaskFormat: "[_…]@[_…].[_…]",
-                                                      onValidate: { value in
-                                                        value?.count ?? 0 >= 5
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel.email
-            row.cell.textField.placeholder = "profile_demographics_email_placeholder".loco
-            row.cell.textField.keyboardType = UIKeyboardType.emailAddress
-            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.none
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.email = value
-        })
-
-        let demographicsSection = SectionFormer(rowFormer: surnameRow, nameRow, patronymicRow, phoneNumberRow, emailRow)
+        let demographicsSection = SectionFormer(rowFormer: surnameRow, nameRow, patronymicRow)
             .set(headerViewFormer: self.createHeader(text: "profile_demographics_section".loco))
             .set(footerViewFormer: self.createFooter(text: "profile_data_info_hint".loco))
 
         former.append(sectionFormer: demographicsSection)
+        former.reload()
     }
 
     // MARK: - Save
 
-    override func onSave() {
-        super.onSave()
+    override func onSave(success: Bool) {
+        super.onSave(success: success)
 
-        let personalData = self.viewModel
-        DataStorage.instance.demographics = personalData
+        if success {
+            let demographicsModel = self.viewModel
+            DataStorage.instance.demographics = demographicsModel
+        }
 
         self.navigationController?.popViewController(animated: true)
     }

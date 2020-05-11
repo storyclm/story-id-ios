@@ -23,6 +23,7 @@ public final class SIDPersonalDataService {
     public let profilePasport = SIDProfilePasportService()
     public let profileSnils = SIDProfileSnilsService()
     public let profile = SIDProfileService()
+    public let bankAccounts = SIDProfileBankAccountsService()
 
     // MARK: - Synchronize
 
@@ -69,6 +70,13 @@ public final class SIDPersonalDataService {
         if profile.isSynchronizable {
             group.enter()
             profile.synchronize { error in
+                group.leave()
+            }
+        }
+
+        if bankAccounts.isSynchronizable {
+            group.enter()
+            bankAccounts.synchronize { error in
                 group.leave()
             }
         }

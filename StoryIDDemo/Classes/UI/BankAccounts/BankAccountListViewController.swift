@@ -94,14 +94,16 @@ final class BankAccountListViewController: BaseFormViewController {
     override var isSaveButtonVisible: Bool { false }
 
     @objc override func cancelButtonAction(_ sender: UIBarButtonItem) {
-        self.onSave()
+        self.onSave(success: true)
         super.cancelButtonAction(sender)
     }
 
-    override func onSave() {
-        super.onSave()
+    override func onSave(success: Bool) {
+        super.onSave(success: success)
 
-        let viewModel = self.viewModel
-        DataStorage.instance.bankAccounts = viewModel
+        if success {
+            let bankAccountModels = self.viewModel
+            DataStorage.instance.bankAccounts = bankAccountModels
+        }
     }
 }

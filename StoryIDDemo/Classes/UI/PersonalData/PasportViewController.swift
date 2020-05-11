@@ -10,11 +10,20 @@ import Former
 
 final class PasportViewController: BaseFormViewController {
 
-    private let viewModel = DataStorage.instance.pasport ?? PasportModel(with: nil)
+    private var viewModel: PasportModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "profile_pasport_title".loco
+    }
+
+    // MARK: - View model
+
+    internal override func loadViewModel() {
+        DataStorage.instance.pasport {[weak self] pasportModel in
+            self?.viewModel = pasportModel
+            self?.completeLoadViewModel()
+        }
     }
 
     override func setupTableView() {
@@ -24,23 +33,23 @@ final class PasportViewController: BaseFormViewController {
                                                         primaryMaskFormat: "[00] [00] [000000]",
                                                         onValidate: { $0?.count ?? 0 == 10 },
                                                         configure: { [unowned self] row in
-                                                            row.value = self.viewModel.sn
+                                                            row.value = self.viewModel?.sn
                                                             row.cell.textField.keyboardType = UIKeyboardType.numberPad
                                                             row.cell.textField.placeholder = "profile_pasport_number_placeholder".loco
         }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.sn = value
+            self.viewModel?.sn = value
         })
 
         let pasportFirstImageRow = self.createTitleImageRow(title: "profile_pasport_first_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in
-            self.viewModel.firstImage
+            return self.viewModel?.firstImage
         }, onImageSelected: { [unowned self] image in
-            self.viewModel.firstImage = image
+            self.viewModel?.firstImage = image
         })
 
         let pasportSecondImageRow = self.createTitleImageRow(title: "profile_pasport_second_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in
-            self.viewModel.secondImage
+            return self.viewModel?.secondImage
         }, onImageSelected: { [unowned self] image in
-            self.viewModel.secondImage = image
+            self.viewModel?.secondImage = image
         })
 
         let pasportSection = SectionFormer(rowFormer: pasportRow, pasportFirstImageRow, pasportSecondImageRow)
@@ -48,16 +57,20 @@ final class PasportViewController: BaseFormViewController {
             .set(footerViewFormer: self.createFooter(text: "profile_data_info_hint".loco))
 
         former.append(sectionFormer: pasportSection)
+        former.reload()
     }
 
     // MARK: - Save
 
-    override func onSave() {
-        super.onSave()
+    override func onSave(success: Bool) {
+        super.onSave(success: isLoadViewModelCompleted)
 
-        let personalData = self.viewModel
-        DataStorage.instance.pasport = personalData
+        if success {
+            let personalData = self.viewModel
+            DataStorage.instance.setPasport(personalData)
+        }
 
         self.navigationController?.popViewController(animated: true)
     }
+
 }

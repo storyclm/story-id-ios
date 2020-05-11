@@ -29,11 +29,28 @@ public class SIDProfileItnService: SIDServiceProtocol {
                 switch updateBehaviour {
                 case .update:
                     self.updateLocalModel(localItn, with: serverItn)
-                    complete(error: nil)
+                    self.apiGetItnImage { (image, error) in
+                        if let error = error {
+                            complete(error: error.asServiceError)
+                        } else {
+                            SIDImageManager.saveImage(image, name: self.itnImageName) { error in
+                                complete(error: nil)
+                            }
+                        }
+                    }
                 case .send:
                     if let itn = localItn?.itn {
                         self.sendItn(itn) { _, error in
-                            completion(error?.asServiceError)
+                            self.apiSendItnImage { (model, error) in
+                                if let error = error {
+                                    complete(error: error.asServiceError)
+                                } else if let model = model {
+                                    self.updateLocalModel(localItn, with: model)
+                                    complete(error: nil)
+                                } else {
+                                    complete(error: nil)
+                                }
+                            }
                         }
                     }
                 case .skip:
@@ -96,6 +113,28 @@ public class SIDProfileItnService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
+    // MARK: * Image
+
+    private func apiGetItnImage(completion: @escaping (UIImage?, Error?) -> Void) {
+        SIDLegacyImageLoader.instance.getImage(with: "/profile/itn/download", parameters: nil, completion: completion)
+    }
+
+    private func apiSendItnImage(completion: @escaping (StoryITN?, Error?) -> Void) {
+        self.itnImage { image in
+            guard let imageData = image?.jpegData(compressionQuality: 1.0) else {
+                completion(nil, nil)
+                return
+            }
+
+            let file = FileParam(data: imageData, name: "file")
+            SIDLegacyImageLoader.instance.loadFiles(to: "/profile/itn/upload", files: [file], parameters: nil, completion: completion)
+        }
+    }
+
+    private func apiDeleteItnImage(completion: @escaping (StoryITN?, Error?) -> Void) {
+        SIDLegacyImageLoader.instance.deleteFile(at: "/profile/itn/upload", completion: completion)
+    }
+
     // MARK: - Public
 
     public func itn() -> IDContentITN? {
@@ -119,21 +158,30 @@ public class SIDProfileItnService: SIDServiceProtocol {
 
     private let itnImageName = "SID.ITN.Image"
 
-    public func itnImage() -> UIImage? {
-        return SIDImageManager.getImage(name: itnImageName)
+    public func itnImage(completion: @escaping (UIImage?) -> Void) {
+        SIDImageManager.getImage(name: itnImageName) { image, _ in
+            completion(image)
+        }
     }
 
-    public func setItnImage(_ image: UIImage?) {
+    public func setItnImage(_ image: UIImage?, isSkipModifyAt: Bool = false) {
         if let image = image {
-            SIDImageManager.saveImage(image, name: itnImageName)
-            try? self.itn()?.updateModifyAt()
+            SIDImageManager.saveImage(image, name: itnImageName) {[weak self] error in
+                if error == nil {
+                    try? self?.itn()?.updateModifyAt()
+                }
+            }
         } else {
             self.deleteItnImage()
         }
     }
 
     public func deleteItnImage() {
-        SIDImageManager.deleteImage(name: itnImageName)
-        try? self.itn()?.updateModifyAt()
+        SIDImageManager.deleteImage(name: itnImageName) {[weak self] success in
+            if success {
+                try? self?.itn()?.updateModifyAt()
+            }
+        }
+
     }
 }

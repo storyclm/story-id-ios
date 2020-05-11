@@ -16,12 +16,15 @@ final class AppRouter {
     private init() {}
 
     func showAuthorization(from: UIViewController, completion: @escaping (UIViewController, Bool) -> Void) {
-        if PincodeService.instance?.isLogined == false {
-            AppRouter.instance.showEnterPhone(from: from)
-        } else if PincodeService.instance?.isPincodeSet == false {
-            completion(from, true)
-        } else {
-            AppRouter.instance.showEnterCode(from: from, state: AuthCodeState.check, completion: completion)
+
+        AuthManager.instance.getAdapter(isAllowExpired: false) { adapter, _ in
+            if adapter == nil || adapter?.refreshToken == nil {
+                AppRouter.instance.showEnterPhone(from: from)
+            } else if PincodeService.instance.isPincodeSet == false {
+                completion(from, true)
+            } else {
+                AppRouter.instance.showEnterCode(from: from, state: AuthCodeState.check, completion: completion)
+            }
         }
     }
 

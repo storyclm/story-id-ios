@@ -14,11 +14,7 @@ final class SplashScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if AuthManager.instance.isLogin {
-            self.showAuthorization()
-        } else {
-            self.showLogin()
-        }
+        self.showAuthorization()
     }
 
     // MARK: - Show
@@ -28,10 +24,6 @@ final class SplashScreenViewController: UIViewController {
             SIDPersonalDataService.instance.synchronize()
             AppRouter.instance.showProfile(from: vc)
         }
-    }
-
-    func showLogin() {
-        AppRouter.instance.showEnterPhone(from: self)
     }
 
     // MARK: -

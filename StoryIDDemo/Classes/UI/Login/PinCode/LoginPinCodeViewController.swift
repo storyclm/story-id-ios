@@ -88,7 +88,7 @@ final class LoginPinCodeViewController: UIViewController {
         case .new:
             checkCode = self.code
         case .check:
-            checkCode = PincodeService.instance?.pincode
+            checkCode = PincodeService.instance.pincode
         case let .repeatCode(repeatCode):
             checkCode = repeatCode
         }
@@ -141,7 +141,7 @@ final class LoginPinCodeViewController: UIViewController {
             self.code = ""
         } else {
             if case let AuthCodeState.repeatCode(repeatCode) = self.state {
-                PincodeService.instance?.pincode = repeatCode
+                PincodeService.instance.pincode = repeatCode
             }
             completion?(self, true)
         }

@@ -29,11 +29,28 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
                 switch updateBehaviour {
                 case .update:
                     self.updateLocalModel(localSnils, with: serverSnils)
-                    complete(error: nil)
+                    self.apiGetSnilsImage { image, error in
+                        if let error = error {
+                            complete(error: error.asServiceError)
+                        } else {
+                            SIDImageManager.saveImage(image, name: self.snilsImageName) { error in
+                                complete(error: nil)
+                            }
+                        }
+                    }
                 case .send:
                     if let snils = localSnils {
                         self.sendSnils(snils: snils.snils) { _, error in
-                            complete(error: error?.asServiceError)
+                            self.apiSendSnilsImage { model, error in
+                                if let error = error {
+                                    complete(error: error.asServiceError)
+                                } else if let model = model {
+                                    self.updateLocalModel(localSnils, with: model)
+                                    complete(error: nil)
+                                } else {
+                                    complete(error: error?.asServiceError)
+                                }
+                            }
                         }
                     }
                 case .skip:
@@ -94,6 +111,28 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
+    // MARK: * Image
+
+    private func apiGetSnilsImage(completion: @escaping (UIImage?, Error?) -> Void) {
+        SIDLegacyImageLoader.instance.getImage(with: "/profile/snils/download", parameters: nil, completion: completion)
+    }
+
+    private func apiSendSnilsImage(completion: @escaping (StorySNILS?, Error?) -> Void) {
+        self.snilsImage { image in
+            guard let imageData = image?.jpegData(compressionQuality: 1.0) else {
+                completion(nil, nil)
+                return
+            }
+
+            let file = FileParam(data: imageData, name: "file")
+            SIDLegacyImageLoader.instance.loadFiles(to: "/profile/snils/upload", files: [file], parameters: nil, completion: completion)
+        }
+    }
+
+    private func apiDeleteSnilsImage(completion: @escaping (StorySNILS?, Error?) -> Void) {
+        SIDLegacyImageLoader.instance.deleteFile(at: "/profile/snils/upload", completion: completion)
+    }
+
     // MARK: - Public
 
     public func snils() -> IDContentSNILS? {
@@ -117,21 +156,27 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
 
     private let snilsImageName = "SID.SNILS.Image"
 
-    public func snilsImage() -> UIImage? {
-        return SIDImageManager.getImage(name: snilsImageName)
+    public func snilsImage(completion: @escaping (UIImage?) -> Void) {
+        SIDImageManager.getImage(name: snilsImageName) { image, _ in
+            completion(image)
+        }
     }
 
     public func setSnilsImage(_ image: UIImage?) {
         if let image = image {
-            SIDImageManager.saveImage(image, name: snilsImageName)
-            try? self.snils()?.updateModifyAt()
+            SIDImageManager.saveImage(image, name: snilsImageName) {[weak self] error in
+                if error == nil {
+                    try? self?.snils()?.updateModifyAt()
+                }
+            }
         } else {
             self.deleteSnilsImage()
         }
     }
 
     public func deleteSnilsImage() {
-        SIDImageManager.deleteImage(name: snilsImageName)
-        try? self.snils()?.updateModifyAt()
+        SIDImageManager.deleteImage(name: snilsImageName) {[weak self] success in
+            try? self?.snils()?.updateModifyAt()
+        }
     }
 }

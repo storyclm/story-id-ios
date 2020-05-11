@@ -7,17 +7,27 @@
 //
 
 import UIKit
+import StoryID
 
-final class BankAccountModel: Codable, NSCopying {
-    var uuid: String
+final class BankAccountModel: NSCopying {
+    var uuid: String?
     var accountName: String?
     var bankName: String?
     var bic: String?
     var correspondentAccount: String?
     var settlementAccount: String?
 
-    init() {
-        self.uuid = UUID().uuidString
+    init(with dbModel: IDContentBankAccount?) {
+        if let dbModel = dbModel {
+            self.uuid = dbModel.id ?? UUID().uuidString
+            self.accountName = dbModel.name
+            self.bankName = dbModel.bank
+            self.bic = dbModel.bic
+            self.correspondentAccount = dbModel.correspondentAccount
+            self.settlementAccount = dbModel.settlementAccount
+        } else {
+            self.uuid = UUID().uuidString
+        }
     }
 
     var isEmpty: Bool {
@@ -28,8 +38,17 @@ final class BankAccountModel: Codable, NSCopying {
             self.settlementAccount?.notEmptyValue == nil
     }
 
+    // MARK: - Array
+
+    class func models(from dbModels: [IDContentBankAccount]?) -> [BankAccountModel]? {
+        guard let dbModels = dbModels else { return nil }
+        return dbModels.map { BankAccountModel(with: $0) }
+    }
+
+    // MARK: - NSCopying
+
     func copy(with zone: NSZone? = nil) -> Any {
-        let bankAccountModel = BankAccountModel()
+        let bankAccountModel = BankAccountModel(with: nil)
         bankAccountModel.uuid = uuid
         bankAccountModel.accountName = accountName
         bankAccountModel.bankName = bankName
@@ -38,5 +57,5 @@ final class BankAccountModel: Codable, NSCopying {
         bankAccountModel.settlementAccount = settlementAccount
 
         return bankAccountModel
-    }
+}
 }

@@ -28,69 +28,112 @@ final class DataStorage {
         }
     }
 
-    var itn: ItnModel? {
-        get {
-            let result = ItnModel(with: SIDPersonalDataService.instance.profileItn.itn())
-            result.itnImage = SIDPersonalDataService.instance.profileItn.itnImage()
-            return result
-        }
-        set {
-            if let newValue = newValue {
-                SIDPersonalDataService.instance.profileItn.setItn(itn: newValue.itn)
-                SIDPersonalDataService.instance.profileItn.setItnImage(newValue.itnImage)
-            } else {
-                SIDPersonalDataService.instance.profileItn.deleteItn()
-            }
+    // MARK: * ITN
+
+    func itn(completion: @escaping (ItnModel) -> Void) {
+        let profileItn = SIDPersonalDataService.instance.profileItn
+
+        profileItn.itnImage { (image) in
+            let result = ItnModel(with: profileItn.itn())
+            result.itnImage = image
+            completion(result)
         }
     }
 
-    var snils: SnilsModel? {
-        get {
-            let result = SnilsModel(with: SIDPersonalDataService.instance.profileSnils.snils())
-            result.snilsImage = SIDPersonalDataService.instance.profileSnils.snilsImage()
-            return result
-        }
-        set {
-            if let newValue = newValue {
-                SIDPersonalDataService.instance.profileSnils.setSnils(newValue.snils)
-                SIDPersonalDataService.instance.profileSnils.setSnilsImage(newValue.snilsImage)
-            } else {
-                SIDPersonalDataService.instance.profileSnils.deleteSnils()
-            }
+    func setItn(_ model: ItnModel?) {
+        let profileItn = SIDPersonalDataService.instance.profileItn
+
+        if let model = model {
+            profileItn.setItn(itn: model.itn)
+            profileItn.setItnImage(model.itnImage)
+        } else {
+            profileItn.deleteItn()
         }
     }
 
-    var pasport: PasportModel? {
-        get {
-            let result = PasportModel(with: SIDPersonalDataService.instance.profilePasport.passport())
-            result.firstImage = SIDPersonalDataService.instance.profilePasport.pasportImage(page: 1)
-            result.secondImage = SIDPersonalDataService.instance.profilePasport.pasportImage(page: 2)
-            return result
+    // MARK: * SNILS
+
+    func snils(completion: @escaping (SnilsModel) -> Void) {
+        let profileSnils = SIDPersonalDataService.instance.profileSnils
+
+        profileSnils.snilsImage { image in
+            let result = SnilsModel(with: profileSnils.snils())
+            result.snilsImage = image
+            completion(result)
         }
-        set {
-            if let newValue = newValue {
-                SIDPersonalDataService.instance.profilePasport.setPasport(code: nil, sn: newValue.sn, issuedBy: nil, issuedAt: nil)
-                SIDPersonalDataService.instance.profilePasport.setPasportImage(newValue.firstImage, page: 1)
-                SIDPersonalDataService.instance.profilePasport.setPasportImage(newValue.secondImage, page: 2)
-            } else {
-                SIDPersonalDataService.instance.profilePasport.deletePasport()
-            }
+    }
+
+    func setSnils(_ model: SnilsModel?) {
+        let profileSnils = SIDPersonalDataService.instance.profileSnils
+
+        if let model = model {
+            profileSnils.setSnils(model.snils)
+            profileSnils.setSnilsImage(model.snilsImage)
+        } else {
+            profileSnils.deleteSnils()
+        }
+    }
+
+    // MARK: * Pasport
+
+    func pasport(completion: @escaping (PasportModel) -> Void) {
+        let profilePasport = SIDPersonalDataService.instance.profilePasport
+
+        var page1: UIImage?
+        var page2: UIImage?
+
+        let group = DispatchGroup()
+        group.enter()
+        profilePasport.pasportImage(page: 1) { image in
+            page1 = image
+            group.leave()
+        }
+
+        group.enter()
+        profilePasport.pasportImage(page: 2) { image in
+            page2 = image
+            group.leave()
+        }
+
+        group.notify(queue: DispatchQueue.main) {
+            let result = PasportModel(with: profilePasport.passport())
+            result.firstImage = page1
+            result.secondImage = page2
+
+            completion(result)
+        }
+    }
+
+    func setPasport(_ model: PasportModel?) {
+        let profilePasport = SIDPersonalDataService.instance.profilePasport
+
+        if let model = model {
+            profilePasport.setPasport(code: model.code, sn: model.sn, issuedBy: model.issuedBy, issuedAt: model.issuedAt)
+            profilePasport.setPasportImage(model.firstImage, page: 1)
+            profilePasport.setPasportImage(model.secondImage, page: 2)
+        } else {
+            profilePasport.deletePasport()
         }
     }
 
     // MARK: - Bank Data
 
-    private let bankName = "bankAccounts.json"
     var bankAccounts: [BankAccountModel]? {
-        get {
-            guard Storage.fileExists(bankName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(bankName, from: Storage.Directory.documents, as: [BankAccountModel].self)
-        }
+        get { BankAccountModel.models(from: SIDPersonalDataService.instance.bankAccounts.bankAccounts()) }
         set {
+            let service = SIDPersonalDataService.instance.bankAccounts
             if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: bankName)
+                for account in newValue {
+                    guard let uuid = account.uuid else { continue }
+                    service.setBankAccount(id: uuid,
+                                           accountName: account.accountName,
+                                           bic: account.bic,
+                                           bank: account.bankName,
+                                           correspondentAccount: account.correspondentAccount,
+                                           settlementAccount: account.settlementAccount)
+                }
             } else {
-                Storage.remove(bankName, from: Storage.Directory.documents)
+                service.deleteAllBankAccounts()
             }
         }
     }
@@ -124,14 +167,15 @@ final class DataStorage {
 
     func logout() {
         self.demographics = nil
-        self.itn = nil
-        self.snils = nil
-        self.pasport = nil
         self.bankAccounts = nil
+        
+        self.setItn(nil)
+        self.setSnils(nil)
+        self.setPasport(nil)
 
-        PincodeService.instance?.pincode = nil
-        PincodeService.instance?.isLogined = false
+        self.avatarImage = nil
 
-        Storage.clear(Storage.Directory.documents)
+        PincodeService.instance.pincode = nil
+        PincodeService.instance.isLogined = false
     }
 }

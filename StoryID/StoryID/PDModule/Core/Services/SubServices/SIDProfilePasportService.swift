@@ -185,21 +185,30 @@ public class SIDProfilePasportService: SIDServiceProtocol {
 
     private let pasportImageName = "SID.Pasport.Image"
 
-    public func pasportImage(page: Int) -> UIImage? {
-        return SIDImageManager.getImage(name: pasportImageName, page: page)
+    public func pasportImage(page: Int, completion: @escaping (UIImage?) -> Void) {
+        SIDImageManager.getImage(name: pasportImageName, page: page) { image, _ in
+            completion(image)
+        }
     }
 
     public func setPasportImage(_ image: UIImage?, page: Int) {
         if let image = image {
-            SIDImageManager.saveImage(image, name: pasportImageName, page: page)
-            try? self.passport()?.updateModifyAt()
+            SIDImageManager.saveImage(image, name: pasportImageName, page: page) {[weak self] error in
+                if error == nil {
+                    try? self?.passport()?.updateModifyAt()
+                }
+            }
         } else {
             self.deletePasportImage(page: page)
         }
     }
 
     public func deletePasportImage(page: Int) {
-        SIDImageManager.deleteImage(name: pasportImageName, page: page)
-        try? self.passport()?.updateModifyAt()
+        SIDImageManager.deleteImage(name: pasportImageName, page: page) {[weak self] success in
+            if success {
+                try? self?.passport()?.updateModifyAt()
+            }
+        }
+
     }
 }

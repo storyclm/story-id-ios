@@ -13,8 +13,6 @@ final class DemographicsModel {
     var surname: String?
     var name: String?
     var patronymic: String?
-    var phoneNumber: String?
-    var email: String?
 
     init(with dbModel: IDContentDemographics?) {
         if let dbModel = dbModel {
@@ -48,13 +46,20 @@ final class SnilsModel {
 }
 
 final class PasportModel {
+
     var sn: String?
+    var code: String?
+    var issuedAt: Date?
+    var issuedBy: String?
     var firstImage: UIImage?
     var secondImage: UIImage?
 
     init(with dbModel: IDContentPasport?) {
         if let dbModel = dbModel {
             self.sn = dbModel.sn
+            self.code = dbModel.code
+            self.issuedAt = dbModel.issuedAt
+            self.issuedBy = dbModel.issuedBy
         }
     }
 }

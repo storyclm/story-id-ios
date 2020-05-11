@@ -17,12 +17,12 @@ final class SIDCryptoManager {
     // MARK: - Main
 
     private var password: [UInt8]? {
-        guard let cryptoPassword = SIDSettings.instance.cryptoPassword?.utf8 else { return nil }
+        guard let cryptoPassword = SIDSettings.instance.cryptSettings.password?.utf8 else { return nil }
         return Array(cryptoPassword)
     }
 
     private var salt: [UInt8]? {
-        guard let cryptoSalt = SIDSettings.instance.cryptoSalt?.utf8 else { return nil }
+        guard let cryptoSalt = SIDSettings.instance.cryptSettings.salt?.utf8 else { return nil }
         return Array(cryptoSalt)
     }
 

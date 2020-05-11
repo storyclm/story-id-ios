@@ -65,13 +65,13 @@ final class LoginSMSViewController: BaseViewController {
     }
 
     private func showProfileController() {
-        PincodeService.instance?.isLogined = true
+        PincodeService.instance.isLogined = true
         
         AppRouter.instance.showProfile(from: self)
     }
 
     private func showPincodeController() {
-        PincodeService.instance?.isLogined = true
+        PincodeService.instance.isLogined = true
 
         AppRouter.instance.showEnterCode(from: self, state: AuthCodeState.new) {[weak self] (_, success) in
             guard let self = self else { return }
