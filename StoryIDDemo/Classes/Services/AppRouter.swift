@@ -17,8 +17,8 @@ final class AppRouter {
 
     func showAuthorization(from: UIViewController, completion: @escaping (UIViewController, Bool) -> Void) {
 
-        AuthManager.instance.getAdapter(isAllowExpired: false) { adapter, _ in
-            if adapter == nil || adapter?.refreshToken == nil {
+        AuthManager.instance.getAdapter(isAllowExpired: true) { adapter, _ in
+            if adapter == nil || adapter?.refreshToken == nil || adapter?.accessToken == nil {
                 AppRouter.instance.showEnterPhone(from: from)
             } else if PincodeService.instance.isPincodeSet == false {
                 completion(from, true)
