@@ -49,7 +49,7 @@ final class AppRouter {
         pincodeViewController.state = state
         pincodeViewController.completion = completion
 
-        if state == .new, state == .check {
+        if state == .new || state == .check {
             let nvc = UINavigationController(rootViewController: pincodeViewController)
             nvc.setNavigationBarHidden(true, animated: false)
             UIViewController.show(from: from, isModalFade: true, navigationController: nvc, animated: true)

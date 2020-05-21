@@ -41,5 +41,4 @@ final class PincodeService {
         get { UserDefaults.standard.bool(forKey: kUserDefaultsPincode) }
         set { UserDefaults.standard.set(newValue, forKey: kUserDefaultsPincode) }
     }
-    
 }
