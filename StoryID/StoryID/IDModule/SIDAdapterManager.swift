@@ -212,7 +212,7 @@ extension SIDAdapterManager {
             }
         }
 
-        guard isAllowExpired else {
+        guard isAllowExpired == false else {
             finish(adapter: adapter)
             return
         }
