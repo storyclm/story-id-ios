@@ -29,6 +29,12 @@ final class LoginPhoneViewController: BaseViewController {
         guard var phone = self.loginPhoneView.textField.value else { return }
         phone = "7\(phone)"
 
+        let timer = SmsTimerService.instance
+        if timer.isPhoneEqual(phone), timer.isTimerActive {
+            self.showOkAlert(title: "", message: self.resendTimerText(timer.seconds))
+            return
+        }
+
         self.showLoader()
 
         AuthManager.instance.verifyCode(phone: phone) { (sign, error) in
@@ -37,6 +43,7 @@ final class LoginPhoneViewController: BaseViewController {
             if let error = error {
                 self.showErrorAlert(error)
             } else if let sign = sign {
+                timer.startTimer(phone: phone)
                 self.showLoginSmsController(with: sign, phone: phone)
             }
         }
@@ -44,6 +51,20 @@ final class LoginPhoneViewController: BaseViewController {
 
     @objc private func tapGestureAction() {
         self.loginPhoneView.textField.resignFirstResponder()
+    }
+
+    // MARK: - Helpers
+
+    func resendTimerText(_ seconds: Int) -> String? {
+        var components = DateComponents()
+        components.second = seconds
+
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .short
+
+        let timeText = formatter.string(from: components)
+
+        return "login_phone_resend_alert_text".loco + "\n" + (timeText ?? "")
     }
 
     // MARK: - Controller

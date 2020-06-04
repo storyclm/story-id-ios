@@ -19,8 +19,10 @@ final class LoginSMSView: BaseView {
     private let titleLabel = UILabel()
     let textField = SMSTextField()
     let separatorView = UIView()
-    let resendCodeButton = UIButton(type: UIButton.ButtonType.custom)
     let tapGesture = UITapGestureRecognizer()
+
+    let tapResendGesture = UITapGestureRecognizer()
+    let resendLabel = UILabel()
 
     override func setup() {
         super.setup()
@@ -55,21 +57,42 @@ final class LoginSMSView: BaseView {
         self.separatorView.alpha = 0.5
         self.addSubview(self.separatorView)
 
-        let buttonTextColor = UIColor.idBlack
-        self.resendCodeButton.backgroundColor = UIColor.clear
-        self.resendCodeButton.setTitleColor(buttonTextColor, for: UIControl.State.normal)
-        self.resendCodeButton.setTitleColor(UIColor.idLightBlack, for: UIControl.State.highlighted)
-        self.resendCodeButton.setTitleColor(buttonTextColor.withAlphaComponent(0.75), for: UIControl.State.disabled)
-        self.resendCodeButton.titleLabel?.font = UIFont.systemFont(ofSize: 11.0, weight: UIFont.Weight.semibold)
-        self.resendCodeButton.setTitle("login_sms_resent_button".loco, for: UIControl.State.normal)
-        self.addSubview(self.resendCodeButton)
+        self.resendLabel.isUserInteractionEnabled = true
+        self.resendLabel.numberOfLines = 0
+        self.addSubview(self.resendLabel)
+
+        self.resendLabel.addGestureRecognizer(tapResendGesture)
 
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.textField.translatesAutoresizingMaskIntoConstraints = false
         self.separatorView.translatesAutoresizingMaskIntoConstraints = false
-        self.resendCodeButton.translatesAutoresizingMaskIntoConstraints = false
+        self.resendLabel.translatesAutoresizingMaskIntoConstraints = false
 
         self.setupConstraints()
+    }
+
+    func updateResend(text: String?, isEnabled: Bool) {
+        self.tapResendGesture.isEnabled = isEnabled
+
+        guard let text = text else {
+            self.resendLabel.text = ""
+            return
+        }
+
+        var color = UIColor.idBlack
+        if isEnabled == false {
+            color = UIColor.gray
+        }
+
+        let resendText = AttributedStringBuilder(font: UIFont.systemFont(ofSize: 11.0, weight: UIFont.Weight.semibold),
+                                                 color: color,
+                                                 alignment: NSTextAlignment.center,
+                                                 kern: 0.0)
+            .add(text)
+            .changeParagraphStyle(minimumLineHeight: 13.0)
+            .result()
+
+        self.resendLabel.attributedText = resendText
     }
 
     // MARK: - Constraints
@@ -81,12 +104,12 @@ final class LoginSMSView: BaseView {
             self.titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16.0),
             self.titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
 
-            self.resendCodeButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            self.resendCodeButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 64.0),
-            self.resendCodeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -64.0),
-            self.resendCodeButton.heightAnchor.constraint(equalToConstant: 56.0),
+            self.resendLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.resendLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 64.0),
+            self.resendLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -64.0),
+            self.resendLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 40.0),
 
-            self.separatorView.bottomAnchor.constraint(equalTo: self.resendCodeButton.topAnchor, constant: -55),
+            self.separatorView.bottomAnchor.constraint(equalTo: self.resendLabel.topAnchor, constant: -55),
             self.separatorView.heightAnchor.constraint(equalToConstant: 1.0),
             self.separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16.0),
             self.separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),

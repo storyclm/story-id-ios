@@ -76,11 +76,16 @@ extension UIViewController {
         return base
     }
 
-    // MARK: - Error
+    // MARK: - Alert
 
     func showErrorAlert(_ error: Error) {
-        let alert = UIAlertController(title: "global_error".loco, message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true)
+        self.showOkAlert(title: "global_error".loco, message: error.localizedDescription)
     }
+
+    func showOkAlert(title: String?, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }

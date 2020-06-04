@@ -96,8 +96,7 @@ final class ProfileMainViewController: BaseFormViewController {
 
             self.former.deselect(animated: true)
 
-            DataStorage.instance.logout()
-            AppRouter.instance.showEnterPhone(from: self)
+            self.logoutAction()
         }
 
         // Create Headers and Footers
@@ -119,5 +118,16 @@ final class ProfileMainViewController: BaseFormViewController {
         let logoutSection = SectionFormer(rowFormer: logoutRow).set(headerViewFormer: createHeader(""))
 
         former.append(sectionFormer: avatarSection, personalDataSection, bankAccauntsSection, logoutSection)
+    }
+
+    private func logoutAction() {
+        let alert = UIAlertController(title: "profile_logout_alert_title".loco, message: "profile_logout_alert_text".loco, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "global_no".loco, style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "global_yes".loco, style: UIAlertAction.Style.destructive, handler: { _ in
+            DataStorage.instance.logout()
+            AppRouter.instance.showEnterPhone(from: self)
+        }))
+
+        self.present(alert, animated: true)
     }
 }

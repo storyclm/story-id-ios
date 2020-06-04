@@ -26,14 +26,17 @@
 "login_phone_title" = "Номер телефона";
 "login_phone_placeholder" = "+7 (XXX) XXX-XX-XX";
 "login_phone_getCode_button" = "Получить код";
+"login_phone_resend_alert_text" = "Повторный логин возможен через:";
 
 // MARK: * SMS
 
 "login_sms_title" = "Код из смс";
+"login_sms_resend" = "Повторная отправка через:";
 "login_sms_resent_button" = "Повторить СМС";
 "login_sms_placeholder" = "СМС-код";
 "login_sms_pincode_alert_title" = "ПИН-код";
 "login_sms_pincode_alert_subtitle" = "Установить пин-код?";
+"login_sms_error_general" = "Ошибка обработки запроса.\nПопробуйте отправить код еще раз";
 
 // MARK: * Pin code
 
@@ -103,6 +106,8 @@
 "profile_pasport_number_placeholder" = "12 34 567890";
 "profile_pasport_first_image" = "Фото паспорта (1 стр)";
 "profile_pasport_second_image" = "Фото паспорта (3-4 стр)";
+"profile_logout_alert_title" = "Выйти";
+"profile_logout_alert_text" = "Вы действительно хотите выйти из аккаунта";
 
 // MARK: - Bank Accounts
 

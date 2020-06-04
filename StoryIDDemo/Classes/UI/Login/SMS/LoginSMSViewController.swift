@@ -23,8 +23,11 @@ final class LoginSMSViewController: BaseViewController {
         self.view.addSubview(loginSMSView)
 
         self.loginSMSView.delegate = self
-        self.loginSMSView.resendCodeButton.addTarget(self, action: #selector(resendCodeAction), for: UIControl.Event.touchUpInside)
+        self.loginSMSView.tapResendGesture.addTarget(self, action: #selector(resendCodeAction))
         self.loginSMSView.tapGesture.addTarget(self, action: #selector(tapGestureAction))
+
+        SmsTimerService.instance.delegate = self
+        SmsTimerService.instance.callFireDelegate()
     }
 
     // MARK: - Actions
@@ -34,12 +37,17 @@ final class LoginSMSViewController: BaseViewController {
 
         guard let phone = self.phone else { return }
 
-        AuthManager.instance.verifyCode(phone: phone) { (sign, error) in
+        self.showLoader()
+
+        AuthManager.instance.verifyCode(phone: phone) {[weak self] (sign, error) in
+            self?.hideLoader()
+
             if let error = error {
-                self.showErrorAlert(error)
+                self?.showErrorAlert(error)
             } else if let sign = sign {
-                self.signature = sign
-                self.loginSMSView.textField.becomeFirstResponder()
+                SmsTimerService.instance.startTimer(phone: phone)
+                self?.signature = sign
+                self?.loginSMSView.textField.becomeFirstResponder()
             }
         }
     }
@@ -73,10 +81,12 @@ final class LoginSMSViewController: BaseViewController {
     private func showPincodeController() {
         PincodeService.instance.isLogined = true
 
-        AppRouter.instance.showEnterCode(from: self, state: AuthCodeState.new) {[weak self] (_, success) in
+        AppRouter.instance.showEnterCode(from: self, state: AuthCodeState.new) {[weak self] (vc, success) in
             guard let self = self else { return }
             if success {
-                AppRouter.instance.showProfile(from: self)
+                vc.dismiss(animated: true) {
+                    AppRouter.instance.showProfile(from: self)
+                }
             }
         }
     }
@@ -94,13 +104,36 @@ extension LoginSMSViewController: LoginSMSViewDelegate {
         AuthManager.instance.login(signature: sign, phone: phone, code: code) { error in
             self.hideLoader()
 
-            if let error = error {
-                self.showErrorAlert(error)
+            if error != nil {
+                self.showOkAlert(title: "", message: "login_sms_error_general".loco)
                 self.loginSMSView.textField.text = nil
                 self.loginSMSView.textField.becomeFirstResponder()
             } else {
                 self.showPincodeAlert()
             }
         }
+    }
+}
+
+extension LoginSMSViewController: SmsTimerServiceDelegate {
+
+    func timerFired(_ timerService: SmsTimerService, seconds: Int) {
+        self.loginSMSView.updateResend(text: self.resendTimerText(seconds), isEnabled: false)
+    }
+
+    func timedDone(_ timerService: SmsTimerService) {
+        self.loginSMSView.updateResend(text: "login_sms_resent_button".loco, isEnabled: true)
+    }
+
+    func resendTimerText(_ seconds: Int) -> String? {
+        var components = DateComponents()
+        components.second = seconds
+
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .short
+
+        let timeText = formatter.string(from: components)
+
+        return "login_sms_resend".loco + "\n" + (timeText ?? "")
     }
 }
