@@ -29,7 +29,8 @@ final class AppRouter {
     }
 
     func showEnterPhone(from: UIViewController) {
-
+        PincodeService.instance.pincode = nil
+        
         let loginVC = LoginPhoneViewController()
         let navigationController = UINavigationController(rootViewController: loginVC)
         navigationController.setNavigationBarHidden(true, animated: false)
@@ -49,12 +50,12 @@ final class AppRouter {
         pincodeViewController.state = state
         pincodeViewController.completion = completion
 
-        if state == .new || state == .check {
+        if state == .new || state == .check || state == .reset {
             let nvc = UINavigationController(rootViewController: pincodeViewController)
             nvc.setNavigationBarHidden(true, animated: false)
-            UIViewController.show(from: from, isModalFade: true, navigationController: nvc, animated: true)
+            UIViewController.show(from: from, navigationType: .modal, vc: nvc, animated: true)
         } else {
-            UIViewController.show(from: from, navigationType: NavigationType.modalFade, vc: pincodeViewController, animated: true)
+            UIViewController.show(from: from, navigationType: .push, vc: pincodeViewController, animated: true)
         }
     }
 

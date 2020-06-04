@@ -26,6 +26,8 @@ final class LoginSMSViewController: BaseViewController {
         self.loginSMSView.tapResendGesture.addTarget(self, action: #selector(resendCodeAction))
         self.loginSMSView.tapGesture.addTarget(self, action: #selector(tapGestureAction))
 
+        self.loginSMSView.textField.becomeFirstResponder()
+
         SmsTimerService.instance.delegate = self
         SmsTimerService.instance.callFireDelegate()
     }

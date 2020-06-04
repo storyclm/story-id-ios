@@ -12,11 +12,13 @@ enum AuthCodeState: Equatable {
     case new
     case repeatCode(String)
     case check
+    case reset
 
     var displayedTitle: String {
         switch self {
         case .new, .check: return "login_pincode_enter_code".loco
         case .repeatCode: return "login_pincode_repeat_code".loco
+        case .reset: return "login_pincode_enter_code".loco
         }
     }
 
@@ -26,7 +28,7 @@ enum AuthCodeState: Equatable {
 
     var isCancelable: Bool {
         switch self {
-        case .new, .repeatCode: return true
+        case .new, .repeatCode, .reset: return true
         case .check: return false
         }
     }
@@ -36,6 +38,7 @@ enum AuthCodeState: Equatable {
         case (.new, .new): return true
         case (.check, .check): return true
         case (.repeatCode, .repeatCode): return true
+        case (.reset, .reset): return true
         default: return false
         }
     }
@@ -87,7 +90,7 @@ final class LoginPinCodeViewController: UIViewController {
         switch state {
         case .new:
             checkCode = self.code
-        case .check:
+        case .check, .reset:
             checkCode = PincodeService.instance.pincode
         case let .repeatCode(repeatCode):
             checkCode = repeatCode
@@ -142,6 +145,8 @@ final class LoginPinCodeViewController: UIViewController {
         } else {
             if case let AuthCodeState.repeatCode(repeatCode) = self.state {
                 PincodeService.instance.pincode = repeatCode
+            } else if case AuthCodeState.reset = self.state {
+                PincodeService.instance.pincode = nil
             }
             completion?(self, true)
         }
