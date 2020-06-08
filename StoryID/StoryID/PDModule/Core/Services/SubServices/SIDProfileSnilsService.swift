@@ -11,13 +11,21 @@ import UIKit
 public class SIDProfileSnilsService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
+
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfileSNILSAPI.getSnils { serverSnils, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -148,8 +156,25 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deleteSnils() {
+    public func updateSnils(_ snils: String?) {
+        let snilsModel = self.snils() ?? IDContentSNILS.create()
+        if let snils = snils {
+            snilsModel.snils = snils
+            snilsModel.modifiedAt = Date()
+            snilsModel.isEntityDeleted = false
+
+            SIDCoreDataManager.instance.saveContext()
+        }
+    }
+
+    public func markSnilsDeleted() {
         self.snils()?.isEntityDeleted = true
+        self.deleteSnilsImage()
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func deleteSnils() {
+        self.snils()?.deleteModel()
         self.deleteSnilsImage()
         SIDCoreDataManager.instance.saveContext()
     }

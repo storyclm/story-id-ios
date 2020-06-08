@@ -9,6 +9,7 @@
 public final class SIDServiceHelper {
 
     public enum ServiceError: Error {
+        case alreadyInSync
         case serverIdIsMissed
         case syncDisabled
         case dataIsMissed

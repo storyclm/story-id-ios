@@ -11,14 +11,21 @@ import UIKit
 public class SIDProfileItnService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
 
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfileITNAPI.getItn { serverItn, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -150,8 +157,25 @@ public class SIDProfileItnService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deleteItn() {
+    public func updateItn(itn: String?) {
+        if let itn = itn {
+            let itnModel = self.itn() ?? IDContentITN.create()
+            itnModel.itn = itn
+            itnModel.modifiedAt = Date()
+            itnModel.isEntityDeleted = false
+
+            SIDCoreDataManager.instance.saveContext()
+        }
+    }
+
+    public func markItnDeleted() {
         self.itn()?.isEntityDeleted = true
+        self.deleteItnImage()
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func deleteItn() {
+        self.itn()?.deleteModel()
         self.deleteItnImage()
         SIDCoreDataManager.instance.saveContext()
     }

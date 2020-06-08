@@ -11,13 +11,21 @@ import Foundation
 public class SIDProfileService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
+
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfileAPI.getProfile { serverProfile, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -125,8 +133,40 @@ public class SIDProfileService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deleteProfile() {
+    public func updateProfile(email: String?,
+                              emailVerified: Bool?,
+                              phone: String?,
+                              phoneVerified: Bool?,
+                              username: String?) {
+        let profileModel = self.profile() ?? IDContentProfile.create()
+        if let email = email {
+            profileModel.email = email
+        }
+        if let emailVerified = emailVerified {
+            profileModel.emailVerified = emailVerified
+        }
+        if let phone = phone {
+            profileModel.phone = phone
+        }
+        if let phoneVerified = phoneVerified {
+            profileModel.phoneVerified = phoneVerified
+        }
+        if let username = username {
+            profileModel.username = username
+        }
+
+        profileModel.modifiedAt = Date()
+        profileModel.isEntityDeleted = false
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func markProfileAsDeleted() {
         self.profile()?.isEntityDeleted = true
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func deleteProfile() {
+        self.profile()?.deleteModel()
         SIDCoreDataManager.instance.saveContext()
     }
 }

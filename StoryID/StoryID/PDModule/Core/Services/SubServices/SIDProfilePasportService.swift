@@ -11,13 +11,21 @@ import UIKit
 public class SIDProfilePasportService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
+
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfilePasportAPI.getPasport { serverPasport, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -175,8 +183,36 @@ public class SIDProfilePasportService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deletePasport() {
+    public func updatePasport(code: String?, sn: String?, issuedBy: String?, issuedAt: Date?) {
+        let pasportModel = self.passport() ?? IDContentPasport.create()
+        if let code = code {
+            pasportModel.code = code
+        }
+        if let sn = sn {
+            pasportModel.sn = sn
+        }
+        if let issuedAt = issuedAt {
+            pasportModel.issuedAt = issuedAt
+        }
+        if let issuedBy = issuedBy {
+            pasportModel.issuedBy = issuedBy
+        }
+        pasportModel.modifiedAt = Date()
+        pasportModel.isEntityDeleted = false
+
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func markPasportDeleted() {
         self.passport()?.isEntityDeleted = true
+        self.deletePasportImage(page: 0)
+        self.deletePasportImage(page: 1)
+        self.deletePasportImage(page: 2)
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func deletePasport() {
+        self.passport()?.deleteModel()
         self.deletePasportImage(page: 0)
         self.deletePasportImage(page: 1)
         self.deletePasportImage(page: 2)

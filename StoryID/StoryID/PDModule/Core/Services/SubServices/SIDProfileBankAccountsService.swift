@@ -11,13 +11,21 @@ import Foundation
 public class SIDProfileBankAccountsService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
+
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfileBankAccountsAPI.listBankAccounts { bankAccounts, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -179,10 +187,47 @@ public class SIDProfileBankAccountsService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deleteBankAccount(with id: String) {
+    public func updateBankAccount(id: String,
+                                  accountName: String?,
+                                  bic: String?,
+                                  bank: String?,
+                                  correspondentAccount: String?,
+                                  settlementAccount: String?) {
+        let bankAccountModel = self.bankAccount(with: id) ?? IDContentBankAccount.create()
+
+        bankAccountModel.id = id
+        if let accountName = accountName {
+            bankAccountModel.name = accountName
+        }
+        if let bic = bic {
+            bankAccountModel.bic = bic
+        }
+        if let bank = bank {
+            bankAccountModel.bank = bank
+        }
+        if let correspondentAccount = correspondentAccount {
+            bankAccountModel.correspondentAccount = correspondentAccount
+        }
+        if let settlementAccount = settlementAccount {
+            bankAccountModel.settlementAccount = settlementAccount
+        }
+
+        bankAccountModel.isEntityDeleted = false
+        bankAccountModel.modifiedAt = Date()
+
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func markBankAccountDeleted(with id: String) {
         if let model = self.bankAccount(with: id) {
             model.isEntityDeleted = true
+            SIDCoreDataManager.instance.saveContext()
+        }
+    }
 
+    public func deleteBankAccount(with id: String) {
+        if let model = self.bankAccount(with: id) {
+            model.deleteModel()
             SIDCoreDataManager.instance.saveContext()
         }
     }

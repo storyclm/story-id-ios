@@ -11,14 +11,21 @@ import Foundation
 public class SIDProfileDemographicsService: SIDServiceProtocol {
 
     public var isSynchronizable: Bool = true
+    public private(set) var isSynchronizing: Bool = false
 
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
+        guard isSynchronizing == false else {
+            completion(.alreadyInSync)
+            return
+        }
 
         func complete(error: SIDServiceHelper.ServiceError?) {
             completion(error)
             self.clearDeleted()
+            self.isSynchronizing = false
         }
 
+        self.isSynchronizing = true
         ProfileDemographicsAPI.getDemographics { serverDemographics, error in
             if let error = error {
                 complete(error: error.asServiceError)
@@ -128,8 +135,37 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
         SIDCoreDataManager.instance.saveContext()
     }
 
-    public func deleteDemographics() {
+    public func updateDemographics(name: String?, surname: String?, patronymic: String?, gender: Bool?, birthday: Date?) {
+        let demographicsModel = self.demographics() ?? IDContentDemographics.create()
+
+        if let name = name {
+            demographicsModel.name = name
+        }
+        if let surname = surname {
+            demographicsModel.surname = surname
+        }
+        if let patronymic = patronymic {
+            demographicsModel.patronymic = patronymic
+        }
+        if let gender = gender {
+            demographicsModel.gender = gender
+        }
+        if let birthday = birthday {
+            demographicsModel.birthday = birthday
+        }
+        demographicsModel.isEntityDeleted = false
+        demographicsModel.modifiedAt = Date()
+
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func markDemographicsDeleted() {
         self.demographics()?.isEntityDeleted = true
+        SIDCoreDataManager.instance.saveContext()
+    }
+
+    public func deleteDemographics() {
+        self.demographics()?.deleteModel()
         SIDCoreDataManager.instance.saveContext()
     }
 }
