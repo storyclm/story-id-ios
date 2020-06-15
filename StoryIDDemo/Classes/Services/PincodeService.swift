@@ -22,17 +22,17 @@ final class PincodeService {
     }
 
     var pincode: String? {
-        get { valet.string(forKey: kPincode) }
+        get { try? valet.string(forKey: kPincode) }
         set {
             if let value = newValue {
-                valet.set(string: value, forKey: kPincode)
+                try? valet.setString(value, forKey: kPincode)
             } else {
-                valet.removeObject(forKey: kPincode)
+                try? valet.removeObject(forKey: kPincode)
             }
         }
     }
 
-    var isPincodeSet: Bool { valet.containsObject(forKey: kPincode) }
+    var isPincodeSet: Bool { (try? valet.containsObject(forKey: kPincode)) ?? false }
 
     // MARK: -
 

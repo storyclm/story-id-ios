@@ -11,9 +11,23 @@ import StoryID
 
 final class DataStorage {
 
+    private var timer: Timer?
+
     static let instance = DataStorage()
 
-    private init() {}
+    private init() {
+        let avatarService = SIDPersonalDataService.instance.avatarService
+        avatarService.category = "image"
+        avatarService.name = "avatar"
+
+        self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(timerFire), userInfo: nil, repeats: true)
+    }
+
+    // MARK: - Timer
+
+    @objc private func timerFire() {
+        SIDPersonalDataService.instance.synchronize()
+    }
 
     // MARK: - Personal Data
 
@@ -140,27 +154,12 @@ final class DataStorage {
 
     // MARK: - UserImage
 
-    private let avatarName = "avatar.json"
-    private var userAvatarData: Data? {
-        get {
-            guard Storage.fileExists(avatarName, in: Storage.Directory.documents) else { return nil }
-            return Storage.retrieve(avatarName, from: Storage.Directory.documents, as: Data.self)
-        }
-        set {
-            if let newValue = newValue {
-                Storage.store(newValue, to: Storage.Directory.documents, as: avatarName)
-            } else {
-                Storage.remove(avatarName, from: Storage.Directory.documents)
-            }
-        }
+    func getAvatar(completion: @escaping ((UIImage?) -> Void)) {
+        SIDPersonalDataService.instance.avatarService.avatarImage(completion: completion)
     }
 
-    var avatarImage: UIImage? {
-        set { self.userAvatarData = newValue?.pngData() }
-        get {
-            guard let data = self.userAvatarData else { return nil }
-            return UIImage(data: data)
-        }
+    func setAvatar(image: UIImage?) {
+        SIDPersonalDataService.instance.avatarService.setAvatarImage(image)
     }
 
     // MARK: - Logout
@@ -172,8 +171,8 @@ final class DataStorage {
         self.setItn(nil)
         self.setSnils(nil)
         self.setPasport(nil)
-
-        self.avatarImage = nil
+        
+        SIDPersonalDataService.instance.avatarService.deleteAvatarFile()
 
         PincodeService.instance.pincode = nil
         PincodeService.instance.isLogined = false

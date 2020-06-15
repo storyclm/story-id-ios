@@ -45,7 +45,6 @@
 		1BAC27642455B00B00D0A432 /* SnilsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27632455B00B00D0A432 /* SnilsViewController.swift */; };
 		1BAC27662455BB6300D0A432 /* PasportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27652455BB6300D0A432 /* PasportViewController.swift */; };
 		1BAC27682455BD9900D0A432 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27672455BD9900D0A432 /* ImagePickerController.swift */; };
-		1BAC276F2455EC4500D0A432 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC276E2455EC4500D0A432 /* Storage.swift */; };
 		1BAC27722455F15E00D0A432 /* ImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27702455EDDD00D0A432 /* ImagePreviewController.swift */; };
 		1BAC27742455F93800D0A432 /* LoginPinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27732455F93800D0A432 /* LoginPinCodeViewController.swift */; };
 		1BAC27762455F96600D0A432 /* LoginPinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC27752455F96600D0A432 /* LoginPinCodeView.swift */; };
@@ -107,7 +106,6 @@
 		1BAC27632455B00B00D0A432 /* SnilsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnilsViewController.swift; sourceTree = "<group>"; };
 		1BAC27652455BB6300D0A432 /* PasportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasportViewController.swift; sourceTree = "<group>"; };
 		1BAC27672455BD9900D0A432 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
-		1BAC276E2455EC4500D0A432 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		1BAC27702455EDDD00D0A432 /* ImagePreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewController.swift; sourceTree = "<group>"; };
 		1BAC27732455F93800D0A432 /* LoginPinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPinCodeViewController.swift; sourceTree = "<group>"; };
 		1BAC27752455F96600D0A432 /* LoginPinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPinCodeView.swift; sourceTree = "<group>"; };
@@ -390,7 +388,6 @@
 				1BA32252246425010009AE36 /* AuthManager.swift */,
 				1BAC27812456207000D0A432 /* DataStorage.swift */,
 				1BC6C14924572D5D00D84956 /* PincodeService.swift */,
-				1BAC276E2455EC4500D0A432 /* Storage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -574,7 +571,6 @@
 				1BC6C14C2457417900D84956 /* AppRouter.swift in Sources */,
 				1BAC27862456C05D00D0A432 /* PersonalDataModels.swift in Sources */,
 				1BAC272D245349BA00D0A432 /* UIViewController+Ext.swift in Sources */,
-				1BAC276F2455EC4500D0A432 /* Storage.swift in Sources */,
 				1B993F6824699C7E00C9F4A3 /* MaskedTitleFieldCell.swift in Sources */,
 				1BA32253246425010009AE36 /* AuthManager.swift in Sources */,
 				1BAC274A2455865000D0A432 /* SMSTextField.swift in Sources */,
