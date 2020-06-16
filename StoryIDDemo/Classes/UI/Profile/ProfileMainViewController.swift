@@ -47,6 +47,7 @@ final class ProfileMainViewController: BaseFormViewController {
             row.rowHeight = 200.0
             DataStorage.instance.getAvatar {[weak row] avatar in
                 row?.avatarImage = avatar
+                row?.update()
             }
         }.onSelected {[unowned self] row in
             self.former.deselect(animated: true)
