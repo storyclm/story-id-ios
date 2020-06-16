@@ -50,6 +50,7 @@
 		19A101EF80E5FCF9C3736D59F168AF02 /* ServicesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801BC3A58149FDA98710E5BAA8344813 /* ServicesAPI.swift */; };
 		1AD7291D7D3B84EA910DEF65E8B45315 /* InlinePickerRowFormer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AD05F5BBDAE7E126AF98C3C99C4984 /* InlinePickerRowFormer.swift */; };
 		1B13A393964510E4DC2B44C95E621F05 /* SHA3.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1C0F342DD4A15BF1D984923217C71 /* SHA3.swift */; };
+		1B8166142498D08300510108 /* SIDLegacyFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8166132498D08300510108 /* SIDLegacyFileLoader.swift */; };
 		1C70C6D639AC99945206484421B7BC4A /* StoryITN.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59111DE3F72F417C23A838337682B1A /* StoryITN.swift */; };
 		1D9F003A011915B90B4AB7F190DBA929 /* InputMask-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B35AD5F169FA768E8C4F5B047BBFE451 /* InputMask-dummy.m */; };
 		1DED2935416490336861EC8525C39D06 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF0EB1CE9E578C8A8AF25D2037D679F /* String.swift */; };
@@ -521,7 +522,7 @@
 		053D2D8C9059048ECD794F161EA1A69B /* Service.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Service.swift; path = Sources/Valet/Internal/Service.swift; sourceTree = "<group>"; };
 		068C16BB6493FD28ED5ADAA35D227F3E /* Cryptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cryptor.swift; path = Sources/CryptoSwift/Cryptor.swift; sourceTree = "<group>"; };
 		06EEC61AAC63174E89388FE14A3127EF /* BiometricAuthentication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BiometricAuthentication.release.xcconfig; sourceTree = "<group>"; };
-		076E46045788F7D480C055DBD372D3B1 /* Former.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Former.framework; path = Former.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		076E46045788F7D480C055DBD372D3B1 /* Former.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Former.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		089CA29A18332409AFDEACC2AFB109CF /* SKPhotoBrowser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKPhotoBrowser.swift; path = SKPhotoBrowser/SKPhotoBrowser.swift; sourceTree = "<group>"; };
 		093D5CF519F4505316BAF59FE53BD846 /* OAuth2DataLoaderSessionTaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2DataLoaderSessionTaskDelegate.swift; path = Sources/DataLoader/OAuth2DataLoaderSessionTaskDelegate.swift; sourceTree = "<group>"; };
 		096368C68EFDBEDC178CD01FA7484B1B /* SKToolbar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKToolbar.swift; path = SKPhotoBrowser/SKToolbar.swift; sourceTree = "<group>"; };
@@ -535,7 +536,7 @@
 		0BC8B93C1531965A30997A5A9892F3D9 /* SIDSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SIDSettings.swift; path = StoryID/SIDSettings.swift; sourceTree = "<group>"; };
 		0BE2698EA85D549D5AA58DC671896ECA /* OAuth2AuthRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2AuthRequest.swift; path = Sources/Base/OAuth2AuthRequest.swift; sourceTree = "<group>"; };
 		0C8000433F5BE4C28597737688B6295B /* UIImage+Rotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Rotation.swift"; path = "SKPhotoBrowser/extensions/UIImage+Rotation.swift"; sourceTree = "<group>"; };
-		0D60B117D743B08C9E6E4CB8B11A8B87 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		0D60B117D743B08C9E6E4CB8B11A8B87 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0DC27EDD470F97F3DDB0E3C48F001E36 /* InputMask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = InputMask.h; path = Source/InputMask/InputMask/Classes/InputMask.h; sourceTree = "<group>"; };
 		0DE9FBA6F83313BF4200148A4B61B92A /* OptionalValueState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OptionalValueState.swift; path = Source/InputMask/InputMask/Classes/Model/State/OptionalValueState.swift; sourceTree = "<group>"; };
 		0DF6612AC6089CF6F5E5152B4E81B954 /* FormCheckCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormCheckCell.swift; path = Former/Cells/FormCheckCell.swift; sourceTree = "<group>"; };
@@ -566,6 +567,7 @@
 		1AF7DD8E6FA75B35586CB23CEEDD07B3 /* APIHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		1B17672BBE0522E48324E7B130186FA5 /* SIDProfileBankAccountsService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SIDProfileBankAccountsService.swift; sourceTree = "<group>"; };
 		1B3E08FBED40D288FD65782CD38E147E /* CryptoSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CryptoSwift.modulemap; sourceTree = "<group>"; };
+		1B8166132498D08300510108 /* SIDLegacyFileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDLegacyFileLoader.swift; sourceTree = "<group>"; };
 		1B929F89211016020063DFCD101DE354 /* Collection+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Collection+Extension.swift"; path = "Sources/CryptoSwift/Collection+Extension.swift"; sourceTree = "<group>"; };
 		1CD3DE45F6418C65BF21EB69369666A8 /* InlineDatePickerRowFormer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InlineDatePickerRowFormer.swift; path = Former/RowFormers/InlineDatePickerRowFormer.swift; sourceTree = "<group>"; };
 		1D23147188BF9F4BB4891B1CC6BCBBBA /* RTLCaretStringIterator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RTLCaretStringIterator.swift; path = Source/InputMask/InputMask/Classes/Helper/RTLCaretStringIterator.swift; sourceTree = "<group>"; };
@@ -574,7 +576,7 @@
 		1D5303A9799DBBD97EAF5BD00D3BFBF3 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		1D8B729B26AC1E6AA4A3842191B07D2A /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = SKPhotoBrowser.bundle; path = SKPhotoBrowser/SKPhotoBrowser.bundle; sourceTree = "<group>"; };
 		211479977D680619EC58FEE9B06C8AD1 /* CreateFileViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CreateFileViewModel.swift; sourceTree = "<group>"; };
-		2206DE2F3FA7264A50C2C90013B40A04 /* SKPhotoBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SKPhotoBrowser.framework; path = SKPhotoBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2206DE2F3FA7264A50C2C90013B40A04 /* SKPhotoBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SKPhotoBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24E18DB69D38CB0D4D1E1F0B80A8B2B8 /* SKPhotoBrowser-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SKPhotoBrowser-Info.plist"; sourceTree = "<group>"; };
 		25FB552D2F478BD66E311CDF96FB0213 /* BiometricAuthentication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BiometricAuthentication.debug.xcconfig; sourceTree = "<group>"; };
 		26008920887FC77824A589D84BE4F4A3 /* StoryAppType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryAppType.swift; sourceTree = "<group>"; };
@@ -657,7 +659,7 @@
 		5D025B51E9D551296B8A6D0AD350C31C /* VerifyPhoneResultViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerifyPhoneResultViewModel.swift; sourceTree = "<group>"; };
 		5D5B6F4D1B147288599040EF129E5BAA /* StepperRowFormer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StepperRowFormer.swift; path = Former/RowFormers/StepperRowFormer.swift; sourceTree = "<group>"; };
 		5D61AFA2864D127ACBC15EA4A6774C66 /* Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = SwiftKeychain/Keychain/Keychain.swift; sourceTree = "<group>"; };
-		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E0DE22D0CD9CEBB58327C9AADC496AD /* HKDF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HKDF.swift; path = Sources/CryptoSwift/HKDF.swift; sourceTree = "<group>"; };
 		5E3F9DE01DB6E93D66C1865AEB60B1CB /* OFB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OFB.swift; path = Sources/CryptoSwift/BlockMode/OFB.swift; sourceTree = "<group>"; };
 		5EE23B242DD0CCF8A655A9CD0FAE1551 /* ImageDownloader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Source/ImageDownloader.swift; sourceTree = "<group>"; };
@@ -775,8 +777,8 @@
 		9B59F2CF2AEF902842C44DB28DF3A2E2 /* FormInlineDatePickerCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormInlineDatePickerCell.swift; path = Former/Cells/FormInlineDatePickerCell.swift; sourceTree = "<group>"; };
 		9B84FCE02878E2369FA6DA144C39969B /* Body1.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Body1.swift; sourceTree = "<group>"; };
 		9D59937D4BA09E83A2BB1FF5D1255F20 /* DatePickerRowFormer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DatePickerRowFormer.swift; path = Former/RowFormers/DatePickerRowFormer.swift; sourceTree = "<group>"; };
-		9D6744EB8F82ACDFA76A6968B000CC82 /* BiometricAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BiometricAuthentication.framework; path = BiometricAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D6744EB8F82ACDFA76A6968B000CC82 /* BiometricAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BiometricAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9D973EA1073957803F3F6268CC97D586 /* MigrationError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MigrationError.swift; path = Sources/Valet/MigrationError.swift; sourceTree = "<group>"; };
 		9E28AE713A0D7511BB91757836F3E4F9 /* CFB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CFB.swift; path = Sources/CryptoSwift/BlockMode/CFB.swift; sourceTree = "<group>"; };
 		9F12F92095BE194B91B6CE2CCDA0FC6B /* Pods-StoryIDDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-StoryIDDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -786,7 +788,7 @@
 		A01C4AA59B37C1E65E8C728D06B28F42 /* UITextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UITextView.swift; path = Source/InputMask/InputMask/Classes/View/UITextView.swift; sourceTree = "<group>"; };
 		A061D4BEEEAC9A66B268EEB31B1C79BF /* PKCS7Padding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PKCS7Padding.swift; path = Sources/CryptoSwift/PKCS/PKCS7Padding.swift; sourceTree = "<group>"; };
 		A0B414725A983039F12232C7B771E66E /* OAuth2ClientCredentialsReddit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2ClientCredentialsReddit.swift; path = Sources/Flows/OAuth2ClientCredentialsReddit.swift; sourceTree = "<group>"; };
-		A0ECE54B0F0AE01FF2391FFD7703F584 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = InputMask.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0ECE54B0F0AE01FF2391FFD7703F584 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A28B3E82BD01BE80AA30DC2526616C75 /* MaskedTextViewDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MaskedTextViewDelegate.swift; path = Source/InputMask/InputMask/Classes/View/MaskedTextViewDelegate.swift; sourceTree = "<group>"; };
 		A3879E46D3B22D0F1B8628F2839DCA79 /* StoryDemographicsDTO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryDemographicsDTO.swift; sourceTree = "<group>"; };
 		A40225686D55C7980A4785E718D3E0B6 /* UIImageView+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImageView+AlamofireImage.swift"; path = "Source/UIImageView+AlamofireImage.swift"; sourceTree = "<group>"; };
@@ -813,14 +815,14 @@
 		AF4CC790144203FFD85AE76E9A89E616 /* ChaCha20+Foundation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ChaCha20+Foundation.swift"; path = "Sources/CryptoSwift/Foundation/ChaCha20+Foundation.swift"; sourceTree = "<group>"; };
 		AFC2A5FEEA5369976C5CA26C087E130B /* Former.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Former.swift; path = Former/Commons/Former.swift; sourceTree = "<group>"; };
 		AFC9494D471F7CA4AF584A05155A0902 /* Body6.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Body6.swift; sourceTree = "<group>"; };
-		B01C8E51DDA80DEB76D707799F864046 /* StoryID.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = StoryID.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B01C8E51DDA80DEB76D707799F864046 /* StoryID.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = StoryID.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B07F370E9723A18973F6210D7B9F5D16 /* SKPhotoBrowser-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SKPhotoBrowser-dummy.m"; sourceTree = "<group>"; };
 		B119DCBBFF4AA24C0718A983563DABED /* Models.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		B1206119F4D5A5495BCF5237607B22FC /* Body2.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Body2.swift; sourceTree = "<group>"; };
 		B12DE6CA82D5D00EFDC38454A93669D0 /* OAuth2PasswordGrant.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2PasswordGrant.swift; path = Sources/Flows/OAuth2PasswordGrant.swift; sourceTree = "<group>"; };
 		B1F32C1EAF19AD8E5A1D2465C0A0037A /* UInt32+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UInt32+Extension.swift"; path = "Sources/CryptoSwift/UInt32+Extension.swift"; sourceTree = "<group>"; };
 		B22BC5F70C470DC743A849DEF370AE1B /* AFIError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFIError.swift; path = Source/AFIError.swift; sourceTree = "<group>"; };
-		B3081E0CFC54E0C89C7B6D481B03DC95 /* Valet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Valet.framework; path = Valet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3081E0CFC54E0C89C7B6D481B03DC95 /* Valet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Valet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B35AD5F169FA768E8C4F5B047BBFE451 /* InputMask-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "InputMask-dummy.m"; sourceTree = "<group>"; };
 		B3C07CCB6367B31140ED96059DA51A0E /* Cipher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cipher.swift; path = Sources/CryptoSwift/Cipher.swift; sourceTree = "<group>"; };
 		B47D43C6DF4C07405E3459F9ACF1B5F7 /* FormatSanitizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormatSanitizer.swift; path = Source/InputMask/InputMask/Classes/Helper/FormatSanitizer.swift; sourceTree = "<group>"; };
@@ -861,12 +863,12 @@
 		C5D5C8765D1B372C56A170D351ADED8D /* Mask.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mask.swift; path = Source/InputMask/InputMask/Classes/Mask.swift; sourceTree = "<group>"; };
 		C646CECE0FC4DB0A3B96275EA364B229 /* ApplicationsAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ApplicationsAPI.swift; sourceTree = "<group>"; };
 		C6C1C6953401848E3CA6363E368E5246 /* StoryID-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "StoryID-dummy.m"; sourceTree = "<group>"; };
-		C6D3570341BBFDA076BCA1ECAC11861E /* p2_OAuth2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = p2_OAuth2.framework; path = p2.OAuth2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6D3570341BBFDA076BCA1ECAC11861E /* p2_OAuth2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = p2_OAuth2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C737F9422FA205CB587BBB48C5F2CB12 /* DemographicsAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DemographicsAPI.swift; sourceTree = "<group>"; };
 		C7E52F72D1BE19C5B3937BBEC6633813 /* UIImage+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+AlamofireImage.swift"; path = "Source/UIImage+AlamofireImage.swift"; sourceTree = "<group>"; };
 		C817364EFCCBA4F6AD4E6DC8EF52CACF /* OAuth2AuthConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2AuthConfig.swift; path = Sources/Base/OAuth2AuthConfig.swift; sourceTree = "<group>"; };
 		C83D324419709E670DB381942DEA911A /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
-		C8498160B5D29EF2745E4D41F2D971B5 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireImage.framework; path = AlamofireImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8498160B5D29EF2745E4D41F2D971B5 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlamofireImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C987706DD6881DE4DC2C63B78B5019F4 /* Cryptors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cryptors.swift; path = Sources/CryptoSwift/Cryptors.swift; sourceTree = "<group>"; };
 		CABAD374AB53C78345DF572F35E5FA6F /* FormTextViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormTextViewCell.swift; path = Former/Cells/FormTextViewCell.swift; sourceTree = "<group>"; };
 		CB2673122826ADE97807166DCEE8A664 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -893,7 +895,7 @@
 		D9416DFC745A6A8D1A85CDD46F52FBDC /* OAuth2CodeGrantLinkedIn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2CodeGrantLinkedIn.swift; path = Sources/Flows/OAuth2CodeGrantLinkedIn.swift; sourceTree = "<group>"; };
 		DA0275A9A5CFD15F8CCBD42343F6A8D2 /* SKPhotoBrowserDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKPhotoBrowserDelegate.swift; path = SKPhotoBrowser/SKPhotoBrowserDelegate.swift; sourceTree = "<group>"; };
 		DBD5ACD2CA7A9D0155446E74418F4E4D /* BatchedCollection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BatchedCollection.swift; path = Sources/CryptoSwift/BatchedCollection.swift; sourceTree = "<group>"; };
-		DCF80C3EAD1F8B6E1BAD01F53C5D93A6 /* StoryID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = StoryID.framework; path = StoryID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCF80C3EAD1F8B6E1BAD01F53C5D93A6 /* StoryID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StoryID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD195E0FF292558182EC96D44247507C /* AES.Cryptors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AES.Cryptors.swift; path = Sources/CryptoSwift/AES.Cryptors.swift; sourceTree = "<group>"; };
 		DD3A8DA1F07951226B286CE9D8336984 /* AlamofireImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AlamofireImage.modulemap; sourceTree = "<group>"; };
 		DDCF6A1DE37D9F362560D57E4069AB8D /* Former-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Former-dummy.m"; sourceTree = "<group>"; };
@@ -932,7 +934,7 @@
 		F0CF046820141AB8E0004BF3CA7F5265 /* FormSwitchCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormSwitchCell.swift; path = Former/Cells/FormSwitchCell.swift; sourceTree = "<group>"; };
 		F0DD5BA6CD3F10C2971C613CC0DF21F6 /* SIDProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SIDProfileService.swift; sourceTree = "<group>"; };
 		F0F69543EB8AEBA85349633CA76023B1 /* LoginVerifyRequestViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginVerifyRequestViewModel.swift; sourceTree = "<group>"; };
-		F1261F8A3503A8D64F46F4F10EF38B49 /* Pods_StoryIDDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_StoryIDDemo.framework; path = "Pods-StoryIDDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1261F8A3503A8D64F46F4F10EF38B49 /* Pods_StoryIDDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StoryIDDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F201690CC33CD3A2EDCA8EB328DC8556 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		F22394AFD91879E2A296153878ED38DD /* StreamDecryptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StreamDecryptor.swift; path = Sources/CryptoSwift/StreamDecryptor.swift; sourceTree = "<group>"; };
 		F34B6218DA39F8795EABDAE9A37BF568 /* IDContentPasportPage+CoreDataClass.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "IDContentPasportPage+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -946,7 +948,7 @@
 		F66AEE7DD479D2AE2F076F06D03DFDF6 /* Former.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Former.release.xcconfig; sourceTree = "<group>"; };
 		F7155DF4F915B58F038BEA85EE92EFFB /* SIDConfigModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SIDConfigModel.swift; sourceTree = "<group>"; };
 		F7C4191B9D21A324AE97A50D7665DEBB /* ProfileSNILSAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileSNILSAPI.swift; sourceTree = "<group>"; };
-		F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CryptoSwift.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89A58F15658306367ED356E4098DB5A /* Request+AlamofireImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Request+AlamofireImage.swift"; path = "Source/Request+AlamofireImage.swift"; sourceTree = "<group>"; };
 		F91A67A2770262A8DC3D9AE11070208D /* State.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = State.swift; path = Source/InputMask/InputMask/Classes/Model/State.swift; sourceTree = "<group>"; };
 		FA0A309FFBA0466858225D5D701EA3BC /* SNILSAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SNILSAPI.swift; sourceTree = "<group>"; };
@@ -1111,7 +1113,6 @@
 				A40225686D55C7980A4785E718D3E0B6 /* UIImageView+AlamofireImage.swift */,
 				633FF7F0EBBD129253B3CDD4BD1A6276 /* Support Files */,
 			);
-			name = AlamofireImage;
 			path = AlamofireImage;
 			sourceTree = "<group>";
 		};
@@ -1210,7 +1211,6 @@
 				A75C00217BA941C9A58B617832F3C9D5 /* ZeroPadding.swift */,
 				C322182C2B900A799E873A53ED7DA260 /* Support Files */,
 			);
-			name = CryptoSwift;
 			path = CryptoSwift;
 			sourceTree = "<group>";
 		};
@@ -1258,7 +1258,6 @@
 				FEC343266EE142EDFE3AEDBC42FC1095 /* Resources */,
 				A722BA4C930AF7105B018EAB6A10B494 /* Support Files */,
 			);
-			name = SKPhotoBrowser;
 			path = SKPhotoBrowser;
 			sourceTree = "<group>";
 		};
@@ -1267,7 +1266,6 @@
 			children = (
 				80A3CC4EF914B1AB804D3153239D877A /* SIDServiceProtocol.swift */,
 			);
-			name = Protocol;
 			path = Protocol;
 			sourceTree = "<group>";
 		};
@@ -1278,7 +1276,6 @@
 				606667F987B85E8ECFDD8A0BC11E9353 /* SIDCryptoManager.swift */,
 				360E1563FEFDA5885E17F65832CF6242 /* SIDImageManager.swift */,
 			);
-			name = Managers;
 			path = Managers;
 			sourceTree = "<group>";
 		};
@@ -1306,7 +1303,6 @@
 				B31E000AA69D8D718BF0E5807339C44C /* APIs */,
 				C30C4A7BA06072F971969A2F3399B8FF /* Models */,
 			);
-			name = Swagger;
 			path = Swagger;
 			sourceTree = "<group>";
 		};
@@ -1350,7 +1346,6 @@
 				272FC7A478676E7831F43E469BB9BB88 /* OAuth2WebViewController.swift */,
 				5661789E494654786AF28186D90209A5 /* Support Files */,
 			);
-			name = p2.OAuth2;
 			path = p2.OAuth2;
 			sourceTree = "<group>";
 		};
@@ -1374,7 +1369,6 @@
 			children = (
 				57FFBC2B4A339972D977A2C80FE696A8 /* OAuth2PasswordlessGrant.swift */,
 			);
-			name = Passwordless;
 			path = Passwordless;
 			sourceTree = "<group>";
 		};
@@ -1383,7 +1377,6 @@
 			children = (
 				5FE9971FDC71835D21AE7507F3098E9A /* SIDRetryHandler.swift */,
 			);
-			name = RequestRetrier;
 			path = RequestRetrier;
 			sourceTree = "<group>";
 		};
@@ -1394,7 +1387,6 @@
 				4A5DD4F156AE58D6C7F0704636419D9A /* SIDPasswordlessSignature.swift */,
 				8A3771DB505C529EAF8068AF4EDE1C92 /* FlowConfigs */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -1458,7 +1450,6 @@
 				0004D107BB9718D59214F7D4ABDEA3E3 /* ValueState.swift */,
 				12AC1870A59DA5973E094339A1608C9F /* Support Files */,
 			);
-			name = InputMask;
 			path = InputMask;
 			sourceTree = "<group>";
 		};
@@ -1478,7 +1469,6 @@
 				34AB1EBFBCB516FB08266ED5AABFD0EC /* Protocol */,
 				E9A9C8A16C18C89715C2CFB5D8C54375 /* SubServices */,
 			);
-			name = Services;
 			path = Services;
 			sourceTree = "<group>";
 		};
@@ -1542,7 +1532,6 @@
 				8964F90C60DFC9AFE511F2063DC071D2 /* Validation.swift */,
 				1FF358D648B7435674E22155BCB72F1E /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -1578,8 +1567,8 @@
 			isa = PBXGroup;
 			children = (
 				6117BC6CE34C02DDAAC1CD7C41675174 /* SIDLegacyImageLoader.swift */,
+				1B8166132498D08300510108 /* SIDLegacyFileLoader.swift */,
 			);
-			name = Legacy;
 			path = Legacy;
 			sourceTree = "<group>";
 		};
@@ -1633,7 +1622,6 @@
 				A01B2C1EDD8DD20FBAD90C3E6DD31BD6 /* ViewFormer.swift */,
 				7AE0F20BE3A935315BD745CE63174AF1 /* Support Files */,
 			);
-			name = Former;
 			path = Former;
 			sourceTree = "<group>";
 		};
@@ -1666,7 +1654,6 @@
 				9690E5A89D8C0DC84B4234C7674179F9 /* SIDPasswordlessFlowModel.swift */,
 				7AD4712244259590F7AC5BAC109D97D9 /* SIDServiceFlowModel.swift */,
 			);
-			name = FlowConfigs;
 			path = FlowConfigs;
 			sourceTree = "<group>";
 		};
@@ -1675,7 +1662,6 @@
 			children = (
 				6F8C846D674ED939DCE8213527096391 /* OAuth2+Token.swift */,
 			);
-			name = Extensions;
 			path = Extensions;
 			sourceTree = "<group>";
 		};
@@ -1748,7 +1734,6 @@
 				FA0A309FFBA0466858225D5D701EA3BC /* SNILSAPI.swift */,
 				D4CCAD53BCFB03FE40D07D9CE90A9542 /* VerifyAPI.swift */,
 			);
-			name = APIs;
 			path = APIs;
 			sourceTree = "<group>";
 		};
@@ -1776,7 +1761,6 @@
 				769615A91DB1F7CE189B012D2110918C /* IDContentSNILS+CoreDataClass.swift */,
 				8A4746921B40917FB929CEF7BB008AA9 /* SIDCoreDataProtocol.swift */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -1821,7 +1805,6 @@
 				8B4DCEAEE231D15A1AC652479C77A0BD /* UserExistsRequestViewModel.swift */,
 				5D025B51E9D551296B8A6D0AD350C31C /* VerifyPhoneResultViewModel.swift */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -1846,7 +1829,6 @@
 				3E2E2B1F056441312D79D5C2275734DD /* Valet.swift */,
 				645495E050A62DE9C913BDD5F561906D /* Support Files */,
 			);
-			name = Valet;
 			path = Valet;
 			sourceTree = "<group>";
 		};
@@ -1883,7 +1865,6 @@
 				123814490B9D87F0F414C6E7FDE2508B /* NSManagedObject+SIDExt.swift */,
 				BE2CC0AB98FEBC987C2DC6D1A9929618 /* Models */,
 			);
-			name = CoreData;
 			path = CoreData;
 			sourceTree = "<group>";
 		};
@@ -1895,7 +1876,6 @@
 				95B3495D3118ED5A74A69A829283DCD5 /* BioMetricAuthenticator.swift */,
 				6C5A5AA02C44A1D3DA4998E26E747466 /* Support Files */,
 			);
-			name = BiometricAuthentication;
 			path = BiometricAuthentication;
 			sourceTree = "<group>";
 		};
@@ -1904,7 +1884,6 @@
 			children = (
 				37E41C06869B4573C1BEC2EAD0FB7228 /* SIDServiceHelper.swift */,
 			);
-			name = Additional;
 			path = Additional;
 			sourceTree = "<group>";
 		};
@@ -1919,7 +1898,6 @@
 				F0DD5BA6CD3F10C2971C613CC0DF21F6 /* SIDProfileService.swift */,
 				7489C4F725D0FD7DA905DD9241FE4F0B /* SIDProfileSnilsService.swift */,
 			);
-			name = SubServices;
 			path = SubServices;
 			sourceTree = "<group>";
 		};
@@ -1941,7 +1919,6 @@
 				3A6B2E576A257CDD7C5C1B787AAF0603 /* Managers */,
 				6ACB52F0003C85E4B14DD0B2CDCEFEE1 /* Services */,
 			);
-			name = Core;
 			path = Core;
 			sourceTree = "<group>";
 		};
@@ -2662,6 +2639,7 @@
 				ED19CE826C266ED73FE58C178079A8B5 /* StoryProfile.swift in Sources */,
 				E38596D5542DDE3895F55441B121A678 /* StoryProfileDTO.swift in Sources */,
 				31C3022347652734211064BB0CCE625D /* StorySNILS.swift in Sources */,
+				1B8166142498D08300510108 /* SIDLegacyFileLoader.swift in Sources */,
 				53669DD8780CEDA29719C2EFEEBF077F /* StorySNILSDTO.swift in Sources */,
 				60B7C7752A1278B62E68628B210D0FFE /* UpdateFileViewModel.swift in Sources */,
 				4989F84586780C447AF74436B5BE55BB /* UserExistsRequestViewModel.swift in Sources */,
@@ -3944,6 +3922,7 @@
 			children = (
 				6382808D309DBB157CA718E5F5A59E58 /* sidpd.xcdatamodel */,
 			);
+			currentVersion = 6382808D309DBB157CA718E5F5A59E58 /* sidpd.xcdatamodel */;
 			name = sidpd.xcdatamodeld;
 			path = StoryID/PDModule/Core/CoreData/sidpd.xcdatamodeld;
 			sourceTree = "<group>";

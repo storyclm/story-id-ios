@@ -36,7 +36,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         self.isSynchronizing = true
 
         ProfileFilesAPI.getCategoryFileByName(category: category, name: name) { serverFileModel, error in
-            if let error = error {
+                if let error = error {
                 if case let StoryID.ErrorResponse.error(code, _, _) = error, code == 404 {
                     self.apiCreateProfileFile { _, error in
                         complete(error: error?.asServiceError)
@@ -156,6 +156,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         lModel.modifiedAt = serverModel.modifiedAt
         lModel.createdAt = serverModel.createdAt
 
+        SIDCoreDataManager.instance.saveContext()
     }
 
     private func sendAvatarFile(id: String,
@@ -217,8 +218,15 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
             return
         }
 
-        let path = "/profile/files" + "\(category)" + "\(name)" + "/download"
-        SIDLegacyImageLoader.instance.getImage(with: path, parameters: nil, completion: completion)
+        SIDLegacyFileLoader.instance.getFile(category: category, name: name) { data, error in
+            if let error = error {
+                completion(nil, error)
+            } else if let data = data, let image = UIImage(data: data) {
+                completion(image, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
     }
 
     private func apiSendAvatarImage(completion: @escaping (FileViewModel?, Error?) -> Void) {
@@ -233,9 +241,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                 return
             }
 
-            let file = FileParam(data: imageData, name: "file")
-            let path = "/profile/files" + category + name
-            SIDLegacyImageLoader.instance.loadFiles(to: path, files: [ file ], parameters: nil, completion: completion)
+            SIDLegacyFileLoader.instance.uploadFile(category: category, name: name, data: imageData, completion: completion)
         }
     }
 
@@ -246,8 +252,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                 return
             }
 
-            let path = "/profile/files" + "\(imageid)"
-            SIDLegacyImageLoader.instance.deleteFile(at: path, completion: completion)
+            SIDLegacyFileLoader.instance.deleteFile(with: imageid, completion: completion)
         }
     }
 
