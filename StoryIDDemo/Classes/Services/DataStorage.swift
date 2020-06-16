@@ -154,6 +154,16 @@ final class DataStorage {
 
     // MARK: - UserImage
 
+    func subscribeToAvatar(from viewController: UIViewController, completion: @escaping (UIImage?) -> Void) {
+        SIDPersonalDataService.instance.avatarService.addObserver(viewController, type: .image) { object in
+            completion(object as? UIImage)
+        }
+    }
+
+    func unsubscribeFromAvatar(for viewController: UIViewController) {
+        SIDPersonalDataService.instance.avatarService.removeObserver(viewController)
+    }
+
     func getAvatar(completion: @escaping ((UIImage?) -> Void)) {
         SIDPersonalDataService.instance.avatarService.avatarImage(completion: completion)
     }

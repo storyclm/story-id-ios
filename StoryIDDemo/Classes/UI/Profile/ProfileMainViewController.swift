@@ -42,10 +42,12 @@ final class ProfileMainViewController: BaseFormViewController {
 
         let avatar = AvatarlRowFormer(cellSetup: { _ in
 
-        }).configure { row in
+        }).configure {[weak self] row in
+            guard let self = self else { return }
+
             row.cell.avatarView.isUserInteractionEnabled = false
             row.rowHeight = 200.0
-            DataStorage.instance.getAvatar {[weak row] avatar in
+            DataStorage.instance.subscribeToAvatar(from: self) {[weak row] avatar in
                 row?.avatarImage = avatar
                 row?.update()
             }

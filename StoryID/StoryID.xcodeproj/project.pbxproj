@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1B816610249753FA00510108 /* SIDProfileAvatarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81660F249753FA00510108 /* SIDProfileAvatarService.swift */; };
 		1B816612249759FE00510108 /* IDContentFile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B816611249759FE00510108 /* IDContentFile+CoreDataClass.swift */; };
+		1B8166182498F95F00510108 /* SIDObserveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8166172498F95F00510108 /* SIDObserveManager.swift */; };
+		1B81661A2498FC7600510108 /* SIDLegacyFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8166192498FC7600510108 /* SIDLegacyFileLoader.swift */; };
 		1B993F6124697A6100C9F4A3 /* SIDProfileBankAccountsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B993F6024697A6100C9F4A3 /* SIDProfileBankAccountsService.swift */; };
 		1BA322432463442C0009AE36 /* SIDProfileItnService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA322422463442C0009AE36 /* SIDProfileItnService.swift */; };
 		1BA3224524635C090009AE36 /* NSManagedObject+SIDExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3224424635C090009AE36 /* NSManagedObject+SIDExt.swift */; };
@@ -114,6 +116,8 @@
 /* Begin PBXFileReference section */
 		1B81660F249753FA00510108 /* SIDProfileAvatarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileAvatarService.swift; sourceTree = "<group>"; };
 		1B816611249759FE00510108 /* IDContentFile+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDContentFile+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1B8166172498F95F00510108 /* SIDObserveManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDObserveManager.swift; sourceTree = "<group>"; };
+		1B8166192498FC7600510108 /* SIDLegacyFileLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDLegacyFileLoader.swift; sourceTree = "<group>"; };
 		1B993F6024697A6100C9F4A3 /* SIDProfileBankAccountsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileBankAccountsService.swift; sourceTree = "<group>"; };
 		1BA322422463442C0009AE36 /* SIDProfileItnService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDProfileItnService.swift; sourceTree = "<group>"; };
 		1BA3224424635C090009AE36 /* NSManagedObject+SIDExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+SIDExt.swift"; sourceTree = "<group>"; };
@@ -484,6 +488,7 @@
 		1BDF0F252461ED8800C222D7 /* Additional */ = {
 			isa = PBXGroup;
 			children = (
+				1B8166172498F95F00510108 /* SIDObserveManager.swift */,
 				1BDF0F1F2461EC9500C222D7 /* SIDServiceHelper.swift */,
 			);
 			path = Additional;
@@ -506,6 +511,7 @@
 		1BDF0F6B2462DE6A00C222D7 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				1B8166192498FC7600510108 /* SIDLegacyFileLoader.swift */,
 				1BDF0F6C2462DE7E00C222D7 /* SIDLegacyImageLoader.swift */,
 			);
 			path = Legacy;
@@ -712,6 +718,7 @@
 				1BDF0EE12461E99C00C222D7 /* AlamofireImplementations.swift in Sources */,
 				1BDF0F022461E99D00C222D7 /* Body3.swift in Sources */,
 				1BDF0EEE2461E99C00C222D7 /* StoryProfile.swift in Sources */,
+				1B8166182498F95F00510108 /* SIDObserveManager.swift in Sources */,
 				1BDF0F112461E99D00C222D7 /* ApplicationsAPI.swift in Sources */,
 				1BDF0EF12461E99C00C222D7 /* StoryBankAccount.swift in Sources */,
 				1BDF0EE22461E99C00C222D7 /* JSONValue.swift in Sources */,
@@ -730,6 +737,7 @@
 				1BDF0F122461E99D00C222D7 /* ProfileSNILSAPI.swift in Sources */,
 				1BDF0F1B2461E99D00C222D7 /* Extensions.swift in Sources */,
 				1BA322682465E2F30009AE36 /* IDContentBankAccount+CoreDataClass.swift in Sources */,
+				1B81661A2498FC7600510108 /* SIDLegacyFileLoader.swift in Sources */,
 				1BDF0E8A2461E2F700C222D7 /* OAuth2+Token.swift in Sources */,
 				1BDF0E702461DFA100C222D7 /* SIDSettings.swift in Sources */,
 				1BDF0F002461E99D00C222D7 /* StoryITN.swift in Sources */,

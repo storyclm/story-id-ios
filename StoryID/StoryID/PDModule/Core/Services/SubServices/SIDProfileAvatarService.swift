@@ -16,6 +16,8 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
     public var category: String?
     public var name: String?
 
+    private let observers = SIDObserveManager()
+
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
         guard isSynchronizing == false else {
             completion(.alreadyInSync)
@@ -38,7 +40,13 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         ProfileFilesAPI.getCategoryFileByName(category: category, name: name) { serverFileModel, error in
                 if let error = error {
                 if case let StoryID.ErrorResponse.error(code, _, _) = error, code == 404 {
-                    self.apiCreateProfileFile { _, error in
+                    self.apiCreateProfileFile { model, error in
+                        if let model = model {
+                            let localModel = self.avatarFileModel()
+                            self.updateLocalModel(localModel, with: model)
+                            self.notifyModelObservers(model: localModel)
+                        }
+
                         complete(error: error?.asServiceError)
                     }
                 } else {
@@ -74,14 +82,13 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                 return
             }
 
-            self.updateLocalModel(localModel, with: serverModel)
             self.apiGetAvatarImage { image, error in
                 if let error = error {
                     completion(error.asServiceError)
                 } else {
-                    SIDImageManager.saveImage(image, name: self.avatarImageName) { error in
-                        completion(nil)
-                    }
+                    self.updateLocalModel(localModel, with: serverModel)
+                    self.notifyModelObservers(model: localModel)
+                    self.saveImageToDisk(image)
                 }
             }
         case .send:
@@ -91,11 +98,12 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                                     fileName: fileModel.fileName,
                                     mimeType: fileModel.mimeType,
                                     category: fileModel.category,
-                                    description: fileModel.fileDescription) { (model, error) in
+                                    description: fileModel.fileDescription) { model, error in
                                         if let error = error {
                                             completion(error.asServiceError)
                                         } else if let model = model {
                                             self.updateLocalModel(fileModel, with: model)
+                                            self.notifyModelObservers(model: fileModel)
                                             completion(nil)
                                         } else {
                                             completion(nil)
@@ -256,6 +264,46 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         }
     }
 
+    private func saveImageToDisk(_ image: UIImage?) {
+        SIDImageManager.saveImage(image, name: avatarImageName) {[weak self] error in
+            if error == nil {
+                try? self?.avatarFileModel()?.updateModifyAt()
+            }
+            self?.notifyImageObservers(image: image)
+        }
+    }
+
+    // MARK: - Observer
+
+    public func addObserver(_ observer: AnyObject, type: SIDObserveManager.SIDObserver.ObserveType, callback: @escaping (AnyObject?) -> Void) {
+        if type == .both || type == .model {
+            callback(self.avatarFileModel())
+        } else if type == .both || type == .image {
+            self.avatarImage {[weak observer] avatar in
+                if let observer = observer, let callback = self.observers[observer]?.callback {
+                    callback(avatar)
+                }
+            }
+        }
+        self.observers.addObserver(observer, type: type, callback: callback)
+    }
+
+    public func removeObserver(_ observer: AnyObject) {
+        self.observers.removeObserver(observer)
+    }
+
+    public func notifyModelObservers(model: IDContentFile?) {
+        for observer in self.observers.allObserver(with: SIDObserveManager.SIDObserver.ObserveType.model) {
+            observer.value.callback(model as AnyObject?)
+        }
+    }
+
+    public func notifyImageObservers(image: UIImage?) {
+        for observer in self.observers.allObserver(with: SIDObserveManager.SIDObserver.ObserveType.image) {
+            observer.value.callback(image)
+        }
+    }
+
     // MARK: - Public
 
     public func avatarFileModel() -> IDContentFile? {
@@ -341,11 +389,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
             if self.avatarFileModel() == nil {
                 self.setAvatarFileModel(id: UUID().uuidString, name: self.name ?? "file", fileName: "file", mimeType: nil, category: self.category, description: nil)
             }
-            SIDImageManager.saveImage(image, name: avatarImageName) {[weak self] error in
-                if error == nil {
-                    try? self?.avatarFileModel()?.updateModifyAt()
-                }
-            }
+            self.saveImageToDisk(image)
         } else {
             self.deleteAvatarImage()
         }
@@ -356,6 +400,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
             if success {
                 try? self?.avatarFileModel()?.updateModifyAt()
             }
+            self?.notifyImageObservers(image: nil)
         }
 
     }
