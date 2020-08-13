@@ -29,7 +29,14 @@ open class CodableHelper {
             decoder.dataDecodingStrategy = .base64
             decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
                 let container = try decoder.singleValueContainer()
-                let dateStr = try container.decode(String.self)
+                var dateStr = try container.decode(String.self)
+
+                if dateStr.hasSuffix("Z") || dateStr.hasSuffix("z") {
+                    dateStr.removeLast(1)
+                }
+                if dateStr.hasSuffix("+00:00") == false {
+                    dateStr.append("+00:00")
+                }
 
                 let formatters = [
                     "yyyy-MM-dd",

@@ -42,23 +42,28 @@ final class ProfileMainViewController: BaseFormViewController {
 
         let avatar = AvatarlRowFormer(cellSetup: { _ in
 
-        }).configure {
-            $0.cell.avatarView.isUserInteractionEnabled = false
-            $0.rowHeight = 200.0
-            $0.avatarImage = DataStorage.instance.avatarImage
+        }).configure {[weak self] row in
+            guard let self = self else { return }
+
+            row.cell.avatarView.isUserInteractionEnabled = false
+            row.rowHeight = 200.0
+            DataStorage.instance.subscribeToAvatar(from: self) {[weak row] avatar in
+                row?.avatarImage = avatar
+                row?.update()
+            }
         }.onSelected {[unowned self] row in
             self.former.deselect(animated: true)
             if let image = row.avatarImage {
                 self.showImagePreview(image) {
                     row.avatarImage = nil
                     row.update()
-                    DataStorage.instance.avatarImage = nil
+                    DataStorage.instance.setAvatar(image: nil)
                 }
             } else {
                 self.showImagePicker { newAvatar in
                     row.avatarImage = newAvatar
                     row.update()
-                    DataStorage.instance.avatarImage = newAvatar
+                    DataStorage.instance.setAvatar(image: newAvatar)
                 }
             }
         }
