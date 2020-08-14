@@ -295,13 +295,13 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         self.observers.removeObserver(observer)
     }
 
-    public func notifyModelObservers(model: IDContentFile?) {
+    private func notifyModelObservers(model: IDContentFile?) {
         for observer in self.observers.allObserver(with: SIDObserveManager.SIDObserver.ObserveType.model) {
             observer.value.callback(model as AnyObject?)
         }
     }
 
-    public func notifyImageObservers(image: UIImage?) {
+    private func notifyImageObservers(image: UIImage?) {
         for observer in self.observers.allObserver(with: SIDObserveManager.SIDObserver.ObserveType.image) {
             observer.value.callback(image)
         }

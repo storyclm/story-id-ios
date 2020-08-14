@@ -13,6 +13,8 @@ public class SIDProfileService: SIDServiceProtocol {
     public var isSynchronizable: Bool = true
     public private(set) var isSynchronizing: Bool = false
 
+    private let observers = SIDObserveManager()
+
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
         guard isSynchronizing == false else {
             completion(.alreadyInSync)
@@ -37,6 +39,7 @@ public class SIDProfileService: SIDServiceProtocol {
                 switch updateBehaviour {
                 case .update:
                     self.updateLocalModel(localProfile, with: serverProfile)
+                    self.notifyObservers(with: localProfile)
                     complete(error: nil)
                 case .send:
                     if let profile = localProfile {
@@ -113,6 +116,27 @@ public class SIDProfileService: SIDServiceProtocol {
         }
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    // MARK: - Observer
+
+    public func addObserver(_ observer: AnyObject, callback: @escaping (IDContentProfile?) -> Void) {
+        callback(self.profile())
+
+        self.observers.addObserver(observer, type: SIDObserveManager.SIDObserver.ObserveType.both) { model in
+            guard let model = model as? IDContentProfile else { return }
+            callback(model)
+        }
+    }
+
+    public func removeObserver(_ observer: AnyObject) {
+        self.observers.removeObserver(observer)
+    }
+
+    private func notifyObservers(with model: IDContentProfile?) {
+        for observer in self.observers.allObserver(with: .model) {
+            observer.value.callback(model as AnyObject?)
+        }
     }
 
     // MARK: - Public

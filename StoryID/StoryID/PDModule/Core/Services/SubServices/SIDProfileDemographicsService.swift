@@ -13,6 +13,8 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
     public var isSynchronizable: Bool = true
     public private(set) var isSynchronizing: Bool = false
 
+    private let observers = SIDObserveManager()
+
     public func synchronize(completion: @escaping SIDServiceHelper.SynchronizeBlock) {
         guard isSynchronizing == false else {
             completion(.alreadyInSync)
@@ -37,6 +39,7 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
                 switch updateBehaviour {
                 case .update:
                     self.updateLocalModel(localDemographics, with: serverDemographics)
+                    self.notifyObservers(with: localDemographics)
                     complete(error: nil)
                 case .send:
                     if let demographics = localDemographics {
@@ -114,6 +117,27 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
         }
 
         SIDCoreDataManager.instance.saveContext()
+    }
+
+    // MARK: - Observer
+
+    public func addObserver(_ observer: AnyObject, callback: @escaping (IDContentDemographics?) -> Void) {
+        callback(self.demographics())
+
+        self.observers.addObserver(observer, type: SIDObserveManager.SIDObserver.ObserveType.both) { model in
+            guard let model = model as? IDContentDemographics else { return }
+            callback(model)
+        }
+    }
+
+    public func removeObserver(_ observer: AnyObject) {
+        self.observers.removeObserver(observer)
+    }
+
+    private func notifyObservers(with model: IDContentDemographics?) {
+        for observer in self.observers.allObserver(with: .model) {
+            observer.value.callback(model as AnyObject?)
+        }
     }
 
     // MARK: - Public
