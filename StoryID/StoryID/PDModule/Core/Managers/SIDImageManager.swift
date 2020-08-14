@@ -92,18 +92,18 @@ final class SIDImageManager {
                 return
             }
 
-            self.deleteImage(name: name, page: page, userId: userId, queue: queue)
+            self.deleteImage(name: name, page: page, userId: userId, queue: queue) { success in
+                var writeData = imageData
+                if SIDSettings.instance.cryptSettings.isImageCryptEnabled {
+                    writeData = SIDCryptoManager.instance.encrypt(imageData)
+                }
 
-            var writeData = imageData
-            if SIDSettings.instance.cryptSettings.isImageCryptEnabled {
-                writeData = SIDCryptoManager.instance.encrypt(imageData)
-            }
-
-            do {
-                try writeData.write(to: imageURL)
-                complete(nil)
-            } catch {
-                complete(ImageManagerSaveError.writeError)
+                do {
+                    try writeData.write(to: imageURL)
+                    complete(nil)
+                } catch {
+                    complete(ImageManagerSaveError.writeError)
+                }
             }
         }
     }

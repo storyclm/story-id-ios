@@ -38,7 +38,7 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         self.isSynchronizing = true
 
         ProfileFilesAPI.getCategoryFileByName(category: category, name: name) { serverFileModel, error in
-                if let error = error {
+            if let error = error {
                 if case let StoryID.ErrorResponse.error(code, _, _) = error, code == 404 {
                     self.apiCreateProfileFile { model, error in
                         if let model = model {
@@ -69,12 +69,6 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                              localModel: IDContentFile?,
                              serverModel: FileViewModel?,
                              completion: @escaping SIDServiceHelper.SynchronizeBlock) {
-        func complete(error: SIDServiceHelper.ServiceError?) {
-            completion(error)
-            self.clearDeleted()
-            self.isSynchronizing = false
-        }
-
         switch updateBehaviour {
         case .update:
             guard let serverModel = serverModel else {
@@ -105,6 +99,15 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                                             self.updateLocalModel(fileModel, with: model)
                                             self.notifyModelObservers(model: fileModel)
                                             completion(nil)
+                                        } else if self.avatarFileModel()?.fileName?.isEmpty == false {
+                                            self.apiGetAvatarImage { image, error in
+                                                if let error = error {
+                                                    completion(error.asServiceError)
+                                                } else {
+                                                    self.notifyModelObservers(model: localModel)
+                                                    self.saveImageToDisk(image)
+                                                }
+                                            }
                                         } else {
                                             completion(nil)
                                         }
