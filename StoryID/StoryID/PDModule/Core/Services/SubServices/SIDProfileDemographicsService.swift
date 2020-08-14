@@ -38,8 +38,8 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
 
                 switch updateBehaviour {
                 case .update:
-                    self.updateLocalModel(localDemographics, with: serverDemographics)
-                    self.notifyObservers(with: localDemographics)
+                    let updatedModel = self.updateLocalModel(localDemographics, with: serverDemographics)
+                    self.notifyObservers(with: updatedModel)
                     complete(error: nil)
                 case .send:
                     if let demographics = localDemographics {
@@ -60,13 +60,14 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentDemographics?, with serverModel: StoryDemographics, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentDemographics?, with serverModel: StoryDemographics, isCreateIfNeeded: Bool = true) -> IDContentDemographics? {
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentDemographics.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.name = serverModel.name
         lModel.surname = serverModel.surname
@@ -83,6 +84,8 @@ public class SIDProfileDemographicsService: SIDServiceProtocol {
         lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendDemographics(name: String?,

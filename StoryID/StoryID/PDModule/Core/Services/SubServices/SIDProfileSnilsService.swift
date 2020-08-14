@@ -70,13 +70,14 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentSNILS?, with serverModel: StorySNILS, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentSNILS?, with serverModel: StorySNILS, isCreateIfNeeded: Bool = true) -> IDContentSNILS? {
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentSNILS.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.snils = serverModel.snils
 
@@ -89,6 +90,8 @@ public class SIDProfileSnilsService: SIDServiceProtocol {
         lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendSnils(snils: String?, completion: @escaping (StorySNILS?, Error?) -> Void) {

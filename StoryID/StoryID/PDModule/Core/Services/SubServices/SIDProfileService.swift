@@ -38,8 +38,8 @@ public class SIDProfileService: SIDServiceProtocol {
 
                 switch updateBehaviour {
                 case .update:
-                    self.updateLocalModel(localProfile, with: serverProfile)
-                    self.notifyObservers(with: localProfile)
+                    let updatedModel = self.updateLocalModel(localProfile, with: serverProfile)
+                    self.notifyObservers(with: updatedModel)
                     complete(error: nil)
                 case .send:
                     if let profile = localProfile {
@@ -60,13 +60,14 @@ public class SIDProfileService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentProfile?, with serverModel: StoryProfile, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentProfile?, with serverModel: StoryProfile, isCreateIfNeeded: Bool = true) -> IDContentProfile? {
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentSNILS.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.username = serverModel.username
         lModel.email = serverModel.email
@@ -82,6 +83,8 @@ public class SIDProfileService: SIDServiceProtocol {
         lModel.createdBy = serverModel.createdBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendProfile(email: String?,

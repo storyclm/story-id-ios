@@ -83,14 +83,15 @@ public class SIDProfileBankAccountsService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentBankAccount?, with serverModel: StoryBankAccount, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentBankAccount?, with serverModel: StoryBankAccount, isCreateIfNeeded: Bool = true) -> IDContentBankAccount? {
 
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentDemographics.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.id = serverModel._id
         lModel.accountDescription = serverModel._description
@@ -109,6 +110,8 @@ public class SIDProfileBankAccountsService: SIDServiceProtocol {
         lModel.modifiedBy = serverModel.modifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendBankAccount(id: String,

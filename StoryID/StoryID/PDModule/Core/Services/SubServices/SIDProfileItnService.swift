@@ -69,13 +69,14 @@ public class SIDProfileItnService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentITN?, with serverModel: StoryITN, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentITN?, with serverModel: StoryITN, isCreateIfNeeded: Bool = true) -> IDContentITN? {
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentITN.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.itn = serverModel.itn
         lModel.size = serverModel.size ?? 0
@@ -90,6 +91,8 @@ public class SIDProfileItnService: SIDServiceProtocol {
         lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendItn(_ itn: String?, completion: @escaping (StoryITN?, Error?) -> Void) {

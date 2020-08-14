@@ -57,14 +57,15 @@ public class SIDProfilePasportService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentPasport?, with serverModel: StoryPasport, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentPasport?, with serverModel: StoryPasport, isCreateIfNeeded: Bool = true) -> IDContentPasport? {
 
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentPasport.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.sn = serverModel.sn
         lModel.code = serverModel.code
@@ -85,6 +86,8 @@ public class SIDProfilePasportService: SIDServiceProtocol {
         lModel.verifiedBy = serverModel.verifiedBy
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendPasport(sn: String?,

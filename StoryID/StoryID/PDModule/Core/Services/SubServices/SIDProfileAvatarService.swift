@@ -43,8 +43,8 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                     self.apiCreateProfileFile { model, error in
                         if let model = model {
                             let localModel = self.avatarFileModel()
-                            self.updateLocalModel(localModel, with: model)
-                            self.notifyModelObservers(model: localModel)
+                            let updatedModel = self.updateLocalModel(localModel, with: model)
+                            self.notifyModelObservers(model: updatedModel)
                         }
 
                         complete(error: error?.asServiceError)
@@ -80,8 +80,8 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                 if let error = error {
                     completion(error.asServiceError)
                 } else {
-                    self.updateLocalModel(localModel, with: serverModel)
-                    self.notifyModelObservers(model: localModel)
+                    let updatedModel = self.updateLocalModel(localModel, with: serverModel)
+                    self.notifyModelObservers(model: updatedModel)
                     self.saveImageToDisk(image)
                 }
             }
@@ -96,8 +96,8 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
                                         if let error = error {
                                             completion(error.asServiceError)
                                         } else if let model = model {
-                                            self.updateLocalModel(fileModel, with: model)
-                                            self.notifyModelObservers(model: fileModel)
+                                            let updatedModel = self.updateLocalModel(fileModel, with: model)
+                                            self.notifyModelObservers(model: updatedModel)
                                             completion(nil)
                                         } else if self.avatarFileModel()?.fileName?.isEmpty == false {
                                             self.apiGetAvatarImage { image, error in
@@ -144,13 +144,14 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         }
     }
 
-    private func updateLocalModel(_ localModel: IDContentFile?, with serverModel: FileViewModel, isCreateIfNeeded: Bool = true) {
+    @discardableResult
+    private func updateLocalModel(_ localModel: IDContentFile?, with serverModel: FileViewModel, isCreateIfNeeded: Bool = true) -> IDContentFile? {
         var localModel = localModel
         if isCreateIfNeeded, localModel == nil {
             localModel = IDContentFile.create()
         }
 
-        guard let lModel = localModel else { return }
+        guard let lModel = localModel else { return nil }
 
         lModel.name = serverModel.name
         lModel.fileDescription = serverModel._description
@@ -168,6 +169,8 @@ public class SIDProfileAvatarService: SIDServiceProtocol {
         lModel.createdAt = serverModel.createdAt
 
         SIDCoreDataManager.instance.saveContext()
+
+        return lModel
     }
 
     private func sendAvatarFile(id: String,
