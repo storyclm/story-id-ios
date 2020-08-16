@@ -1,0 +1,6 @@
+framework module StoryID {
+  umbrella header "StoryID-umbrella.h"
+
+  export *
+  module * { export * }
+}
