@@ -89,6 +89,9 @@ public final class SIDAdapterManager {
         self.saveAdapterKey(oauth2)
 
         oauth2.forgetTokens()
+        oauth2.afterAuthorizeOrFail = {[weak self, weak oauth2] json, error in
+            self?.saveToKeychain(adapter: oauth2)
+        }
         oauth2.authorize { json, error in
             completion(oauth2, json, error)
         }
@@ -159,6 +162,9 @@ public final class SIDAdapterManager {
         self.saveAdapterKey(oauth2)
 
         oauth2.forgetTokens()
+        oauth2.afterAuthorizeOrFail = {[weak self, weak oauth2] json, error in
+            self?.saveToKeychain(adapter: oauth2)
+        }
         oauth2.authorize { json, error in
             completion(oauth2, json, error)
         }
@@ -218,7 +224,8 @@ extension SIDAdapterManager {
         }
 
         if adapter.refreshToken != nil, adapter.accessToken == nil {
-            adapter.doRefreshToken { _, error in
+            adapter.doRefreshToken {[weak self] _, error in
+                self?.saveToKeychain(adapter: adapter)
                 finish(adapter: error == nil ? adapter : nil)
             }
         } else {
@@ -259,6 +266,13 @@ extension SIDAdapterManager {
         } else {
             UserDefaults.standard.removeObject(forKey: SIDAdapterManager.AdapterAuthKey)
         }
+    }
+
+    // MARK: - Keychain
+
+    private func saveToKeychain(adapter: OAuth2?) {
+        adapter?.storeClientToKeychain()
+        adapter?.storeTokensToKeychain()
     }
 }
 
