@@ -38,7 +38,7 @@ public final class SIDAdapterManager {
 
         let task = URLSession.shared.dataTask(with: configURL) { [weak self] data, _, error in
             guard let self = self else { return }
-            
+
             if let error = error {
                 completion?(Result.failure(ConfigError.requestError(error)))
             } else if let data = data {
@@ -89,7 +89,7 @@ public final class SIDAdapterManager {
         self.saveAdapterKey(oauth2)
 
         oauth2.forgetTokens()
-        oauth2.afterAuthorizeOrFail = {[weak self, weak oauth2] json, error in
+        oauth2.afterAuthorizeOrFail = { [weak self, weak oauth2] json, error in
             self?.saveToKeychain(adapter: oauth2)
         }
         oauth2.authorize { json, error in
@@ -147,7 +147,8 @@ public final class SIDAdapterManager {
                                  code: String,
                                  signature: SIDPasswordlessSignature,
                                  settingBlock: PrepareSettingBlock? = nil,
-                                 completion: @escaping AuthFlowBlock) {
+                                 completion: @escaping AuthFlowBlock)
+    {
 
         var settings = flowModel.settings()
         settings["code"] = code
@@ -162,7 +163,7 @@ public final class SIDAdapterManager {
         self.saveAdapterKey(oauth2)
 
         oauth2.forgetTokens()
-        oauth2.afterAuthorizeOrFail = {[weak self, weak oauth2] json, error in
+        oauth2.afterAuthorizeOrFail = { [weak self, weak oauth2] json, error in
             self?.saveToKeychain(adapter: oauth2)
         }
         oauth2.authorize { json, error in
@@ -176,13 +177,14 @@ public final class SIDAdapterManager {
 extension SIDAdapterManager {
 
     public func restoreOldAdapter(client: String, secret: String, isAllowExpired: Bool, completion: @escaping ((Result<OAuth2>) -> Void)) {
-        let oldAdapter = self.restoreAdapter()
+        let oldAdapter = self.restoreAdapter(client: client, secret: secret)
 
         self.requestConfig { result in
             switch result {
             case let Result.success(config):
                 let newAdapter = OAuth2(settings: self.defaultSettings(for: config, client: client, secret: secret))
                 let oauth2 = self.compareAdapters(newAdapter: newAdapter, oldAdapter: oldAdapter)
+                self.saveAdapterKey(oauth2)
                 self.checkAuthTokenAndComplete(adapter: oauth2, isAllowExpired: isAllowExpired, completion: completion)
             case let Result.failure(error):
                 if let oldAdapter = oldAdapter {
@@ -224,7 +226,7 @@ extension SIDAdapterManager {
         }
 
         if adapter.refreshToken != nil, adapter.accessToken == nil {
-            adapter.doRefreshToken {[weak self] _, error in
+            adapter.doRefreshToken { [weak self] _, error in
                 self?.saveToKeychain(adapter: adapter)
                 finish(adapter: error == nil ? adapter : nil)
             }
@@ -235,13 +237,15 @@ extension SIDAdapterManager {
 
     // MARK: * Adapter Auth
 
-    private func restoreAdapter() -> OAuth2? {
+    private func restoreAdapter(client: String, secret: String) -> OAuth2? {
         let authUrl = UserDefaults.standard.value(forKey: SIDAdapterManager.AdapterAuthKey)
         let tokenUrl = UserDefaults.standard.value(forKey: SIDAdapterManager.AdapterTokenKey)
         guard authUrl != nil || tokenUrl != nil else { return nil }
 
         var settings: OAuth2JSON = [
             "secret_in_body": true,
+            "client_id": client,
+            "client_secret": secret,
         ]
 
         if let authUrl = authUrl {
@@ -259,12 +263,12 @@ extension SIDAdapterManager {
         if let adapter = adapter {
             if let tokenUrl = adapter.tokenURL?.absoluteString {
                 UserDefaults.standard.set(tokenUrl, forKey: SIDAdapterManager.AdapterTokenKey)
-            } else {
-                let authUrl = adapter.authURL.absoluteString
-                UserDefaults.standard.set(authUrl, forKey: SIDAdapterManager.AdapterAuthKey)
             }
+            let authUrl = adapter.authURL.absoluteString
+            UserDefaults.standard.set(authUrl, forKey: SIDAdapterManager.AdapterAuthKey)
         } else {
             UserDefaults.standard.removeObject(forKey: SIDAdapterManager.AdapterAuthKey)
+            UserDefaults.standard.removeObject(forKey: SIDAdapterManager.AdapterTokenKey)
         }
     }
 
