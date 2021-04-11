@@ -11,11 +11,11 @@ import p2_OAuth2
 
 open class OAuth2PasswordlessGrant: OAuth2 {
 
-    open override class var grantType: String {
+    override open class var grantType: String {
         return "passwordless"
     }
 
-    open override class var clientIdMandatory: Bool {
+    override open class var clientIdMandatory: Bool {
         return true
     }
 
@@ -23,7 +23,7 @@ open class OAuth2PasswordlessGrant: OAuth2 {
     open var code: String?
     open var signature: SIDPasswordlessSignature?
 
-    public override init(settings: OAuth2JSON) {
+    override public init(settings: OAuth2JSON) {
         self.login = settings["login"] as? String
         self.code = settings["code"] as? String
         self.signature = settings["signature"] as? SIDPasswordlessSignature
@@ -32,7 +32,7 @@ open class OAuth2PasswordlessGrant: OAuth2 {
 
     // MARK: - Auth Flow
 
-    open override func doAuthorize(params inParams: OAuth2StringDict? = nil) throws {
+    override open func doAuthorize(params inParams: OAuth2StringDict? = nil) throws {
         self.obtainAccessToken(params: inParams) { params, error in
             if let error = error {
                 self.didFail(with: error.asOAuth2Error)

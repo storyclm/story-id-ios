@@ -27,7 +27,7 @@ public final class SIDPasswordFlowModel: SIDBaseFlowModel {
         super.init(adapter: adapter)
     }
 
-    public override func settings() -> OAuth2JSON {
+    override public func settings() -> OAuth2JSON {
         var settings = super.settings()
         settings["username"] = self.username
         settings["password"] = self.password

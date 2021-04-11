@@ -30,6 +30,7 @@ public final class SIDCryptSettings {
     public var isCryptDBValues: Bool = false
 
     // MARK: - Private
+
     internal var isCryptAvailable: Bool {
         return self.password?.isEmpty == false && self.salt?.isEmpty == false
     }
