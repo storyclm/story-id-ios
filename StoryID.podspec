@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'Alamofire', '~> 4.9'
   s.dependency 'AlamofireImage', '~> 3.5'
-  s.dependency 'p2.OAuth2', '~> 5.2.0'
+  s.dependency 'p2.OAuth2', '~> 5.2'
   s.dependency 'CryptoSwift', '~> 1.3'
 
 end

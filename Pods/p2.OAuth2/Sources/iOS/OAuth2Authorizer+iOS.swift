@@ -42,8 +42,11 @@ open class OAuth2Authorizer: OAuth2AuthorizerUI {
 	
 	/// Used to store the authentication session.
 	private var authenticationSession: AnyObject?
-	
-	public init(oauth2: OAuth2) {
+
+	/// Used to store the ASWebAuthenticationPresentationContextProvider
+	private var webAuthenticationPresentationContextProvider: AnyObject?
+
+	public init(oauth2: OAuth2Base) {
 		self.oauth2 = oauth2
 	}
 	
@@ -127,12 +130,17 @@ open class OAuth2Authorizer: OAuth2AuthorizerUI {
 	
 	This method dismisses the view controller automatically - this cannot be disabled.
 	
-	- parameter at:   The authorize URL to open
-	- returns:        A Boolean value indicating whether the web authentication session starts successfully.
+	- parameter at:       The authorize URL to open
+	- parameter redirect: The full redirect URL to use
+	- returns:            A Boolean value indicating whether the web authentication session starts successfully.
 	*/
 	@available(iOS 11.0, *)
 	@discardableResult
 	public func authenticationSessionEmbedded(at url: URL, withRedirect redirect: String) -> Bool {
+		guard let redirectURL = URL(string: redirect) else {
+			oauth2.logger?.warn("OAuth2", msg: "Unable to parse redirect URL ”(redirect)“")
+			return false
+		}
 		let completionHandler: (URL?, Error?) -> Void = { url, error in
 			if let url = url {
 				do {
@@ -142,18 +150,38 @@ open class OAuth2Authorizer: OAuth2AuthorizerUI {
 					self.oauth2.logger?.warn("OAuth2", msg: "Cannot intercept redirect URL: \(err)")
 				}
 			} else {
-				self.oauth2.didFail(with: nil)
+				if let authenticationSessionError = error as? ASWebAuthenticationSessionError {
+					switch authenticationSessionError.code {
+					case .canceledLogin:
+						self.oauth2.didFail(with: .requestCancelled)
+					default:
+						self.oauth2.didFail(with: error?.asOAuth2Error)
+					}
+				}
+				else {
+					self.oauth2.didFail(with: error?.asOAuth2Error)
+				}
 			}
 			self.authenticationSession = nil
+			self.webAuthenticationPresentationContextProvider = nil
 		}
-		
+
+#if targetEnvironment(macCatalyst)
+		authenticationSession = ASWebAuthenticationSession(url: url, callbackURLScheme: redirectURL.scheme, completionHandler: completionHandler)
+		return (authenticationSession as! ASWebAuthenticationSession).start()
+#else
 		if #available(iOS 12, *) {
-			authenticationSession = ASWebAuthenticationSession(url: url, callbackURLScheme: redirect, completionHandler: completionHandler)
+			authenticationSession = ASWebAuthenticationSession(url: url, callbackURLScheme: redirectURL.scheme, completionHandler: completionHandler)
+			if #available(iOS 13.0, *) {
+				webAuthenticationPresentationContextProvider = OAuth2ASWebAuthenticationPresentationContextProvider(authorizer: self)
+				(authenticationSession as! ASWebAuthenticationSession).presentationContextProvider = webAuthenticationPresentationContextProvider as! OAuth2ASWebAuthenticationPresentationContextProvider
+			}
 			return (authenticationSession as! ASWebAuthenticationSession).start()
 		} else {
 			authenticationSession = SFAuthenticationSession(url: url, callbackURLScheme: redirect, completionHandler: completionHandler)
 			return (authenticationSession as! SFAuthenticationSession).start()
 		}
+#endif
 	}
 	
 	
@@ -173,17 +201,16 @@ open class OAuth2Authorizer: OAuth2AuthorizerUI {
 	- parameter at:   The authorize URL to open
 	- returns:        SFSafariViewController, being already presented automatically
 	*/
-	@available(iOS 9.0, *)
 	@discardableResult
 	public func authorizeSafariEmbedded(from controller: UIViewController, at url: URL) throws -> SFSafariViewController {
 		safariViewDelegate = OAuth2SFViewControllerDelegate(authorizer: self)
 		let web = SFSafariViewController(url: url)
 		web.title = oauth2.authConfig.ui.title
 		web.delegate = safariViewDelegate as! OAuth2SFViewControllerDelegate
-		if #available(iOS 10.0, *), let barTint = oauth2.authConfig.ui.barTintColor {
+		if let barTint = oauth2.authConfig.ui.barTintColor {
 			web.preferredBarTintColor = barTint
 		}
-		if #available(iOS 10.0, *), let tint = oauth2.authConfig.ui.controlTintColor {
+		if let tint = oauth2.authConfig.ui.controlTintColor {
 			web.preferredControlTintColor = tint
 		}
 		web.modalPresentationStyle = oauth2.authConfig.ui.modalPresentationStyle
@@ -199,7 +226,6 @@ open class OAuth2Authorizer: OAuth2AuthorizerUI {
 	Called from our delegate, which reacts to users pressing "Done". We can assume this is always a cancel as nomally the Safari view
 	controller is dismissed automatically.
 	*/
-	@available(iOS 9.0, *)
 	func safariViewControllerDidCancel(_ safari: SFSafariViewController) {
 		safariViewDelegate = nil
 		oauth2.didFail(with: nil)
@@ -285,6 +311,24 @@ class OAuth2SFViewControllerDelegate: NSObject, SFSafariViewControllerDelegate {
 	@available(iOS 9.0, *)
 	func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
 		authorizer.safariViewControllerDidCancel(controller)
+	}
+}
+
+@available(iOS 13.0, *)
+class OAuth2ASWebAuthenticationPresentationContextProvider: NSObject, ASWebAuthenticationPresentationContextProviding {
+
+	private let authorizer: OAuth2Authorizer
+
+	init(authorizer: OAuth2Authorizer) {
+		self.authorizer = authorizer
+	}
+
+	public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+		guard let context = authorizer.oauth2.authConfig.authorizeContext as? UIViewController else {
+			fatalError("Invalid authConfig.authorizeContext, must be a UIViewController but is \(String(describing: authorizer.oauth2.authConfig.authorizeContext))")
+		}
+
+		return context.view.window!
 	}
 }
 

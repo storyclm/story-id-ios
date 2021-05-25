@@ -19,6 +19,7 @@
 //
 
 import Foundation
+import CommonCrypto
 
 
 /**
@@ -154,6 +155,7 @@ open class OAuth2Base: OAuth2Securable {
 	- client_secret (String), usually only needed for code grant
 	- authorize_uri (URL-String)
 	- token_uri (URL-String), if omitted the authorize_uri will be used to obtain tokens
+	- refresh_uri (URL-String), if omitted the token_uri will be used to obtain tokens
 	- redirect_uris (Array of URL-Strings)
 	- scope (String)
 	
@@ -169,6 +171,7 @@ open class OAuth2Base: OAuth2Securable {
 	- secret_in_body (Bool, false by default, forces the flow to use the request body for the client secret)
 	- parameters ([String: String], custom request parameters to be added during authorization)
 	- token_assume_unexpired (Bool, true by default, whether to use access tokens that do not come with an "expires_in" parameter)
+	- use_pkce (Bool, false by default)
 	
 	- verbose (Bool, false by default, applies to client logging)
 	*/
@@ -451,6 +454,7 @@ open class OAuth2Base: OAuth2Securable {
 	*/
 	open func assureRefreshTokenParamsAreValid(_ params: OAuth2JSON) throws {
 	}
+
 }
 
 
@@ -462,6 +466,10 @@ open class OAuth2ContextStore {
 	/// Currently used redirect_url.
 	open var redirectURL: String?
 	
+	/// Current code verifier used for PKCE
+	public internal(set) var codeVerifier: String?
+	public let codeChallengeMethod = "S256"
+
 	/// The current state.
 	internal var _state = ""
 	
@@ -497,5 +505,37 @@ open class OAuth2ContextStore {
 	func resetState() {
 		_state = ""
 	}
+	
+	// MARK: - PKCE
+	
+	/**
+	Generates a new code verifier string
+	*/
+	open func generateCodeVerifier() {
+		var buffer = [UInt8](repeating: 0, count: 32)
+		_ = SecRandomCopyBytes(kSecRandomDefault, buffer.count, &buffer)
+		codeVerifier = Data(buffer).base64EncodedString()
+			.replacingOccurrences(of: "+", with: "-")
+			.replacingOccurrences(of: "/", with: "_")
+			.replacingOccurrences(of: "=", with: "")
+			.trimmingCharacters(in: .whitespaces)
+	}
+	
+	
+	open func codeChallenge() -> String? {
+		guard let verifier = codeVerifier, let data = verifier.data(using: .utf8) else { return nil }
+		var buffer = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+		data.withUnsafeBytes {
+			_ = CC_SHA256($0.baseAddress, CC_LONG(data.count), &buffer)
+		}
+		let hash = Data(buffer)
+		let challenge = hash.base64EncodedString()
+			.replacingOccurrences(of: "+", with: "-")
+			.replacingOccurrences(of: "/", with: "_")
+			.replacingOccurrences(of: "=", with: "")
+			.trimmingCharacters(in: .whitespaces)
+		return challenge
+	}
+	
 }
 
