@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                      Story— a digital-platform developed by BREFFI, allowing you to create interactive presentations with immediate feedback on the change in the customer perception of the brand and the representative’s activity.
                    DESC"                 
 
-  s.source      = { :git => "https://github.com/storyclm/story-id-ios", :tag => s.version.to_s }
+  s.source      = { :git => "https://github.com/storyclm/story-id-ios.git", :tag => s.version.to_s }
   
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'OTHER_LDFLAGS' => '-all_load' }
 
@@ -17,12 +17,12 @@ Pod::Spec.new do |s|
   s.public_header_files	= 'StoryID/StoryID/*.h'
   s.resources 			= 'StoryID/StoryID/**/*.xcdatamodeld'
 
-  s.ios.deployment_target	= "11.0"
+  s.ios.deployment_target	= "12.0"
   s.swift_version			= "5.0"
 
   s.dependency 'Alamofire', '~> 4.9'
   s.dependency 'AlamofireImage', '~> 3.5'
-  s.dependency 'p2.OAuth2', '~> 5.2'
+  s.dependency 'p2.OAuth2', '~> 5.3'
   s.dependency 'CryptoSwift', '~> 1.3'
 
 end

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name		= "StoryID"
-  s.version		= "0.5.0"
+  s.version		= "0.5.2"
   s.license		= "MIT"
   s.homepage	= "https://breffi.ru/en/storyclm"
   s.author 		= "Breffi LLC"
@@ -17,12 +17,12 @@ Pod::Spec.new do |s|
   s.public_header_files	= 'StoryID/*.h'
   s.resources 			= 'StoryID/**/*.xcdatamodeld'
 
-  s.ios.deployment_target	= "11.0"
+  s.ios.deployment_target	= "12.0"
   s.swift_version			= "5.0"
 
-  s.dependency 'Alamofire', '~> 4.8'
+  s.dependency 'Alamofire', '~> 4.9'
   s.dependency 'AlamofireImage', '~> 3.5'
-  s.dependency 'p2.OAuth2', '~> 5.0'
+  s.dependency 'p2.OAuth2', '~> 5.3'
   s.dependency 'CryptoSwift', '~> 1.3'
 
 end

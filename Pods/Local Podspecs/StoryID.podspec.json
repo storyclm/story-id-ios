@@ -1,6 +1,6 @@
 {
   "name": "StoryID",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "license": "MIT",
   "homepage": "https://breffi.ru/en/storyclm",
   "authors": "Breffi LLC",
@@ -17,18 +17,18 @@
   "public_header_files": "StoryID/*.h",
   "resources": "StoryID/**/*.xcdatamodeld",
   "platforms": {
-    "ios": "11.0"
+    "ios": "12.0"
   },
   "swift_versions": "5.0",
   "dependencies": {
     "Alamofire": [
-      "~> 4.8"
+      "~> 4.9"
     ],
     "AlamofireImage": [
       "~> 3.5"
     ],
     "p2.OAuth2": [
-      "~> 5.0"
+      "~> 5.3"
     ],
     "CryptoSwift": [
       "~> 1.3"
