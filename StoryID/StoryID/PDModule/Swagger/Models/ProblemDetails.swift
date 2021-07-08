@@ -41,7 +41,7 @@ public struct ProblemDetails: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        var nonAdditionalPropertyKeys = Set<String>()
+        let nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(JSONValue.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 

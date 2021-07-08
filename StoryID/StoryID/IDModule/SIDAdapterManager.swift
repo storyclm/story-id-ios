@@ -147,8 +147,7 @@ public final class SIDAdapterManager {
                                  code: String,
                                  signature: SIDPasswordlessSignature,
                                  settingBlock: PrepareSettingBlock? = nil,
-                                 completion: @escaping AuthFlowBlock)
-    {
+                                 completion: @escaping AuthFlowBlock) {
 
         var settings = flowModel.settings()
         settings["code"] = code

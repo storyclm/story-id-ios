@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SmsTimerServiceDelegate: class {
+protocol SmsTimerServiceDelegate: AnyObject {
     func timerFired(_ timerService: SmsTimerService, seconds: Int)
     func timedDone(_ timerService: SmsTimerService)
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol LoginSMSViewDelegate: class {
+protocol LoginSMSViewDelegate: AnyObject {
     func loginSmsView(_ view: LoginSMSView, didEnterCode code: String?)
 }
 

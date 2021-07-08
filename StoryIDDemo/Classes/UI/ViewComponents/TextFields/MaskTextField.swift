@@ -15,7 +15,7 @@ class MaskTextField: TextField {
         return _value
     }
     
-    let maskedDelegate = MaskedTextFieldDelegate()
+    var maskedDelegate = MaskedTextFieldDelegate()
     
     private var _value: String?
     override var value: String? {
