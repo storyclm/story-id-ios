@@ -744,6 +744,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.breffi.StoryIDDemo;
 				PRODUCT_NAME = "StoryID Demo";
 				SWIFT_VERSION = 5.0;
@@ -764,6 +765,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.breffi.StoryIDDemo;
 				PRODUCT_NAME = "StoryID Demo";
 				SWIFT_VERSION = 5.0;
