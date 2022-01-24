@@ -135,7 +135,7 @@ final class LoginPinCodeViewController: UIViewController {
     }
 
     private func forgotAction() {
-        AppRouter.instance.showEnterPhone(from: self)
+        AppRouter.instance.showEnterPhone(from: self, reason: nil)
     }
 
     private func cancelAction() {

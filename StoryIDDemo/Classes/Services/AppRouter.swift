@@ -17,9 +17,9 @@ final class AppRouter {
 
     func showAuthorization(from: UIViewController, completion: @escaping (UIViewController, Bool) -> Void) {
 
-        AuthManager.instance.getAdapter(isAllowExpired: true) { adapter, _ in
+        AuthManager.instance.getAdapter(isAllowExpired: true) { adapter, error in
             if adapter == nil || adapter?.refreshToken == nil || adapter?.accessToken == nil {
-                AppRouter.instance.showEnterPhone(from: from)
+                AppRouter.instance.showEnterPhone(from: from, reason: error?.localizedDescription)
             } else if PincodeService.instance.isPincodeSet == false {
                 completion(from, true)
             } else {
@@ -28,7 +28,7 @@ final class AppRouter {
         }
     }
 
-    func showEnterPhone(from: UIViewController) {
+    func showEnterPhone(from: UIViewController, reason: String?) {
         PincodeService.instance.pincode = nil
 
         let loginVC = LoginPhoneViewController()
@@ -36,6 +36,12 @@ final class AppRouter {
         navigationController.setNavigationBarHidden(true, animated: false)
 
         UIViewController.show(from: from, isModalFade: true, navigationController: navigationController, animated: true)
+
+        if let reason = reason {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) { [weak loginVC] in
+                loginVC?.showOkAlert(title: "global_error".loco, message: reason)
+            }
+        }
     }
 
     func showEnterSms(from: UIViewController, signature: SIDPasswordlessSignature?, phone: String) {

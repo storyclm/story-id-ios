@@ -130,7 +130,7 @@ final class ProfileMainViewController: BaseFormViewController {
         alert.addAction(UIAlertAction(title: "global_no".loco, style: UIAlertAction.Style.default, handler: nil))
         alert.addAction(UIAlertAction(title: "global_yes".loco, style: UIAlertAction.Style.destructive, handler: { _ in
             DataStorage.instance.logout()
-            AppRouter.instance.showEnterPhone(from: self)
+            AppRouter.instance.showEnterPhone(from: self, reason: nil)
         }))
 
         self.present(alert, animated: true)

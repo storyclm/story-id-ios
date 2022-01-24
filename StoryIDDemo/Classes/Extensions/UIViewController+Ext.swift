@@ -79,16 +79,27 @@ extension UIViewController {
         }
         return base
     }
+}
 
-    // MARK: - Alert
+// MARK: - Alerts
+
+extension UIViewController {
+
+    static func showOkAlert(on viewController: UIViewController, title: String?, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
+        viewController.present(alert, animated: true, completion: nil)
+    }
+
+    static func showErrorAlert(on viewController: UIViewController, error: Error) {
+        Self.showOkAlert(on: viewController, title: "global_error".loco, message: error.localizedDescription)
+    }
 
     func showErrorAlert(_ error: Error) {
-        self.showOkAlert(title: "global_error".loco, message: error.localizedDescription)
+        Self.showErrorAlert(on: self, error: error)
     }
 
     func showOkAlert(title: String?, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        Self.showOkAlert(on: self, title: title, message: message)
     }
 }
