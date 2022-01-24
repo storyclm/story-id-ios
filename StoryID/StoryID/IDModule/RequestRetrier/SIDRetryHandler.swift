@@ -12,7 +12,7 @@ import Alamofire
 
 public class SIDRetryHandler: RequestRetrier, RequestAdapter {
 
-    public typealias RefreshErrorBlock = (() -> Void)
+    public typealias RefreshErrorBlock = ((OAuth2Error) -> Void)
 
     let loader: OAuth2DataLoader
     let onRefreshError: RefreshErrorBlock
@@ -33,8 +33,10 @@ public class SIDRetryHandler: RequestRetrier, RequestAdapter {
                     return
                 }
 
-                DispatchQueue.main.async {
-                    self.onRefreshError()
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.onRefreshError(error)
+                    }
                 }
 
                 self.loader.dequeueAndApply { req in
