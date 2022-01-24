@@ -7,7 +7,6 @@ target 'StoryIDDemo' do
   pod 'InputMask'
   pod 'Former'
   pod 'SKPhotoBrowser'
-  pod 'BiometricAuthentication'
   pod 'Valet'
   pod 'StoryID', :path => './StoryID'
 
