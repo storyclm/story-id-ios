@@ -28,7 +28,7 @@ final class PinCodeDotView: BaseView {
         }
     }
 
-    var isActive: Bool = false {
+    var isActive = false {
         didSet {
             self.updateActiveState()
         }

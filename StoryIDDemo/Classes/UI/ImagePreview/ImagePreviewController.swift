@@ -9,6 +9,8 @@
 import Foundation
 import SKPhotoBrowser
 
+// MARK: - ImagePreviewController
+
 final class ImagePreviewController {
 
     private var images: [SKPhoto]?
@@ -39,10 +41,11 @@ final class ImagePreviewController {
     }
 }
 
+// MARK: SKPhotoBrowserDelegate
+
 extension ImagePreviewController: SKPhotoBrowserDelegate {
 
     @objc func removePhoto(_ browser: SKPhotoBrowser, index: Int, reload: @escaping (() -> Void)) {
         self.onDeleteAction?(browser, index)
     }
-
 }

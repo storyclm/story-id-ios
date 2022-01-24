@@ -15,7 +15,7 @@ final class LoginPhoneView: BaseView {
     let separatorView = UIView()
     let getCodeButton = UIButton(type: UIButton.ButtonType.custom)
     let tapGesture = UITapGestureRecognizer()
-    
+
     override func setup() {
         super.setup()
 
@@ -35,7 +35,7 @@ final class LoginPhoneView: BaseView {
         self.textField.placeholder = "login_phone_placeholder".loco
         self.textField.keyboardType = UIKeyboardType.phonePad
         self.textField.autocapitalizationType = UITextAutocapitalizationType.none
-        self.textField.updateValidState = {[weak self] text, isValid in
+        self.textField.updateValidState = { [weak self] text, isValid in
             self?.getCodeButton.isEnabled = isValid
             if isValid {
                 self?.textField.resignFirstResponder()

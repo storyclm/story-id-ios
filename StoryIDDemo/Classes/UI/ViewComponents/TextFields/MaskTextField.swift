@@ -9,14 +9,16 @@
 import UIKit
 import InputMask
 
+// MARK: - MaskTextField
+
 class MaskTextField: TextField {
 
     override var validatedObject: String? {
         return _value
     }
-    
+
     var maskedDelegate = MaskedTextFieldDelegate()
-    
+
     private var _value: String?
     override var value: String? {
         get { return _value?.notEmptyValue }
@@ -29,27 +31,29 @@ class MaskTextField: TextField {
             }
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         maskedDelegate.delegate = self
         maskedDelegate.affinityCalculationStrategy = .prefix
         delegate = maskedDelegate
     }
 }
 
+// MARK: MaskedTextFieldDelegateListener
+
 extension MaskTextField: MaskedTextFieldDelegateListener {
-    
+
     open func textField(_ textField: UITextField, didFillMandatoryCharacters complete: Bool, didExtractValue value: String) {
-        
+
         let idChanged = _value != nil && _value != value
         _value = value
-        
+
         if idChanged {
             sendActions(for: .editingChanged)
         }
-        
+
         checkValidation()
     }
 }

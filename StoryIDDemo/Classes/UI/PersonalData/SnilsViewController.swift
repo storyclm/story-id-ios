@@ -18,7 +18,7 @@ final class SnilsViewController: BaseFormViewController {
     }
 
     override func loadViewModel() {
-        DataStorage.instance.snils {[weak self] snilsModel in
+        DataStorage.instance.snils { [weak self] snilsModel in
             self?.viewModel = snilsModel
             self?.completeLoadViewModel()
         }
@@ -26,27 +26,27 @@ final class SnilsViewController: BaseFormViewController {
 
     override func setupTableView() {
         super.setupTableView()
-        
+
         let snilsRow = self.createMaskedTitleFieldRow(title: "profile_snils_number".loco,
                                                       primaryMaskFormat: "[000]-[000]-[000] [00]",
                                                       onValidate: {
-                                                        $0?.count ?? 0 == 11
+                                                          $0?.count ?? 0 == 11
 
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel?.snils
-            row.cell.textField.keyboardType = UIKeyboardType.numberPad
-            row.cell.textField.placeholder = "profile_snils_number_placeholder".loco
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel?.snils = value
-        })
-        
+                                                      }, configure: { [unowned self] row in
+                                                          row.value = self.viewModel?.snils
+                                                          row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                          row.cell.textField.placeholder = "profile_snils_number_placeholder".loco
+                                                      }, onTextChanged: { [unowned self] text, value in
+                                                          self.viewModel?.snils = value
+                                                      })
+
         let snilsImageRow = self.createTitleImageRow(title: "profile_snils_image".loco,
                                                      configure: nil,
                                                      onImageRequest: { [unowned self] () -> UIImage? in
-                                                        return self.viewModel?.snilsImage
-        }, onImageSelected: { [unowned self] image in
-            self.viewModel?.snilsImage = image
-        })
+                                                         return self.viewModel?.snilsImage
+                                                     }, onImageSelected: { [unowned self] image in
+                                                         self.viewModel?.snilsImage = image
+                                                     })
 
         let snilsSection = SectionFormer(rowFormer: snilsRow, snilsImageRow)
             .set(headerViewFormer: self.createHeader(text: "profile_snils_section".loco))

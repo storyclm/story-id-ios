@@ -9,6 +9,8 @@
 import UIKit
 import StoryID
 
+// MARK: - DemographicsModel
+
 final class DemographicsModel {
     var surname: String?
     var name: String?
@@ -23,6 +25,8 @@ final class DemographicsModel {
     }
 }
 
+// MARK: - ItnModel
+
 final class ItnModel {
     var itn: String?
     var itnImage: UIImage?
@@ -34,6 +38,8 @@ final class ItnModel {
     }
 }
 
+// MARK: - SnilsModel
+
 final class SnilsModel {
     var snils: String?
     var snilsImage: UIImage?
@@ -44,6 +50,8 @@ final class SnilsModel {
         }
     }
 }
+
+// MARK: - PasportModel
 
 final class PasportModel {
 

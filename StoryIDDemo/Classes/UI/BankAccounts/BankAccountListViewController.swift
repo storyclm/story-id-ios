@@ -61,7 +61,7 @@ final class BankAccountListViewController: BaseFormViewController {
 
     private func replaceModel(model: BankAccountModel?, with newModel: BankAccountModel?) {
         guard let newModel = newModel else { return }
-        
+
         if let model = model {
             if let idx = self.deleteModel(model), newModel.isEmpty == false {
                 self.viewModel.insert(newModel, at: idx)

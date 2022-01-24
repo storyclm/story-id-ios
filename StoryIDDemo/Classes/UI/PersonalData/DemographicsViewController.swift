@@ -24,37 +24,37 @@ final class DemographicsViewController: BaseFormViewController {
                                                         primaryMaskFormat: "[AA…]",
                                                         onValidate: {
                                                             $0?.count ?? 0 >= 2
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel.surname
-            row.cell.textField.placeholder = "profile_demographics_surname_placeholder".loco
-            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.surname = value
-        })
+                                                        }, configure: { [unowned self] row in
+                                                            row.value = self.viewModel.surname
+                                                            row.cell.textField.placeholder = "profile_demographics_surname_placeholder".loco
+                                                            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+                                                        }, onTextChanged: { [unowned self] text, value in
+                                                            self.viewModel.surname = value
+                                                        })
 
         let nameRow = self.createMaskedTitleFieldRow(title: "profile_demographics_name".loco,
                                                      primaryMaskFormat: "[AA…]",
                                                      onValidate: {
-                                                        $0?.count ?? 0 >= 2
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel.name
-            row.cell.textField.placeholder = "profile_demographics_name_placeholder".loco
-            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.name = value
-        })
+                                                         $0?.count ?? 0 >= 2
+                                                     }, configure: { [unowned self] row in
+                                                         row.value = self.viewModel.name
+                                                         row.cell.textField.placeholder = "profile_demographics_name_placeholder".loco
+                                                         row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+                                                     }, onTextChanged: { [unowned self] text, value in
+                                                         self.viewModel.name = value
+                                                     })
 
         let patronymicRow = self.createMaskedTitleFieldRow(title: "profile_demographics_patronymic".loco,
                                                            primaryMaskFormat: "[AA…]",
                                                            onValidate: {
-                                                            $0?.count ?? 0 >= 2
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel.patronymic
-            row.cell.textField.placeholder = "profile_demographics_patronymic_placeholder".loco
-            row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel.patronymic = value
-        })
+                                                               $0?.count ?? 0 >= 2
+                                                           }, configure: { [unowned self] row in
+                                                               row.value = self.viewModel.patronymic
+                                                               row.cell.textField.placeholder = "profile_demographics_patronymic_placeholder".loco
+                                                               row.cell.textField.autocapitalizationType = UITextAutocapitalizationType.words
+                                                           }, onTextChanged: { [unowned self] text, value in
+                                                               self.viewModel.patronymic = value
+                                                           })
 
         let demographicsSection = SectionFormer(rowFormer: surnameRow, nameRow, patronymicRow)
             .set(headerViewFormer: self.createHeader(text: "profile_demographics_section".loco))

@@ -10,13 +10,13 @@ import UIKit
 import InputMask
 
 class PhoneTextField: MaskTextField {
-    
+
     override func commonInit() {
-        validateObject = { (phone) in
+        validateObject = { phone in
             return phone?.count ?? 0 == 10
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setup()
@@ -29,7 +29,7 @@ class PhoneTextField: MaskTextField {
 
     func setup() {
         super.awakeFromNib()
-        
+
         maskedDelegate.primaryMaskFormat = "+7 ([000]) [000]-[00]-[00]"
         maskedDelegate.affineFormats = ["8 ([000]) [000]-[00]-[00]"]
     }

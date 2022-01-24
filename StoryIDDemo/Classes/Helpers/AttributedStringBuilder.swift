@@ -10,18 +10,18 @@ import UIKit
 
 final class AttributedStringBuilder {
 
-    fileprivate var attributedString = NSMutableAttributedString()
+    private var attributedString = NSMutableAttributedString()
 
-    fileprivate var paragraphStyle: NSMutableParagraphStyle = {
+    private var paragraphStyle: NSMutableParagraphStyle = {
         let v = NSMutableParagraphStyle()
         v.lineBreakMode = NSLineBreakMode.byWordWrapping
         v.alignment = NSTextAlignment.center
         return v
     }()
 
-    fileprivate var font: UIFont = UIFont.boldSystemFont(ofSize: 14)
-    fileprivate var color: UIColor = UIColor.black
-    fileprivate var kern: CGFloat = 0
+    private var font = UIFont.boldSystemFont(ofSize: 14)
+    private var color = UIColor.black
+    private var kern: CGFloat = 0
 
     init(font: UIFont? = nil, color: UIColor? = nil, alignment: NSTextAlignment = NSTextAlignment.left, kern: CGFloat = 0) {
         self.paragraphStyle.alignment = alignment
@@ -49,7 +49,8 @@ final class AttributedStringBuilder {
                               paragraphSpacing: CGFloat? = nil,
                               paragraphSpacingBefore: CGFloat? = nil,
                               lineBreakMode: NSLineBreakMode? = nil,
-                              minimumLineHeight: CGFloat? = nil) -> AttributedStringBuilder {
+                              minimumLineHeight: CGFloat? = nil) -> AttributedStringBuilder
+    {
 
         self.paragraphStyle = self.paragraphStyle.mutableCopy() as! NSMutableParagraphStyle
         if let x = alignment { self.paragraphStyle.alignment = x }
@@ -78,7 +79,7 @@ final class AttributedStringBuilder {
                                                            NSAttributedString.Key.foregroundColor: self.color,
                                                            NSAttributedString.Key.paragraphStyle: self.paragraphStyle,
                                                            NSAttributedString.Key.kern: self.kern,
-                ]))
+                                                       ]))
             if isUnderline {
                 let string = attributedString.string as NSString
                 let underlineRange = string.range(of: text! as String)
@@ -101,7 +102,7 @@ final class AttributedStringBuilder {
 
     @discardableResult
     func add(_ image: UIImage, fixPosition: Bool = true, additionalOffset: CGFloat = 0) -> AttributedStringBuilder {
-        let attachment: NSTextAttachment = NSTextAttachment()
+        let attachment = NSTextAttachment()
         attachment.image = image
         if fixPosition {
             let offsetToCenter: CGFloat = font.descender - attachment.image!.size.height * 0.5 + (font.descender + font.capHeight) + 2 + additionalOffset

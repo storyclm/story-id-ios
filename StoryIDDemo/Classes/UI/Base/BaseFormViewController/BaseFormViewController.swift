@@ -12,8 +12,8 @@ class BaseFormViewController: FormViewController {
 
     private var titleLabel: UILabel?
 
-    private(set) var isLoadViewModelCompleted: Bool = false
-    private var isLoadViewModelStarted: Bool = false
+    private(set) var isLoadViewModelCompleted = false
+    private var isLoadViewModelStarted = false
 
     let activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
 
@@ -65,7 +65,7 @@ class BaseFormViewController: FormViewController {
         self.hideActivityIndicator()
         self.setupTableView()
     }
-    
+
     func setupTableView() {}
     func onSave(success: Bool) {}
 

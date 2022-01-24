@@ -30,7 +30,7 @@ final class AuthManager {
         let urlString = AppPropertiesManager.instance.apiConfigUrl
         precondition(urlString != nil, "Config url is missing in AppPropertiesManager")
 
-        self.adapterManager =  SIDAdapterManager(configURL: URL(string: urlString!)!)
+        self.adapterManager = SIDAdapterManager(configURL: URL(string: urlString!)!)
     }
 
     // MARK: - APIs
@@ -122,8 +122,8 @@ final class AuthManager {
     }
 
     var isLogined: Bool {
-           self.adapter?.clientConfig.accessToken != nil
-       }
+        self.adapter?.clientConfig.accessToken != nil
+    }
 
     // MARK: - Retrier
 
@@ -137,7 +137,7 @@ final class AuthManager {
 
         self.retrier = SIDRetryHandler(oauth2: adapter) {
             guard let viewController = UIViewController.topVC() else {
-                assert(false, "Can't find topmost view controller")
+                assertionFailure("Can't find topmost view controller")
                 return
             }
             AppRouter.instance.showEnterPhone(from: viewController)

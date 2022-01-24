@@ -19,8 +19,8 @@ final class PasportViewController: BaseFormViewController {
 
     // MARK: - View model
 
-    internal override func loadViewModel() {
-        DataStorage.instance.pasport {[weak self] pasportModel in
+    override internal func loadViewModel() {
+        DataStorage.instance.pasport { [weak self] pasportModel in
             self?.viewModel = pasportModel
             self?.completeLoadViewModel()
         }
@@ -36,9 +36,9 @@ final class PasportViewController: BaseFormViewController {
                                                             row.value = self.viewModel?.sn
                                                             row.cell.textField.keyboardType = UIKeyboardType.numberPad
                                                             row.cell.textField.placeholder = "profile_pasport_number_placeholder".loco
-        }, onTextChanged: { [unowned self] text, value in
-            self.viewModel?.sn = value
-        })
+                                                        }, onTextChanged: { [unowned self] text, value in
+                                                            self.viewModel?.sn = value
+                                                        })
 
         let pasportFirstImageRow = self.createTitleImageRow(title: "profile_pasport_first_image".loco, configure: nil, onImageRequest: { [unowned self] () -> UIImage? in
             return self.viewModel?.firstImage
@@ -72,5 +72,4 @@ final class PasportViewController: BaseFormViewController {
 
         self.navigationController?.popViewController(animated: true)
     }
-
 }

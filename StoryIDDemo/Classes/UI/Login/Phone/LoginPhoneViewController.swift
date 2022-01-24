@@ -37,9 +37,9 @@ final class LoginPhoneViewController: BaseViewController {
 
         self.showLoader()
 
-        AuthManager.instance.verifyCode(phone: phone) { (sign, error) in
+        AuthManager.instance.verifyCode(phone: phone) { sign, error in
             self.hideLoader()
-            
+
             if let error = error {
                 self.showErrorAlert(error)
             } else if let sign = sign {
@@ -71,7 +71,5 @@ final class LoginPhoneViewController: BaseViewController {
 
     private func showLoginSmsController(with signature: SIDPasswordlessSignature, phone: String) {
         AppRouter.instance.showEnterSms(from: self, signature: signature, phone: phone)
-
     }
-    
 }

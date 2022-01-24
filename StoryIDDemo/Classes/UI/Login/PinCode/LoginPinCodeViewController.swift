@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - AuthCodeState
+
 enum AuthCodeState: Equatable {
     case new
     case repeatCode(String)
@@ -44,6 +46,8 @@ enum AuthCodeState: Equatable {
     }
 }
 
+// MARK: - LoginPinCodeViewController
+
 final class LoginPinCodeViewController: UIViewController {
 
     private let loginPincodeView = LoginPinCodeView()
@@ -54,7 +58,7 @@ final class LoginPinCodeViewController: UIViewController {
         didSet { self.updateAppearance() }
     }
 
-    var code: String = "" {
+    var code = "" {
         didSet {
             if code.count > 4 {
                 code = oldValue
@@ -74,7 +78,7 @@ final class LoginPinCodeViewController: UIViewController {
         self.loginPincodeView.frame = self.view.bounds
         self.view.addSubview(self.loginPincodeView)
 
-        self.loginPincodeView.pinCodeEnterView.onNumberEnter = {[unowned self] number in
+        self.loginPincodeView.pinCodeEnterView.onNumberEnter = { [unowned self] number in
             self.code += "\(number)"
         }
         self.loginPincodeView.pinCodeEnterView.deleteButton.addTarget(self, action: #selector(deleteCharAction(_:)), for: UIControl.Event.touchUpInside)
@@ -158,5 +162,4 @@ final class LoginPinCodeViewController: UIViewController {
         self.loginPincodeView.pinCodePreviewView.enterCodeLabel.text = self.state.displayedTitle
         self.loginPincodeView.bottomButton.setTitle(self.state.displayedAction, for: UIControl.State.normal)
     }
-
 }

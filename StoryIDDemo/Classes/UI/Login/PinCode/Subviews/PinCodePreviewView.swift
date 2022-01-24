@@ -14,7 +14,7 @@ final class PinCodePreviewView: BaseView {
     private let stackView = UIStackView()
     private var dotViews: [PinCodeDotView] = []
 
-    private(set) var activeCount: Int = 0
+    private(set) var activeCount = 0
 
     override func setup() {
         super.setup()
@@ -32,7 +32,7 @@ final class PinCodePreviewView: BaseView {
         self.stackView.axis = NSLayoutConstraint.Axis.horizontal
         self.addSubview(self.stackView)
 
-        for _ in 0..<4 {
+        for _ in 0 ..< 4 {
             let view = PinCodeDotView()
             dotViews.append(view)
             self.stackView.addArrangedSubview(view)
@@ -40,7 +40,7 @@ final class PinCodePreviewView: BaseView {
 
         self.enterCodeLabel.translatesAutoresizingMaskIntoConstraints = false
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.setupConstraints()
     }
 
@@ -76,5 +76,4 @@ final class PinCodePreviewView: BaseView {
             dotView.isActive = (idx + 1) <= self.activeCount
         }
     }
-
 }

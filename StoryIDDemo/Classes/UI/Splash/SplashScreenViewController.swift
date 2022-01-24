@@ -31,5 +31,4 @@ final class SplashScreenViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
-    
 }

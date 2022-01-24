@@ -8,8 +8,12 @@
 
 import UIKit
 
+// MARK: - NavigationType
+
 enum NavigationType {
-    case push, modal, modalFade
+    case push
+    case modal
+    case modalFade
 }
 
 extension UIViewController {
@@ -87,5 +91,4 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "global_ok".loco, style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-
 }

@@ -57,5 +57,5 @@ final class BankAccountModel: NSCopying {
         bankAccountModel.settlementAccount = settlementAccount
 
         return bankAccountModel
-}
+    }
 }

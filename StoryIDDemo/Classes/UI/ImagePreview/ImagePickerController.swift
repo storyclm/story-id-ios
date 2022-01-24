@@ -8,12 +8,14 @@
 
 import UIKit
 
+// MARK: - ImagePickerController
+
 final class ImagePickerController: NSObject {
 
     private var onDeleteImage: (() -> Void)?
     private var completion: ((UIImage?) -> Void)?
     private var viewController: UIViewController?
-    private var isDeleteAvailable: Bool = false
+    private var isDeleteAvailable = false
 
     var picker = UIImagePickerController()
 
@@ -24,7 +26,8 @@ final class ImagePickerController: NSObject {
     func pickImage(from viewController: UIViewController,
                    isDeleteAvailable: Bool = false,
                    onDeleteImage: @escaping () -> Void,
-                   completion: @escaping (UIImage?) -> Void) {
+                   completion: @escaping (UIImage?) -> Void)
+    {
 
         self.isDeleteAvailable = isDeleteAvailable
         self.onDeleteImage = onDeleteImage
@@ -92,6 +95,8 @@ final class ImagePickerController: NSObject {
         self.viewController?.present(picker, animated: true, completion: nil)
     }
 }
+
+// MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension ImagePickerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 

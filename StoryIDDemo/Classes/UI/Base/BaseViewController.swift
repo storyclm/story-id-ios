@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - BaseViewController
+
 class BaseViewController: UIViewController {
 
     private let loader = UILoaderView()
@@ -23,6 +25,8 @@ class BaseViewController: UIViewController {
         }
     }
 }
+
+// MARK: - UILoaderView
 
 private class UILoaderView: UIView {
 
@@ -73,5 +77,4 @@ private class UILoaderView: UIView {
             return rect.integral
         }()
     }
-
 }

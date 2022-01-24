@@ -9,6 +9,8 @@
 import UIKit
 import Former
 
+// MARK: - SimpleTitleFieldCell
+
 final class SimpleTitleFieldCell: UITableViewCell, TextFieldFormableRow {
 
     @IBOutlet var titleLabel: UILabel!
@@ -17,7 +19,7 @@ final class SimpleTitleFieldCell: UITableViewCell, TextFieldFormableRow {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        titleLabel.textColor = UIColor.init(white: 1.0, alpha: 0.4)
+        titleLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
         textField.textColor = UIColor.idBlack
     }
 
@@ -30,8 +32,9 @@ final class SimpleTitleFieldCell: UITableViewCell, TextFieldFormableRow {
     }
 
     func updateWithRowFormer(_ rowFormer: RowFormer) {}
-
 }
+
+// MARK: - SimpleTitleFieldRowFormer
 
 class SimpleTitleFieldRowFormer: BaseRowFormer<SimpleTitleFieldCell>, Formable {
 
@@ -83,5 +86,4 @@ class SimpleTitleFieldRowFormer: BaseRowFormer<SimpleTitleFieldCell>, Formable {
     // MARK: - Private
 
     private final var onTextChanged: ((String) -> Void)?
-
 }

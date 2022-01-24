@@ -18,7 +18,7 @@ final class ItnViewController: BaseFormViewController {
     }
 
     override func loadViewModel() {
-        DataStorage.instance.itn {[weak self] itnModel in
+        DataStorage.instance.itn { [weak self] itnModel in
             self?.viewModel = itnModel
             self?.completeLoadViewModel()
         }
@@ -32,11 +32,12 @@ final class ItnViewController: BaseFormViewController {
                                                     onValidate: { value in
                                                         let count = value?.count ?? 0
                                                         return count == 10 || count == 12
-        }, configure: { [unowned self] row in
-            row.value = self.viewModel?.itn
-            row.cell.textField.keyboardType = UIKeyboardType.numberPad
-            row.cell.textField.placeholder = "profile_itn_number_placeholder".loco
-        }) { [unowned self] text, value in
+                                                    }, configure: { [unowned self] row in
+                                                        row.value = self.viewModel?.itn
+                                                        row.cell.textField.keyboardType = UIKeyboardType.numberPad
+                                                        row.cell.textField.placeholder = "profile_itn_number_placeholder".loco
+                                                    })
+        { [unowned self] text, value in
             self.viewModel?.itn = value
         }
 

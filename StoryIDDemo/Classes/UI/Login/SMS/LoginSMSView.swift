@@ -8,9 +8,13 @@
 
 import UIKit
 
+// MARK: - LoginSMSViewDelegate
+
 protocol LoginSMSViewDelegate: AnyObject {
     func loginSmsView(_ view: LoginSMSView, didEnterCode code: String?)
 }
+
+// MARK: - LoginSMSView
 
 final class LoginSMSView: BaseView {
 
@@ -44,7 +48,7 @@ final class LoginSMSView: BaseView {
         self.textField.placeholder = "login_sms_placeholder".loco
         self.textField.keyboardType = UIKeyboardType.numberPad
         self.textField.autocapitalizationType = UITextAutocapitalizationType.none
-        self.textField.updateValidState = {[unowned self] sms, isValid in
+        self.textField.updateValidState = { [unowned self] sms, isValid in
             if isValid {
                 self.delegate?.loginSmsView(self, didEnterCode: sms)
             }

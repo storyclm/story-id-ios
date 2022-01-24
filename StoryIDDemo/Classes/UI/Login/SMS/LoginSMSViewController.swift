@@ -9,6 +9,8 @@
 import UIKit
 import StoryID
 
+// MARK: - LoginSMSViewController
+
 final class LoginSMSViewController: BaseViewController {
 
     private let loginSMSView = LoginSMSView()
@@ -41,7 +43,7 @@ final class LoginSMSViewController: BaseViewController {
 
         self.showLoader()
 
-        AuthManager.instance.verifyCode(phone: phone) {[weak self] (sign, error) in
+        AuthManager.instance.verifyCode(phone: phone) { [weak self] sign, error in
             self?.hideLoader()
 
             if let error = error {
@@ -62,7 +64,7 @@ final class LoginSMSViewController: BaseViewController {
 
     private func showPincodeAlert() {
         SIDPersonalDataService.instance.synchronize()
-        
+
         let pincodeAlert = UIAlertController(title: "login_sms_pincode_alert_title".loco, message: "login_sms_pincode_alert_subtitle".loco, preferredStyle: UIAlertController.Style.alert)
         pincodeAlert.addAction(UIAlertAction(title: "global_no".loco, style: UIAlertAction.Style.cancel, handler: { [unowned self] _ in
             self.showProfileController()
@@ -76,14 +78,14 @@ final class LoginSMSViewController: BaseViewController {
 
     private func showProfileController() {
         PincodeService.instance.isLogined = true
-        
+
         AppRouter.instance.showProfile(from: self)
     }
 
     private func showPincodeController() {
         PincodeService.instance.isLogined = true
 
-        AppRouter.instance.showEnterCode(from: self, state: AuthCodeState.new) {[weak self] (vc, success) in
+        AppRouter.instance.showEnterCode(from: self, state: AuthCodeState.new) { [weak self] vc, success in
             guard let self = self else { return }
             if success {
                 vc.dismiss(animated: true) {
@@ -93,6 +95,8 @@ final class LoginSMSViewController: BaseViewController {
         }
     }
 }
+
+// MARK: LoginSMSViewDelegate
 
 extension LoginSMSViewController: LoginSMSViewDelegate {
 
@@ -116,6 +120,8 @@ extension LoginSMSViewController: LoginSMSViewDelegate {
         }
     }
 }
+
+// MARK: SmsTimerServiceDelegate
 
 extension LoginSMSViewController: SmsTimerServiceDelegate {
 

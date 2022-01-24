@@ -34,7 +34,7 @@ final class ProfileMainViewController: BaseFormViewController {
                 $0.accessoryType = .disclosureIndicator
             }).configure {
                 $0.text = text
-            }.onSelected {[weak self] _ in
+            }.onSelected { [weak self] _ in
                 self?.former.deselect(animated: true)
                 onSelected?()
             }
@@ -42,16 +42,16 @@ final class ProfileMainViewController: BaseFormViewController {
 
         let avatar = AvatarlRowFormer(cellSetup: { _ in
 
-        }).configure {[weak self] row in
+        }).configure { [weak self] row in
             guard let self = self else { return }
 
             row.cell.avatarView.isUserInteractionEnabled = false
             row.rowHeight = 200.0
-            DataStorage.instance.subscribeToAvatar(from: self) {[weak row] avatar in
+            DataStorage.instance.subscribeToAvatar(from: self) { [weak row] avatar in
                 row?.avatarImage = avatar
                 row?.update()
             }
-        }.onSelected {[unowned self] row in
+        }.onSelected { [unowned self] row in
             self.former.deselect(animated: true)
             if let image = row.avatarImage {
                 self.showImagePreview(image) {
@@ -96,7 +96,7 @@ final class ProfileMainViewController: BaseFormViewController {
             $0.titleLabel.textAlignment = NSTextAlignment.center
         }).configure {
             $0.text = "profile_main_logout".loco
-        }.onSelected {[weak self] _ in
+        }.onSelected { [weak self] _ in
             guard let self = self else { return }
 
             self.former.deselect(animated: true)

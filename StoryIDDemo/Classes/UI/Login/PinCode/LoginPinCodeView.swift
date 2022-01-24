@@ -36,7 +36,7 @@ final class LoginPinCodeView: BaseView {
         let textColor = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 1.0)
         self.bottomButton.setTitleColor(textColor, for: UIControl.State.normal)
         self.bottomButton.setTitleColor(textColor.withAlphaComponent(0.75), for: UIControl.State.highlighted)
-        
+
         self.addSubview(self.logoImageView)
         self.addSubview(self.pinCodePreviewView)
         self.addSubview(self.errorLabel)
@@ -87,10 +87,10 @@ final class LoginPinCodeView: BaseView {
     // MARK: - Error message
 
     func showErrorMessage() {
-        UIView.animate(withDuration: 0.25, animations: {[weak self] in
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.errorLabel.alpha = 1.0
         }) { _ in
-            UIView.animate(withDuration: 0.25, delay: 5.0, options: [], animations: {[weak self] in
+            UIView.animate(withDuration: 0.25, delay: 5.0, options: [], animations: { [weak self] in
                 self?.errorLabel.alpha = 0.0
             }, completion: nil)
         }

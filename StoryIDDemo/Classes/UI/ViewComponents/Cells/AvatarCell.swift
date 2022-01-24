@@ -9,6 +9,8 @@
 import UIKit
 import Former
 
+// MARK: - AvatarCell
+
 final class AvatarCell: FormCell {
 
     // MARK: - Public
@@ -59,6 +61,8 @@ final class AvatarCell: FormCell {
     }
 }
 
+// MARK: - AvatarlRowFormer
+
 class AvatarlRowFormer: BaseRowFormer<AvatarCell>, Formable {
 
     // MARK: Public
@@ -69,7 +73,7 @@ class AvatarlRowFormer: BaseRowFormer<AvatarCell>, Formable {
         super.init(instantiateType: instantiateType, cellSetup: cellSetup)
     }
 
-    open override func update() {
+    override open func update() {
         super.update()
 
         let avatarView = cell.avatarView

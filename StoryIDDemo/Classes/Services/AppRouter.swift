@@ -30,7 +30,7 @@ final class AppRouter {
 
     func showEnterPhone(from: UIViewController) {
         PincodeService.instance.pincode = nil
-        
+
         let loginVC = LoginPhoneViewController()
         let navigationController = UINavigationController(rootViewController: loginVC)
         navigationController.setNavigationBarHidden(true, animated: false)

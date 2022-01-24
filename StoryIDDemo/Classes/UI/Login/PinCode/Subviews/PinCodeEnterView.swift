@@ -64,7 +64,7 @@ final class PinCodeEnterView: BaseView {
     }
 
     private func fillNumbers(from: Int, to: Int, at: UIStackView) {
-        for i in from...to {
+        for i in from ... to {
             let numberView = self.numberView(with: i)
             at.addArrangedSubview(numberView)
         }

@@ -16,7 +16,8 @@ extension BaseFormViewController {
                                    affineFormats: [String]? = nil,
                                    onValidate: ((String?) -> Bool)? = nil,
                                    configure: ((MaskedTitleFieldRowFormer) -> Void)?,
-                                   onTextChanged: ((String, String?) -> Void)?) -> MaskedTitleFieldRowFormer {
+                                   onTextChanged: ((String, String?) -> Void)?) -> MaskedTitleFieldRowFormer
+    {
 
         MaskedTitleFieldRowFormer { cell in
             cell.backgroundColor = UIColor.idWhite95.withAlphaComponent(0.92)
@@ -45,7 +46,8 @@ extension BaseFormViewController {
 
     func createSimpleTitleFieldRow(title: String?,
                                    configure: ((SimpleTitleFieldRowFormer) -> Void)?,
-                                   onTextChanged: ((String) -> Void)?) -> SimpleTitleFieldRowFormer {
+                                   onTextChanged: ((String) -> Void)?) -> SimpleTitleFieldRowFormer
+    {
 
         SimpleTitleFieldRowFormer { cell in
             cell.backgroundColor = UIColor.idWhite95.withAlphaComponent(0.92)
@@ -64,7 +66,8 @@ extension BaseFormViewController {
     func createTitleImageRow(title: String,
                              configure: ((LabelRowFormer<FormLabelCell>) -> Void)?,
                              onImageRequest: @escaping (() -> UIImage?),
-                             onImageSelected: @escaping (UIImage?) -> Void) -> LabelRowFormer<FormLabelCell> {
+                             onImageSelected: @escaping (UIImage?) -> Void) -> LabelRowFormer<FormLabelCell>
+    {
         LabelRowFormer<FormLabelCell>(cellSetup: {
             $0.backgroundColor = UIColor.idWhite95.withAlphaComponent(0.92)
             $0.contentView.backgroundColor = $0.backgroundColor
@@ -110,7 +113,7 @@ extension BaseFormViewController {
             $0.accessoryType = .disclosureIndicator
         }).configure {
             $0.text = text
-        }.onSelected {[weak self] _ in
+        }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             onSelected()
         }
@@ -165,7 +168,7 @@ extension BaseFormViewController {
             $0.titleLabel.textAlignment = NSTextAlignment.center
         }).configure {
             $0.text = text
-        }.onSelected {[weak self] _ in
+        }.onSelected { [weak self] _ in
             self?.former.deselect(animated: true)
             onSelected()
         }
@@ -187,5 +190,4 @@ extension BaseFormViewController {
             onDelete()
         })
     }
-    
 }

@@ -47,7 +47,7 @@ final class DataStorage {
     func itn(completion: @escaping (ItnModel) -> Void) {
         let profileItn = SIDPersonalDataService.instance.profileItn
 
-        profileItn.itnImage { (image) in
+        profileItn.itnImage { image in
             let result = ItnModel(with: profileItn.itn())
             result.itnImage = image
             completion(result)
@@ -177,11 +177,11 @@ final class DataStorage {
     func logout() {
         self.demographics = nil
         self.bankAccounts = nil
-        
+
         self.setItn(nil)
         self.setSnils(nil)
         self.setPasport(nil)
-        
+
         SIDPersonalDataService.instance.avatarService.deleteAvatarFile()
 
         PincodeService.instance.pincode = nil

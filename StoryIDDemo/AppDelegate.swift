@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         self.setupStoryId()
-        
+
         return true
     }
 
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let properties = AppPropertiesManager.instance
 
         SIDSettings.instance.isRemoveImageAtSync = false
-        
+
         SIDSettings.instance.cryptSettings.password = properties.cryptoPassword
         SIDSettings.instance.cryptSettings.salt = properties.cryptoSalt
         SIDSettings.instance.cryptSettings.isCryptImages = false

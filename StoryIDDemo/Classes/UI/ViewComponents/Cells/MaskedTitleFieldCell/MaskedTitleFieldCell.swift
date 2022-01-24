@@ -9,14 +9,16 @@
 import UIKit
 import Former
 
+// MARK: - MaskedTitleFieldCell
+
 final class MaskedTitleFieldCell: UITableViewCell, TextFieldFormableRow {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var textField: MaskTextField!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var textField: MaskTextField!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.textColor = UIColor.init(white: 1.0, alpha: 0.4)
+        titleLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
         textField.textColor = UIColor.idBlack
     }
 
@@ -29,8 +31,9 @@ final class MaskedTitleFieldCell: UITableViewCell, TextFieldFormableRow {
     }
 
     func updateWithRowFormer(_ rowFormer: RowFormer) {}
-
 }
+
+// MARK: - MaskedTitleFieldRowFormer
 
 class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
 
@@ -41,6 +44,7 @@ class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
             self.cell.textField.text = self.text
         }
     }
+
     public var value: String? {
         didSet {
             self.cell.textField.value = self.value
@@ -93,5 +97,4 @@ class MaskedTitleFieldRowFormer: BaseRowFormer<MaskedTitleFieldCell>, Formable {
     // MARK: - Private
 
     private final var onTextChanged: ((String, String?) -> Void)?
-
 }

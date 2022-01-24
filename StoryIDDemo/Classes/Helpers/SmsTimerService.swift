@@ -8,13 +8,17 @@
 
 import UIKit
 
+// MARK: - SmsTimerServiceDelegate
+
 protocol SmsTimerServiceDelegate: AnyObject {
     func timerFired(_ timerService: SmsTimerService, seconds: Int)
     func timedDone(_ timerService: SmsTimerService)
 }
 
+// MARK: - SmsTimerService
+
 final class SmsTimerService {
-    public static var DefaultInterval: Int = 90
+    public static var DefaultInterval = 90
 
     weak var delegate: SmsTimerServiceDelegate?
 
@@ -22,7 +26,7 @@ final class SmsTimerService {
 
     public var isTimerActive: Bool { self.timer.isValid }
 
-    private(set) var phone: String = ""
+    private(set) var phone = ""
     private(set) var timer = Timer()
     private var startTime: Double = 0
 
@@ -72,7 +76,7 @@ final class SmsTimerService {
     // MARK: - Seconds
 
     var seconds: Int {
-        let sec = SmsTimerService.DefaultInterval - Int((Date().timeIntervalSince1970 -  startTime).rounded(.down))
+        let sec = SmsTimerService.DefaultInterval - Int((Date().timeIntervalSince1970 - startTime).rounded(.down))
         guard sec >= 0 else { return 0 }
         return sec
     }

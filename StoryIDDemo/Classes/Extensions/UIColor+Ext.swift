@@ -20,5 +20,4 @@ extension UIColor {
 
     class var idGrey: UIColor { UIColor(red: 0.95, green: 0.94, blue: 0.94, alpha: 1.0) }
     class var idRed: UIColor { UIColor(red: 0.87, green: 0.04, blue: 0.15, alpha: 1.0) }
-
 }
