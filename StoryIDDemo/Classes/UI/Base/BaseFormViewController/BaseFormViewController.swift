@@ -87,8 +87,8 @@ class BaseFormViewController: FormViewController {
     }
 
     override var title: String? {
-        set { self.titleLabel?.text = newValue }
         get { self.titleLabel?.text }
+        set { self.titleLabel?.text = newValue }
     }
 
     // MARK: - Action
