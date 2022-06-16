@@ -70,6 +70,9 @@ public final class SIDAdapterManager {
         self.saveAdapterKey(oauth2)
 
         oauth2.forgetTokens()
+        oauth2.afterAuthorizeOrFail = { [weak self, weak oauth2] json, error in
+            self?.saveToKeychain(adapter: oauth2)
+        }
         oauth2.authorize { json, error in
             completion(oauth2, json, error)
         }
