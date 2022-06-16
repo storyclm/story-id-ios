@@ -2,13 +2,12 @@ PODS:
   - Alamofire (4.9.1)
   - AlamofireImage (3.6.0):
     - Alamofire (~> 4.9)
-  - BiometricAuthentication (3.1.3)
-  - CryptoSwift (1.4.2)
+  - CryptoSwift (1.5.1)
   - Former (1.8.1)
   - InputMask (6.1.0)
   - p2.OAuth2 (5.3.1)
   - SKPhotoBrowser (7.0.0)
-  - StoryID (0.5.2):
+  - StoryID (0.5.3):
     - Alamofire (~> 4.9)
     - AlamofireImage (~> 3.5)
     - CryptoSwift (~> 1.3)
@@ -16,7 +15,6 @@ PODS:
   - Valet (4.1.1)
 
 DEPENDENCIES:
-  - BiometricAuthentication
   - Former
   - InputMask
   - SKPhotoBrowser
@@ -24,10 +22,9 @@ DEPENDENCIES:
   - Valet
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Alamofire
     - AlamofireImage
-    - BiometricAuthentication
     - CryptoSwift
     - Former
     - InputMask
@@ -42,15 +39,14 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
-  BiometricAuthentication: b63d51be9260ba94165e032829ae78f074b129df
-  CryptoSwift: a532e74ed010f8c95f611d00b8bbae42e9fe7c17
+  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   Former: f36edb5c1ac03755f8d6d03b26044b62de8c0b2d
   InputMask: 71d291dc54d2deaeac6512afb6ec2304228c0bb7
   p2.OAuth2: d74bba0192c0fa13ade07ba710f8c7dfbb101e16
   SKPhotoBrowser: 6aaa8f232752e87c7e76bace183bead0a137097d
-  StoryID: 1704a71e978bfd985b27c50d86c2356d2df82560
+  StoryID: a420683af2d72128c7ec2ff437038d72ad0ec171
   Valet: 11ab0e318b7284888a81392e36136563b4af5deb
 
-PODFILE CHECKSUM: 85eadea655ff78e3b1d944d90bdd7d24267c99c1
+PODFILE CHECKSUM: c72777a10e18f02286ad96cd5643f645884224b1
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
