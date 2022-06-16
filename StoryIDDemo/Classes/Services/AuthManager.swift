@@ -135,13 +135,13 @@ final class AuthManager {
             return
         }
 
-        self.retrier = SIDRetryHandler(oauth2: adapter) { error in
+        self.retrier = SIDRetryHandler(oauth2: adapter, onRefreshSuccess: nil, onRefreshError: { error in
             guard let viewController = UIViewController.topVC() else {
                 assertionFailure("Can't find topmost view controller")
                 return
             }
             AppRouter.instance.showEnterPhone(from: viewController, reason: error.localizedDescription)
-        }
+        })
 
         AlamofireRetrier.retrier = self.retrier
         SwaggerClientAPI.basePath = self.adapterManager.config?.issuer ?? "/"

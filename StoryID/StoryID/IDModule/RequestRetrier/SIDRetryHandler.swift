@@ -12,13 +12,20 @@ import Alamofire
 
 public class SIDRetryHandler: RequestRetrier, RequestAdapter {
 
+    public typealias RefreshSuccessBlock = ((OAuth2JSON) -> Void)
     public typealias RefreshErrorBlock = ((OAuth2Error) -> Void)
 
     let loader: OAuth2DataLoader
-    let onRefreshError: RefreshErrorBlock
 
-    public init(oauth2: OAuth2, onRefreshError: @escaping RefreshErrorBlock) {
+    var onRefreshSuccess: RefreshSuccessBlock?
+    var onRefreshError: RefreshErrorBlock?
+
+    public init(oauth2: OAuth2,
+                onRefreshSuccess: RefreshSuccessBlock?,
+                onRefreshError: RefreshErrorBlock?)
+    {
         loader = OAuth2DataLoader(oauth2: oauth2)
+        self.onRefreshSuccess = onRefreshSuccess
         self.onRefreshError = onRefreshError
     }
 
@@ -32,10 +39,11 @@ public class SIDRetryHandler: RequestRetrier, RequestAdapter {
                     // Don't dequeue requests if we are waiting for other authorization request
                     return
                 }
-
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.onRefreshError(error)
+                DispatchQueue.main.async { [weak self] in
+                    if let error = error {
+                        self?.onRefreshError?(error)
+                    } else if let authParams = authParams {
+                        self?.onRefreshSuccess?(authParams)
                     }
                 }
 
