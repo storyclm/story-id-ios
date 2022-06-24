@@ -5,8 +5,8 @@ use_frameworks!
 workspace 'StoryID'
 
 target 'StoryID' do
-  pod 'Alamofire', '~> 4.9'
-  pod 'AlamofireImage', '~> 3.5'
+  pod 'Alamofire', '~> 5.0'
+  pod 'AlamofireImage'
   pod 'p2.OAuth2', '~> 5.3'
   pod 'CryptoSwift', '~> 1.3'
 end

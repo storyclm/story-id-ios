@@ -35,7 +35,7 @@
 		1BDF0E7D2461E1E300C222D7 /* SIDServiceFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E792461E1E300C222D7 /* SIDServiceFlowModel.swift */; };
 		1BDF0E7E2461E1E300C222D7 /* SIDPasswordlessFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E7A2461E1E300C222D7 /* SIDPasswordlessFlowModel.swift */; };
 		1BDF0E812461E26D00C222D7 /* OAuth2PasswordlessGrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E802461E26D00C222D7 /* OAuth2PasswordlessGrant.swift */; };
-		1BDF0E872461E2CA00C222D7 /* SIDRetryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E862461E2CA00C222D7 /* SIDRetryHandler.swift */; };
+		1BDF0E872461E2CA00C222D7 /* SIDInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E862461E2CA00C222D7 /* SIDInterceptor.swift */; };
 		1BDF0E8A2461E2F700C222D7 /* OAuth2+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E892461E2F700C222D7 /* OAuth2+Token.swift */; };
 		1BDF0E8C2461E33200C222D7 /* SIDAdapterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E8B2461E33200C222D7 /* SIDAdapterManager.swift */; };
 		1BDF0E922461E4C900C222D7 /* SIDCryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF0E912461E4C900C222D7 /* SIDCryptoManager.swift */; };
@@ -144,7 +144,7 @@
 		1BDF0E792461E1E300C222D7 /* SIDServiceFlowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDServiceFlowModel.swift; sourceTree = "<group>"; };
 		1BDF0E7A2461E1E300C222D7 /* SIDPasswordlessFlowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDPasswordlessFlowModel.swift; sourceTree = "<group>"; };
 		1BDF0E802461E26D00C222D7 /* OAuth2PasswordlessGrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2PasswordlessGrant.swift; sourceTree = "<group>"; };
-		1BDF0E862461E2CA00C222D7 /* SIDRetryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDRetryHandler.swift; sourceTree = "<group>"; };
+		1BDF0E862461E2CA00C222D7 /* SIDInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDInterceptor.swift; sourceTree = "<group>"; };
 		1BDF0E892461E2F700C222D7 /* OAuth2+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OAuth2+Token.swift"; sourceTree = "<group>"; };
 		1BDF0E8B2461E33200C222D7 /* SIDAdapterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIDAdapterManager.swift; sourceTree = "<group>"; };
 		1BDF0E912461E4C900C222D7 /* SIDCryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIDCryptoManager.swift; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 		1BDF0E822461E29B00C222D7 /* RequestRetrier */ = {
 			isa = PBXGroup;
 			children = (
-				1BDF0E862461E2CA00C222D7 /* SIDRetryHandler.swift */,
+				1BDF0E862461E2CA00C222D7 /* SIDInterceptor.swift */,
 			);
 			path = RequestRetrier;
 			sourceTree = "<group>";
@@ -647,7 +647,7 @@
 				1BDF0E7C2461E1E300C222D7 /* SIDBaseFlowModel.swift in Sources */,
 				1BDF0F0B2461E99D00C222D7 /* SNILSAPI.swift in Sources */,
 				1BDF0EFF2461E99D00C222D7 /* Body1.swift in Sources */,
-				1BDF0E872461E2CA00C222D7 /* SIDRetryHandler.swift in Sources */,
+				1BDF0E872461E2CA00C222D7 /* SIDInterceptor.swift in Sources */,
 				1BDF0EEC2461E99C00C222D7 /* FileViewModel.swift in Sources */,
 				1BA322662465E2F30009AE36 /* IDContentITN+CoreDataClass.swift in Sources */,
 				1BDF0F072461E99D00C222D7 /* Body5.swift in Sources */,

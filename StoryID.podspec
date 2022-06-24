@@ -20,8 +20,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target	= "12.0"
   s.swift_version			= "5.0"
 
-  s.dependency 'Alamofire', '~> 4.9'
-  s.dependency 'AlamofireImage', '~> 3.5'
+  s.dependency 'Alamofire', '~> 5.0'
+  s.dependency 'AlamofireImage'
   s.dependency 'p2.OAuth2', '~> 5.3'
   s.dependency 'CryptoSwift', '~> 1.3'
 

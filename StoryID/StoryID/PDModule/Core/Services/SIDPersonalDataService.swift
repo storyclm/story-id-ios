@@ -27,9 +27,9 @@ public final class SIDPersonalDataService {
     // MARK: - Synchronize
 
     public func synchronize() {
-        guard isRetrierSet() else {
+        guard isInterceptorSet() else {
             // Return or throw error
-            assertionFailure("AlamofireRetrier.retrier is nil")
+            assertionFailure("AlamofireRetrier.interceptor is nil")
             return
         }
 
@@ -78,7 +78,7 @@ public final class SIDPersonalDataService {
 
     // MARK: - Helpers
 
-    func isRetrierSet() -> Bool {
-        return AlamofireRetrier.retrier != nil
+    func isInterceptorSet() -> Bool {
+        return AlamofireRetrier.interceptor != nil
     }
 }

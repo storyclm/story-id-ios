@@ -1,5 +1,5 @@
 //
-//  SIDRetryHandler.swift
+//  SIDInterceptor.swift
 //  iPharmocist ASNA
 //
 //  Created by Sergey Ryazanov on 05.05.2020.
@@ -10,7 +10,7 @@ import Foundation
 import p2_OAuth2
 import Alamofire
 
-public class SIDRetryHandler: RequestRetrier, RequestAdapter {
+public class SIDInterceptor: RequestInterceptor {
 
     public typealias RefreshSuccessBlock = ((OAuth2JSON) -> Void)
     public typealias RefreshErrorBlock = ((OAuth2Error) -> Void)
@@ -24,12 +24,12 @@ public class SIDRetryHandler: RequestRetrier, RequestAdapter {
                 onRefreshSuccess: RefreshSuccessBlock?,
                 onRefreshError: RefreshErrorBlock?)
     {
-        loader = OAuth2DataLoader(oauth2: oauth2)
+        self.loader = OAuth2DataLoader(oauth2: oauth2)
         self.onRefreshSuccess = onRefreshSuccess
         self.onRefreshError = onRefreshError
     }
 
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    public func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         if let response = request.task?.response as? HTTPURLResponse, 401 == response.statusCode, let req = request.request {
             var dataRequest = OAuth2DataRequest(request: req, callback: { _ in })
             dataRequest.context = completion
@@ -53,21 +53,31 @@ public class SIDRetryHandler: RequestRetrier, RequestAdapter {
                         shouldRetry = nil != authParams
                     }
 
-                    if let comp = req.context as? RequestRetryCompletion {
-                        comp(shouldRetry, 0.0)
+                    if let comp = req.context as? ((RetryResult) -> Void) {
+                        if shouldRetry {
+                            comp(.retry)
+                        } else {
+                            comp(.doNotRetry)
+                        }
                     }
                 }
             }
         } else {
-            completion(false, 0.0) // not a 401, not our problem
+            completion(.doNotRetry)
         }
     }
 
     /// Sign the request with the access token.
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        guard nil != loader.oauth2.accessToken else {
-            return urlRequest
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        if self.loader.oauth2.accessToken != nil {
+            do {
+                let newRequest = try urlRequest.signed(with: self.loader.oauth2)
+                completion(.success(newRequest))
+            } catch {
+                completion(.failure(error))
+            }
+        } else {
+            completion(.success(urlRequest))
         }
-        return try urlRequest.signed(with: loader.oauth2)
     }
 }

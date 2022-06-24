@@ -67,7 +67,7 @@ extension NSManagedObject {
     // MARK: - Private
 
     private class var context: NSManagedObjectContext { SIDCoreDataManager.instance.context }
-    private class var userId: String? { AlamofireRetrier.retrier?.loader.oauth2.userSub() }
+    private class var userId: String? { AlamofireRetrier.interceptor?.loader.oauth2.userSub() }
 
     class func deletePredicate(for conduct: SIDDeleteConduct) -> NSPredicate? {
         switch conduct {

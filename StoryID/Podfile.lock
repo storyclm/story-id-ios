@@ -1,13 +1,13 @@
 PODS:
-  - Alamofire (4.9.1)
-  - AlamofireImage (3.6.0):
-    - Alamofire (~> 4.9)
+  - Alamofire (5.6.1)
+  - AlamofireImage (4.2.0):
+    - Alamofire (~> 5.4)
   - CryptoSwift (1.5.1)
   - p2.OAuth2 (5.3.1)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.9)
-  - AlamofireImage (~> 3.5)
+  - Alamofire (~> 5.0)
+  - AlamofireImage
   - CryptoSwift (~> 1.3)
   - p2.OAuth2 (~> 5.3)
 
@@ -19,11 +19,11 @@ SPEC REPOS:
     - p2.OAuth2
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
+  Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
+  AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   p2.OAuth2: d74bba0192c0fa13ade07ba710f8c7dfbb101e16
 
-PODFILE CHECKSUM: 63c89bd691a9e6fd80d28f83a231cbb0612413f7
+PODFILE CHECKSUM: 3ef5639dba88c210f313884d1626dcd6e58e7a21
 
 COCOAPODS: 1.11.3

@@ -34,7 +34,7 @@ public final class SIDAdapterManager {
 
     // MARK: - APIs
 
-    public func requestConfig(completion: ((Result<SIDConfigModel>) -> Void)?) {
+    public func requestConfig(completion: ((Result<SIDConfigModel, ConfigError>) -> Void)?) {
 
         let task = URLSession.shared.dataTask(with: configURL) { [weak self] data, _, error in
             guard let self = self else { return }
@@ -102,7 +102,7 @@ public final class SIDAdapterManager {
 
     // MARK: * Passwordless Flow
 
-    public func reqestPasswordlesCode(with flowModel: SIDPasswordlessFlowModel, completion: @escaping (Result<SIDPasswordlessSignature>) -> Void) {
+    public func reqestPasswordlesCode(with flowModel: SIDPasswordlessFlowModel, completion: @escaping (Result<SIDPasswordlessSignature, Error>) -> Void) {
 
         func makeRequest(config: SIDConfigModel) {
             guard let endpoint = URL(string: config.issuer)?.appendingPathComponent(flowModel.appendingPath) else {
@@ -118,7 +118,7 @@ public final class SIDAdapterManager {
 
             let headers: HTTPHeaders = ["Content-Type": "application/json"]
 
-            Alamofire.SessionManager.default.request(endpoint, method: HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            AF.request(endpoint, method: HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseData { response in
                     if let error = response.error {
                         completion(Result.failure(error))
@@ -178,7 +178,7 @@ public final class SIDAdapterManager {
 
 extension SIDAdapterManager {
 
-    public func restoreOldAdapter(client: String, secret: String, isAllowExpired: Bool, completion: @escaping ((Result<OAuth2>) -> Void)) {
+    public func restoreOldAdapter(client: String, secret: String, isAllowExpired: Bool, completion: @escaping ((Result<OAuth2, Error>) -> Void)) {
         let oldAdapter = self.restoreAdapter(client: client, secret: secret)
 
         self.requestConfig { result in
@@ -209,7 +209,7 @@ extension SIDAdapterManager {
         }
     }
 
-    private func checkAuthTokenAndComplete(adapter: OAuth2, isAllowExpired: Bool, completion: @escaping ((Result<OAuth2>) -> Void)) {
+    private func checkAuthTokenAndComplete(adapter: OAuth2, isAllowExpired: Bool, completion: @escaping ((Result<OAuth2, Error>) -> Void)) {
 
         func finish(adapter: OAuth2?) {
             DispatchQueue.main.async {

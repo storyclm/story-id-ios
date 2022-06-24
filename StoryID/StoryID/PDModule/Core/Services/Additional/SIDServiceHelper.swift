@@ -25,7 +25,7 @@ public final class SIDServiceHelper {
 
     public typealias SynchronizeBlock = (ServiceError?) -> Void
 
-    class var userId: String? { AlamofireRetrier.retrier?.loader.oauth2.userSub() }
+    class var userId: String? { AlamofireRetrier.interceptor?.loader.oauth2.userSub() }
 
     static func updateBehaviour(localModel: SIDCoreDataModelUpdatable?, serverDate: Date?) -> ServiceUpdateBehaviour {
         guard localModel?.profileId != nil else { return ServiceUpdateBehaviour.update }

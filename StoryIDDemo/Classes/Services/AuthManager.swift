@@ -16,7 +16,7 @@ final class AuthManager {
 
     private var adapterManager: SIDAdapterManager
 
-    private(set) var retrier: SIDRetryHandler?
+    private(set) var interceptor: SIDInterceptor?
 
     private(set) var adapter: OAuth2? {
         didSet {
@@ -129,21 +129,23 @@ final class AuthManager {
 
     func updateRetrier() {
         guard let adapter = self.adapter else {
-            self.retrier = nil
-            AlamofireRetrier.retrier = nil
+            self.interceptor = nil
+            AlamofireRetrier.interceptor = nil
             SwaggerClientAPI.basePath = "/"
             return
         }
 
-        self.retrier = SIDRetryHandler(oauth2: adapter, onRefreshSuccess: nil, onRefreshError: { error in
+        self.interceptor = SIDInterceptor(oauth2: adapter) { json in
+            print("OAuth success")
+        } onRefreshError: { error in
             guard let viewController = UIViewController.topVC() else {
                 assertionFailure("Can't find topmost view controller")
                 return
             }
             AppRouter.instance.showEnterPhone(from: viewController, reason: error.localizedDescription)
-        })
+        }
 
-        AlamofireRetrier.retrier = self.retrier
+        AlamofireRetrier.interceptor = self.interceptor
         SwaggerClientAPI.basePath = self.adapterManager.config?.issuer ?? "/"
     }
 }

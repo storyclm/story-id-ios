@@ -13,7 +13,7 @@ public final class SIDLegacyFileLoader {
 
     static let instance = SIDLegacyFileLoader()
 
-    private let sessionManager = SessionManager()
+    private let sessionManager = Session()
 
     private init() {}
 
@@ -69,31 +69,29 @@ public final class SIDLegacyFileLoader {
         }
 
         url = url.appendingPathComponent("profile")
-        .appendingPathComponent("files")
-        .appendingPathComponent("\(category)")
-        .appendingPathComponent("\(name)")
+            .appendingPathComponent("files")
+            .appendingPathComponent("\(category)")
+            .appendingPathComponent("\(name)")
 
-        var headers: [String: String] = [:]
+        var headers = HTTPHeaders()
         headers["Content-type"] = "multipart/form-data"
 
-        self.sessionManager.adapter = AlamofireRetrier.retrier
-        self.sessionManager.retrier = AlamofireRetrier.retrier
+        let interceptor = AlamofireRetrier.interceptor
 
-        self.sessionManager.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: "file", fileName: "avatar.jpeg", mimeType: "image/jpeg")
-        }, usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,
-           to: url,
-           method: HTTPMethod.put,
-           headers: headers) { result in
-            switch result {
-            case let .success(request, _, _):
-                request.responseJSON { data in
-                    self.prepareSuccessResponse(data: data, completion: completion)
+        AF.upload(multipartFormData: { $0.append(data, withName: "file", fileName: "avatar.jpeg", mimeType: "image/jpeg") },
+                  to: url,
+                  usingThreshold: MultipartFormData.encodingMemoryThreshold,
+                  method: HTTPMethod.put,
+                  headers: headers,
+                  interceptor: interceptor)
+            .responseJSON { dataResponse in
+                switch dataResponse.result {
+                case .success:
+                    self.prepareSuccessResponse(data: dataResponse, completion: completion)
+                case let .failure(afError):
+                    completion(nil, afError)
                 }
-            case let .failure(error):
-                completion(nil, error)
             }
-        }
     }
 
     public func deleteFile<T: Codable>(with id: String, completion: @escaping (T?, Error?) -> Void) {
@@ -103,8 +101,8 @@ public final class SIDLegacyFileLoader {
         }
 
         url = url.appendingPathComponent("profile")
-        .appendingPathComponent("files")
-        .appendingPathComponent("\(id)")
+            .appendingPathComponent("files")
+            .appendingPathComponent("\(id)")
 
         self.request(with: url, method: HTTPMethod.delete, headers: [:], parameters: nil).validate().responseJSON { data in
             self.prepareSuccessResponse(data: data, completion: completion)
@@ -113,12 +111,12 @@ public final class SIDLegacyFileLoader {
 
     // MARK: - Helpers
 
-    private func prepareSuccessResponse<T: Codable, R: Any>(data: DataResponse<R>, completion: @escaping (T?, _ error: Error?) -> Void) {
+    private func prepareSuccessResponse<T: Codable, R: Any>(data: AFDataResponse<R>, completion: @escaping (T?, _ error: AFError?) -> Void) {
         switch data.result {
         case .success:
             var result: T?
             if let jsonData = data.data {
-                result = try?  JSONDecoder().decode(T.self, from: jsonData)
+                result = try? JSONDecoder().decode(T.self, from: jsonData)
             }
             completion(result, nil)
         case let .failure(error):
@@ -128,9 +126,8 @@ public final class SIDLegacyFileLoader {
 
     // MARK: -
 
-    private func request(with url: URL, method: HTTPMethod, headers: [String: String], parameters: [String: Any]?) -> DataRequest {
-        self.sessionManager.adapter = AlamofireRetrier.retrier
-        self.sessionManager.retrier = AlamofireRetrier.retrier
+    private func request(with url: URL, method: HTTPMethod, headers: HTTPHeaders, parameters: [String: Any]?) -> DataRequest {
+        let interceptor = AlamofireRetrier.interceptor
 
         do {
             var originalRequest = try URLRequest(url: url, method: method, headers: headers)
@@ -138,9 +135,9 @@ public final class SIDLegacyFileLoader {
             originalRequest.timeoutInterval = 60.0
 
             let encodedURLRequest = try URLEncoding.default.encode(originalRequest, with: parameters)
-            return sessionManager.request(encodedURLRequest)
+            return AF.request(encodedURLRequest, interceptor: interceptor)
         } catch {
-            return sessionManager.request(url, method: method, parameters: parameters, encoding: URLEncoding.default, headers: headers)
+            return AF.request(url, method: method, parameters: parameters, encoding: URLEncoding.default, headers: headers, interceptor: interceptor)
         }
     }
 }
